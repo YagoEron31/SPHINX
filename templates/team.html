@@ -134,7 +134,7 @@
     <!-- Team Members -->
     <section class="py-16 bg-vortex-dark">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                 <!-- Moros -->
                 <div id="Moros" class="bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up">
                     <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/8');">
@@ -148,15 +148,15 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <div>
+                        <div class="flex justify-content-around items-center mb-4">
+                            <!-- <div>
                                 <span class="text-gray-400 text-sm">Vitórias</span>
                                 <div class="text-xl font-bold wins">
                                     <div class="spinner-border indigo" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div>
                                 <span class="text-gray-400 text-sm">Troféus</span>
                                 <div class="text-xl font-bold trophies">
@@ -204,15 +204,15 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <div>
+                        <div class="flex justify-content-around items-center mb-4">
+                            <!-- <div>
                                 <span class="text-gray-400 text-sm">Vitórias</span>
                                 <div class="text-xl font-bold wins">
                                     <div class="spinner-border indigo" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div>
                                 <span class="text-gray-400 text-sm">Troféus</span>
                                 <div class="text-xl font-bold trophies">
@@ -260,15 +260,15 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <div>
+                        <div class="flex justify-content-around items-center mb-4">
+                            <!-- <div>
                                 <span class="text-gray-400 text-sm">Vitórias</span>
                                 <div class="text-xl font-bold wins">
                                     <div class="spinner-border indigo" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div>
                                 <span class="text-gray-400 text-sm">Troféus</span>
                                 <div class="text-xl font-bold trophies">
@@ -316,15 +316,15 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <div>
+                        <div class="flex justify-content-around items-center mb-4">
+                            <!-- <div>
                                 <span class="text-gray-400 text-sm">Vitórias</span>
                                 <div class="text-xl font-bold wins">
                                     <div class="spinner-border indigo" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div>
                                 <span class="text-gray-400 text-sm">Troféus</span>
                                 <div class="text-xl font-bold trophies">
@@ -372,15 +372,15 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <div>
+                        <div class="flex justify-content-around items-center mb-4">
+                            <!-- <div>
                                 <span class="text-gray-400 text-sm">Vitórias</span>
                                 <div class="text-xl font-bold wins">
                                     <div class="spinner-border indigo" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div>
                                 <span class="text-gray-400 text-sm">Troféus</span>
                                 <div class="text-xl font-bold trophies">
@@ -413,20 +413,6 @@
                             </a>
                         </div>
                     </div>
-                </div>
-
-                <!-- Join Team -->
-                <div class="bg-gradient-to-br from-vortex-secondary to-vortex-primary rounded-xl overflow-hidden flex flex-col items-center justify-center p-8 text-center" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-20 h-20 bg-vortex-accent rounded-full flex items-center justify-center mb-6 glow-effect">
-                        <i data-feather="users" class="w-10 h-10 text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Junte-se a Nós</h3>
-                    <p class="text-gray-300 mb-6">
-                        Está interessado em fazer parte da equipe Vortex? Envie-nos seu perfil e histórico competitivo.
-                    </p>
-                    <a href="contact.html" class="bg-vortex-accent hover:bg-vortex-highlight px-8 py-3 rounded-full font-medium transition glow-effect">
-                        Candidate-se
-                    </a>
                 </div>
             </div>
         </div>
@@ -732,23 +718,23 @@
                 }
             }).then(data => {
                 for (const player in data) {
+                    
                     let player_info = data[player];
                     let player_card = document.getElementById(player);
                     
-                    let wins = player_card.querySelector(".wins");
+                    //let wins = player_card.querySelector(".wins");
                     let trophies = player_card.querySelector(".trophies");
                     let level = player_card.querySelector(".level");
                     
 
-                    wins.innerHTML = player_info["wins"];
+                    //wins.innerHTML = player_info["wins"];
                     trophies.innerHTML = player_info["trophies"];
-                    level.innerHTML = player_info["expLevel"]
+                    level.innerHTML = player_info["expLevel"];
                 }
             })
         }
         updatePlayers()
         setInterval(updatePlayers, 10000)
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
