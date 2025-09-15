@@ -510,6 +510,31 @@
         </div>
     </footer>
 
+    <div id="twitch-embed"></div>
+
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+    <script type="text/javascript">
+    var embed = new Twitch.Embed("twitch-embed", {
+        width: 854,
+        height: 480,
+        channel: "tck10",
+        autoplay: true,
+        muted: true,
+        
+        // AJUSTE 2: Permite que funcione no Render E localmente
+        parent: ["vortex-ypd0.onrender.com", "localhost", "127.0.0.1"] 
+    });
+
+    // Este listener é uma boa prática, mas com autoplay e muted ativados,
+    // o vídeo já deve começar a tocar sozinho.
+    embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+        var player = embed.getPlayer();
+        player.play();
+    });
+    </script>
+
+
     <script>
         AOS.init({
             duration: 800,

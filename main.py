@@ -37,7 +37,11 @@ def players(type):
     return jsonify(players), 200
 
 
-#app.run(debug=True)
+@app.route("/twitch")
+def twitch():
+    return render_template("twitchtest.html")
+
+#app.run(host="0.0.0.0", port=5000, debug=True)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=80)
