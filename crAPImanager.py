@@ -8,6 +8,13 @@ class ApiManager():
         self.headers = {"Authorization": f"Bearer {TOKEN}"}
     
 
+    def getTeamBasic(self, team: dict):
+        players = {}
+        for tag in team.values():
+            player = self.getPlayerBasic(tag)
+            players[player["name"]] = player
+        return players
+
     def getPlayerBasic(self, playerTag):
         url = ApiManager.BASEURLPROXY + "/players/" + playerTag.replace("#", "%23")
         response = requests.get(url, headers=self.headers).json()

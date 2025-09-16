@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato | Vortex E-sports</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        // Mesma configuração do Tailwind
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vortex: {
+                            primary: '#0f0e17',
+                            secondary: '#332a50',
+                            accent: '#7f5af0',
+                            highlight: '#a786df',
+                            glow: '#b79af8',
+                            dark: '#010101',
+                        }
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos reutilizados */
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(15,14,23,0.95) 0%, rgba(51,42,80,0.95) 100%);
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(127, 90, 240, 0.7);
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 25px rgba(127, 90, 240, 0.9);
+        }
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(127, 90, 240, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(127, 90, 240, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        /* Estilos para o formulário */
+        .form-input {
+            background-color: #0f0e17;
+            border: 1px solid #332a50;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #ffffff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #7f5af0;
+            box-shadow: 0 0 10px rgba(127, 90, 240, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-vortex-dark text-white font-rajdhani overflow-x-hidden">
+    <nav class="bg-vortex-primary/90 backdrop-blur-md fixed w-full z-50 border-b border-vortex-accent/20">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-vortex-accent rounded-full flex items-center justify-center glow-effect">
+                    <i data-feather="zap" class="text-white"></i>
+                </div>
+                <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-300 hover:text-white transition">Início</a>
+                <a href="/equipe" class="text-gray-300 hover:text-white transition">A Equipe</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">O Jogo</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Loja</a>
+                <a href="/contato" class="text-vortex-glow font-medium hover:text-white transition">Contato</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-gray-300 hover:text-white">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-40 pb-20 hero-gradient grid-pattern">
+        <div class="container mx-auto px-4 text-center">
+            <div data-aos="fade-up">
+                <h1 class="text-4xl md:text-7xl font-orbitron font-bold mb-4">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-violet-300">Fale Conosco</span>
+                </h1>
+                <p class="text-xl text-vortex-highlight max-w-2xl mx-auto">
+                    Tem alguma dúvida, proposta ou quer se juntar a nós? Preencha o formulário abaixo ou nos encontre nas redes sociais.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-vortex-dark">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
+                <div class="lg:col-span-3 bg-vortex-secondary rounded-xl p-8" data-aos="fade-right">
+                    <h3 class="text-3xl font-bold font-orbitron mb-6">Envie sua Mensagem</h3>
+                    <form action="#" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-lg font-medium text-vortex-highlight mb-2">Seu Nome</label>
+                            <input type="text" id="name" name="name" class="w-full form-input" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-lg font-medium text-vortex-highlight mb-2">Seu E-mail</label>
+                            <input type="email" id="email" name="email" class="w-full form-input" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-lg font-medium text-vortex-highlight mb-2">Sua Mensagem</label>
+                            <textarea id="message" name="message" rows="6" class="w-full form-input" required></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-vortex-accent hover:bg-vortex-highlight text-white font-bold py-3 px-6 rounded-lg glow-effect transition duration-300 font-orbitron text-lg">
+                                Enviar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-2 space-y-8">
+                    <div class="bg-vortex-secondary rounded-xl p-8" data-aos="fade-left" data-aos-delay="100">
+                        <h3 class="text-2xl font-bold font-orbitron mb-4">Informações</h3>
+                        <div class="space-y-4 text-lg">
+                            <div class="flex items-center space-x-3">
+                                <i data-feather="mail" class="text-vortex-accent"></i>
+                                <span class="text-gray-300">contato@vortexesports.com</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i data-feather="map-pin" class="text-vortex-accent"></i>
+                                <span class="text-gray-300">São Paulo, Brasil (Online)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-vortex-secondary rounded-xl p-8" data-aos="fade-left" data-aos-delay="200">
+                        <h3 class="text-2xl font-bold font-orbitron mb-4">Siga-nos</h3>
+                        <div class="flex space-x-4">
+                             <a href="#" class="w-12 h-12 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition glow-effect">
+                                <i data-feather="twitter" class="w-6 h-6"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition glow-effect">
+                                <i data-feather="twitch" class="w-6 h-6"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition glow-effect">
+                                <i data-feather="instagram" class="w-6 h-6"></i>
+                            </a>
+                             <a href="#" class="w-12 h-12 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition glow-effect">
+                                <i data-feather="youtube" class="w-6 h-6"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-vortex-primary border-t border-vortex-accent/20">
+        <div class="container mx-auto px-4 py-12">
+            <p class="text-center text-gray-400 text-sm">
+                © 2025 Vortex E-sports. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        feather.replace();
+    </script>
+</body>
+</html>

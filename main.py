@@ -19,32 +19,38 @@ players_tags = {
 def index():
     return render_template("index.html")
 
+@app.route("/contato")
+def contato():
+    return render_template("contato.html")
 
 @app.route("/equipe")
 def equipe():
     return render_template("team.html")
 
 
-app.route("/player/<name>")
-def player(name):
+@app.route("/jogador/<name>")
+def jogador(name):
     tag = players_tags[name]
     return render_template("player.html", tag=tag)
 
 
-@app.route("/players/<type>")
-def players(type):
-    players = {}
-    for tag in players_tags.values():
-        if type == "basic":
-            player = api_manager.getPlayerBasic(tag)
-        elif type == "full":
-            player = api_manager.getPlayer(tag)
+@app.route("/player/<tag>/<type>")
+def player(tag, type):
+    if tag not in players_tags: return {"response": "tag invalida"}, 404
+    if type == "basic":
+        player = api_manager.getPlayerBasic(tag)
+    elif type == "full":
+        player = api_manager.getPlayer(tag)
+    return jsonify(player), 200
 
-        players[player["name"]] = player
+
+@app.route("/team")
+def team():
+    players = api_manager.getTeamBasic(players_tags)
     return jsonify(players), 200
 
 
-#app.run(host="localhost", port=5000, debug=True)
+app.run(host="10.177.1.28", port=5678, debug=True)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+#if __name__ == "__main__":
+#    app.run(host="0.0.0.0", port=80)
