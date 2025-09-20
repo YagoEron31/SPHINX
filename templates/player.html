@@ -254,7 +254,7 @@
         </div>
     </section>
 
-    <section class="py-16 bg-vortex-dark" style="background-image: url('{{url_for(\'static\', filename=\'imagens/outros/bg.png\')}}')">
+    <section class="py-16 bg-vortex-dark" style="background-image: url({{url_for('static', filename='imagens/outros/bg.png')}})">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-1 space-y-8">
@@ -503,4 +503,5 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+
 </html>
