@@ -7,7 +7,7 @@ class ApiManager():
     def __init__(self, TOKEN):
         self.headers = {"Authorization": f"Bearer {TOKEN}"}
     
-
+    
     def getTeamBasic(self, team: dict):
         players = {}
         for tag in team.values():
@@ -33,3 +33,8 @@ class ApiManager():
         response = requests.get(url, headers=self.headers).json()
         return response
     
+    
+    def getBattleLog(self, playerTag, count=5):
+        url = ApiManager.BASEURLPROXY + "/players/" + playerTag.replace("#", "%23") + "/battlelog"
+        response = requests.get(url, headers=self.headers).json()
+        return response[:int(count)]

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify
+import requests
 from crAPImanager import ApiManager
-
+import os
 
 app = Flask(__name__)
 
@@ -23,6 +24,14 @@ def index():
 def contato():
     return render_template("contato.html")
 
+@app.route("/jogo")
+def jogo():
+    return render_template("jogo.html")
+
+@app.route("/loja")
+def loja():
+    return render_template("loja.html")
+
 @app.route("/equipe")
 def equipe():
     return render_template("team.html")
@@ -36,12 +45,21 @@ def jogador(name):
 
 @app.route("/player/<tag>/<type>")
 def player(tag, type):
-    if tag not in players_tags: return {"response": "tag invalida"}, 404
+    tag = tag.replace("%23", "#")
+    if tag not in players_tags.values(): return {"response": "tag invalida"}, 404
     if type == "basic":
         player = api_manager.getPlayerBasic(tag)
     elif type == "full":
         player = api_manager.getPlayer(tag)
     return jsonify(player), 200
+
+
+@app.route("/battlelog/<tag>/<count>")
+def battlelog(tag, count):
+    tag = tag.replace("%23", "#")
+    if tag not in players_tags.values(): return {"response": "tag invalida"}, 404
+    battlelog = api_manager.getBattleLog(tag, count)
+    return jsonify(battlelog), 200
 
 
 @app.route("/team")
@@ -50,8 +68,10 @@ def team():
     return jsonify(players), 200
 
 
-#app.run(host="10.177.1.28", port=5678, debug=True)
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+    host = os.getenv("HOST", "localhost")
+    port = os.getenv("PORT", 5678)
+    debug = os.getenv("DEBUG", True)
+
+    app.run(host=host, port=port, debug=debug)
 

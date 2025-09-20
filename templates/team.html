@@ -104,9 +104,9 @@
             <div class="hidden md:flex space-x-8">
                 <a href="/" class="text-gray-300 hover:text-white transition">Início</a>
                 <a href="/equipe" class="text-vortex-glow font-medium hover:text-white transition">A Equipe</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">O Jogo</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">Loja</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">Contato</a>
+                <a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a>
+                <a href="/loja" class="text-gray-300 hover:text-white transition">Loja</a>
+                <a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a>
             </div>
             <div class="flex items-center space-x-4">
                 <button class="md:hidden text-gray-300 hover:text-white">
@@ -136,15 +136,10 @@
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                 <!-- Moros -->
-                <div id="Moros" class="bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up">
+                <div onclick="window.location='/jogador/Moros'" id="Moros" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up">
                     <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/8');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <h3 class="text-2xl font-bold">Moros</h3>
-                            <p class="text-vortex-highlight mb-4">Líder & Estrategista</p>
-                            <div class="flex space-x-2">
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Pressão</span>
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Contra-ataque</span>
-                            </div>
                         </div>
                     </div>
                     <div class="p-6">
@@ -174,9 +169,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-300 text-sm mb-4">
-                            Especialista em decks de pressão e contra-ataques rápidos. Thunder lidera a equipe com estratégias inovadoras e tomada de decisão precisa.
-                        </p>
                         <div class="flex space-x-2">
                             <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
                                 <i data-feather="twitter" class="w-4 h-4"></i>
@@ -192,15 +184,10 @@
                 </div>
 
                 <!-- GabMont982 -->
-                <div id="GabMont982" class="bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div onclick="window.location='/jogador/GabMont982'" id="GabMont982" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
                     <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/3');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <h3 class="text-2xl font-bold">GabMont982</h3>
-                            <p class="text-vortex-highlight mb-4">Suporte & Defesa</p>
-                            <div class="flex space-x-2">
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Defesa</span>
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Suporte</span>
-                            </div>
                         </div>
                     </div>
                     <div class="p-6">
@@ -230,9 +217,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-300 text-sm mb-4">
-                            Mestra em estratégias defensivas e suporte de equipe. Nova é conhecida por sua capacidade de ler o jogo e antecipar movimentos inimigos.
-                        </p>
                         <div class="flex space-x-2">
                             <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
                                 <i data-feather="twitter" class="w-4 h-4"></i>
@@ -248,15 +232,10 @@
                 </div>
 
                 <!-- yago -->
-                <div id="yago" class="bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <div onclick="window.location='/jogador/yago'" id="yago" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
                     <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/4');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <h3 class="text-2xl font-bold">Yago</h3>
-                            <p class="text-vortex-highlight mb-4">Atirador & Dano</p>
-                            <div class="flex space-x-2">
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Dano</span>
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Precisão</span>
-                            </div>
                         </div>
                     </div>
                     <div class="p-6">
@@ -286,9 +265,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-300 text-sm mb-4">
-                            Especialista em decks de dano rápido e precisão. Blitz é conhecido por suas jogadas agressivas e capacidade de finalizar partidas rapidamente.
-                        </p>
                         <div class="flex space-x-2">
                             <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
                                 <i data-feather="twitter" class="w-4 h-4"></i>
@@ -304,15 +280,10 @@
                 </div>
 
                 <!-- LuffyX -->
-                <div id="LuffyX" class="bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up">
+                <div onclick="window.location='/jogador/LuffyX'" id="LuffyX" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up">
                     <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/11');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <h3 class="text-2xl font-bold">LuffyX</h3>
-                            <p class="text-vortex-highlight mb-4">Tanque & Controle</p>
-                            <div class="flex space-x-2">
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Tanque</span>
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Controle</span>
-                            </div>
                         </div>
                     </div>
                     <div class="p-6">
@@ -342,9 +313,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-300 text-sm mb-4">
-                            Domina estratégias de controle de área e tanques. Valkyrie é especialista em decks defensivos que viram o jogo no contra-ataque.
-                        </p>
                         <div class="flex space-x-2">
                             <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
                                 <i data-feather="twitter" class="w-4 h-4"></i>
@@ -360,15 +328,10 @@
                 </div>
 
                 <!-- Maurilio -->
-                <div id="Maurilio" class="bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div onclick="window.location='/jogador/Maurilio'" id="Maurilio" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
                     <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/16');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
                             <h3 class="text-2xl font-bold">Maurilio</h3>
-                            <p class="text-vortex-highlight mb-4">Flex & Adaptação</p>
-                            <div class="flex space-x-2">
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Flex</span>
-                                <span class="bg-vortex-primary text-xs px-3 py-1 rounded-full">Adaptação</span>
-                            </div>
                         </div>
                     </div>
                     <div class="p-6">
@@ -398,9 +361,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-300 text-sm mb-4">
-                            Mestre em adaptação e contra-estratégias. Phantom é conhecido por sua capacidade de ler o meta e ajustar seu estilo de jogo conforme necessário.
-                        </p>
                         <div class="flex space-x-2">
                             <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
                                 <i data-feather="twitter" class="w-4 h-4"></i>
@@ -733,8 +693,11 @@
                 }
             })
         }
-        updatePlayers()
+        document.addEventListener("DOMContentLoaded", () => {
+            updatePlayers()
+        })
         setInterval(updatePlayers, 10000)
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

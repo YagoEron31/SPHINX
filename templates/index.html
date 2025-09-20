@@ -100,9 +100,9 @@
             <div class="hidden md:flex space-x-8">
                 <a href="/" class="text-vortex-glow font-medium hover:text-white transition">Início</a>
                 <a href="/equipe" class="text-gray-300 hover:text-white transition">A Equipe</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">O Jogo</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">Loja</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">Contato</a>
+                <a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a>
+                <a href="/loja" class="text-gray-300 hover:text-white transition">Loja</a>
+                <a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a>
             </div>
             <div class="flex items-center space-x-4">
                 <button class="md:hidden text-gray-300 hover:text-white">
@@ -115,27 +115,36 @@
         </div>
     </nav>
 
-    <!-- Hero Banner with Carousel -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 hero-gradient grid-pattern"></div>
         <div class="absolute inset-0 flex items-center justify-center">
             <div class="w-full h-full">
                 <!-- Main Team Slide -->
-                <div class="absolute inset-0 flex items-center justify-center bg-cover bg-center" style="background-image: url('http://static.photos/technology/1200x630/42');">
-                    <div class="container mx-auto px-4 z-10 text-center" data-aos="fade-up" data-aos-duration="1000">
-                        <h1 class="text-5xl md:text-7xl font-orbitron font-bold mb-6 text-white">
-                            <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span> E-SPORTS
-                        </h1>
-                        <p class="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-gray-200">Domine o campo de batalha com nossa equipe de elite de Clash Royale</p>
-                        <div class="flex justify-center space-x-4">
-                            <a href="team.html" class="bg-vortex-accent hover:bg-vortex-highlight px-8 py-3 rounded-full font-medium transition glow-effect">
-                                Conheça a Equipe
-                            </a>
-                            <a href="shop.html" class="bg-transparent border-2 border-vortex-accent hover:bg-vortex-secondary/50 px-8 py-3 rounded-full font-medium transition">
-                                Nossa Loja
-                            </a>
-                        </div>
+                <div 
+                class="relative flex items-center justify-center bg-cover bg-center text-center h-screen
+                        before:absolute before:inset-0 before:bg-black before:opacity-60" 
+                style="background-image: url({{ url_for('static', filename='imagens/outros/Card_Evolution.png') }});"
+                >
+                <div class="relative z-10 container mx-auto px-4" data-aos="fade-up" data-aos-duration="1000">
+                    
+                    <h1 class="text-5xl md:text-7xl font-orbitron font-bold mb-6 text-white">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span> E-SPORTS
+                    </h1>
+
+                    <p class="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-gray-200">
+                        Domine o campo de batalha com nossa equipe de elite de Clash Royale
+                    </p>
+                    
+                    <div class="flex justify-center space-x-4">
+                        <a href="/equipe" class="bg-vortex-accent hover:bg-vortex-highlight px-8 py-3 rounded-full font-medium transition glow-effect">
+                            Conheça a Equipe
+                        </a>
+                        <a href="#" class="bg-transparent border-2 border-vortex-accent hover:bg-vortex-secondary/50 px-8 py-3 rounded-full font-medium transition">
+                            Nossa Loja
+                        </a>
                     </div>
+
+                </div>
                 </div>
             </div>
         </div>
@@ -457,11 +466,11 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Navegação</h4>
                     <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-300 hover:text-white transition">Início</a></li>
-                        <li><a href="team.html" class="text-gray-300 hover:text-white transition">A Equipe</a></li>
-                        <li><a href="game.html" class="text-gray-300 hover:text-white transition">O Jogo</a></li>
-                        <li><a href="shop.html" class="text-gray-300 hover:text-white transition">Loja</a></li>
-                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition">Contato</a></li>
+                        <li><a href="/" class="text-gray-300 hover:text-white transition">Início</a></li>
+                        <li><a href="/equipe" class="text-gray-300 hover:text-white transition">A Equipe</a></li>
+                        <li><a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a></li>
+                        <li><a href="/loja" class="text-gray-300 hover:text-white transition">Loja</a></li>
+                        <li><a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a></li>
                     </ul>
                 </div>
                 
