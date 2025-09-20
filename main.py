@@ -50,7 +50,8 @@ def team():
     return jsonify(players), 200
 
 
-app.run(host="10.177.1.28", port=5678, debug=True)
+#app.run(host="10.177.1.28", port=5678, debug=True)
 
-#if __name__ == "__main__":
-#    app.run(host="0.0.0.0", port=80)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80)
+
