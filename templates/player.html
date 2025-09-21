@@ -168,6 +168,29 @@
             text-align: right;
             margin-top: 8px;
         }
+
+        /* --- ESTILOS ATUALIZADOS PARA BRILHO DE RARIDADE --- */
+        .card-glow {
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5)); /* Um brilho branco sutil padrão */
+        }
+
+        /* Brilho para cada raridade - definimos um brilho mais forte no :hover */
+        .glow-common {
+            filter: drop-shadow(0 0 8px rgba(173, 216, 230, 0.8)); /* Azul claro */
+        }
+        .glow-rare {
+            filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.9)); /* Laranja */
+        }
+        .glow-epic {
+            filter: drop-shadow(0 0 10px rgba(186, 85, 211, 1));  /* Roxo */
+        }
+        /* NOVA CLASSE PARA LENDÁRIA USANDO O FILTRO SVG */
+        .glow-legendary {
+            filter: url(#legendary-glow); /* Aplica o filtro SVG que definimos */
+        }
+        .glow-champion {
+            filter: drop-shadow(0 0 12px rgba(233, 179, 12, 1));    /* Ouro mais escuro */
+        }
     </style>
 </head>
 <body class="bg-vortex-dark text-white font-rajdhani overflow-x-hidden">
@@ -194,7 +217,7 @@
         </div>
     </nav>
 
-    <section class="relative pt-40 pb-20 hero-gradient grid-pattern">
+    <section class="relative pt-40 pb-[500px] md:pb-[350px] lg:pb-[250px] hero-gradient grid-pattern">
         <div class="container mx-auto px-4 text-center">
             <div data-aos="fade-up">
                 <div class="flex justify-center items-center space-x-4 mb-4">
@@ -218,7 +241,7 @@
             </div>
             
             <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-                <div class="bg-vortex-secondary/50 rounded-lg p-4">
+                <div class="bg-vortex-secondary/50 rounded-lg p-4" style="align-content: center;">
                     <div id="expLevel" class="text-3xl font-bold text-vortex-glow">
                         <div class="spinner-border indigo" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -226,7 +249,7 @@
                     </div>
                     <div class="text-gray-300 text-sm">Nível</div>
                 </div>
-                <div class="bg-vortex-secondary/50 rounded-lg p-4">
+                <div class="bg-vortex-secondary/50 rounded-lg p-4" style="align-content: center;">
                     <div id="trophies" class="text-3xl font-bold text-vortex-glow">
                         <div class="spinner-border indigo" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -234,7 +257,7 @@
                     </div>
                     <div class="text-gray-300 text-sm">Troféus</div>
                 </div>
-                <div class="bg-vortex-secondary/50 rounded-lg p-4">
+                <div class="bg-vortex-secondary/50 rounded-lg p-4" style="align-content: center;">
                     <div id="bestTrophies" class="text-3xl font-bold text-vortex-glow">
                         <div class="spinner-border indigo" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -242,7 +265,8 @@
                     </div>
                     <div class="text-gray-300 text-sm">Recorde</div>
                 </div>
-                <div class="bg-vortex-secondary/50 rounded-lg p-4">
+                <div class="bg-vortex-secondary/50 rounded-lg p-4" style="align-content: center;">
+                    <img id="arenaImg">
                     <div id="arenaName" class="text-3xl font-bold text-vortex-glow">
                         <div class="spinner-border indigo" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -252,9 +276,13 @@
                 </div>
             </div>
         </div>
+        <div>
+            <img class="absolute h-[480px] right-[5%] md:right-[20%] lg:right-[70%] bottom-[-46px]" id="favouriteCardImg">
+            <img class="absolute h-[480px] right-[5%] md:right-[20%] lg:right-[70%] bottom-[-46px]" id="favouriteCardImgDl">
+        </div>
     </section>
 
-    <section class="py-16 bg-vortex-dark" style="background-image: url({{url_for('static', filename='imagens/outros/bg.png')}})">
+    <section class="py-16 bg-vortex-dark" style="background-image: url('../static/imagens/outros/bg.png')">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-1 space-y-8">
@@ -366,6 +394,25 @@
                     document.getElementById("clanName").innerHTML = data.clan.name;
                     document.getElementById("clanBadge").src = "https://cdn.statsroyale.com/images/badges/" + data.clan.badgeId + ".png";
                     document.getElementById("arenaName").innerHTML = data.arena.name;
+                    document.getElementById("arenaImg").src = "../static/imagens/arenas/" + data.arena.name + ".png";
+                    //document.getElementById("favouriteCardImg").src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + ".png";
+                    //document.getElementById("favouriteCardImgDl").src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + "_dl.png";
+                    //document.getElementById("favouriteCardImg").className += " glow-" + data.currentFavouriteCard.rarity;
+                    //document.getElementById("favouriteCardImgDl").className += " glow-" + data.currentFavouriteCard.rarity;
+                    favouriteCardImg = document.getElementById("favouriteCardImg");
+                    favouriteCardImgDl = document.getElementById("favouriteCardImgDl");
+
+                    favouriteCardImg.onerror = function() {
+                        this.style.display = "None";
+                    }
+                    favouriteCardImgDl.onerror = function() {
+                        this.style.display = "None";
+                    }
+                    
+                    favouriteCardImg.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + ".png";
+                    favouriteCardImgDl.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + "_dl.png";
+                    favouriteCardImg.className += " glow-" + data.currentFavouriteCard.rarity;
+                    favouriteCardImgDl.className += " glow-" + data.currentFavouriteCard.rarity;
 
                     document.getElementById("cardName").innerHTML = data.name;
 
@@ -502,6 +549,33 @@
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <filter id="legendary-glow" x="-70%" y="-70%" width="240%" height="240%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"></feGaussianBlur>
 
+            <feFlood flood-color="#00ffff" flood-opacity="0.6" result="floodCyan"></feFlood>
+            <feComposite in="floodCyan" in2="blur" operator="in" result="cyanGlow"></feComposite>
+            <feOffset in="cyanGlow" dx="-5" dy="-5" result="cyanGlowOffset"></feOffset>
+
+            <feFlood flood-color="#bdd921" flood-opacity="1" result="floodYellow"></feFlood>
+            <feComposite in="floodYellow" in2="blur" operator="in" result="yellowGlow"></feComposite>
+            
+            <feFlood flood-color="#ff00ff" flood-opacity="0.6" result="floodMagenta"></feFlood>
+            <feComposite in="floodMagenta" in2="blur" operator="in" result="magentaGlow"></feComposite>
+            <feOffset in="magentaGlow" dx="5" dy="5" result="magentaGlowOffset"></feOffset>
+
+            <feMerge>
+                <feMergeNode in="cyanGlowOffset" />
+                <feMergeNode in="yellowGlow" />
+                <feMergeNode in="magentaGlowOffset" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+            </filter>
+        </defs>
+    </svg>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+</body>
 </html>
