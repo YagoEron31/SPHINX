@@ -191,6 +191,13 @@
         .glow-champion {
             filter: drop-shadow(0 0 12px rgba(233, 179, 12, 1));    /* Ouro mais escuro */
         }
+
+        .light-purple-bg {
+            background-color: rgba(127, 90, 240, 0.15); /* vortex-accent com 15% de opacidade */
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(127, 90, 240, 0.3);
+        }
     </style>
 </head>
 <body class="bg-vortex-dark text-white font-rajdhani overflow-x-hidden">
@@ -302,7 +309,7 @@
                     
                     <div class="bg-vortex-secondary rounded-xl p-6" data-aos="fade-right" data-aos-delay="100">
                         <h3 class="text-xl font-bold font-orbitron mb-4">Deck Atual</h3>
-                        <div id="currentDeck" class="grid grid-cols-4 gap-3">
+                        <div id="currentDeck" class="light-purple-bg py-3 grid grid-cols-4 gap-3">
                             <div class="card-slot"><div class="spinner-border spinner-border-sm indigo" role="status"><span class="visually-hidden">Loading...</span></div></div>
                             <div class="card-slot"><div class="spinner-border spinner-border-sm indigo" role="status"><span class="visually-hidden">Loading...</span></div></div>
                             <div class="card-slot"><div class="spinner-border spinner-border-sm indigo" role="status"><span class="visually-hidden">Loading...</span></div></div>
@@ -311,6 +318,13 @@
                             <div class="card-slot"><div class="spinner-border spinner-border-sm indigo" role="status"><span class="visually-hidden">Loading...</span></div></div>
                             <div class="card-slot"><div class="spinner-border spinner-border-sm indigo" role="status"><span class="visually-hidden">Loading...</span></div></div>
                             <div class="card-slot"><div class="spinner-border spinner-border-sm indigo" role="status"><span class="visually-hidden">Loading...</span></div></div>
+                        </div>
+                        <div class="flex justify-center">
+                            <div id="supportCardDiv" class="light-purple-bg py-3 card-slot mx-auto mt-2">
+                                <div class="spinner-border spinner-border-sm indigo" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -376,6 +390,27 @@
             once: true
         });
         feather.replace();
+        
+        // Adicione este objeto no início do seu <script>
+        const GAME_MODE_TRANSLATIONS = {
+            'Ladder': 'Caminho de Troféus',
+            'PathOfLegend': 'Caminho das Lendas',
+            'RiverRacePvp': 'Guerra de Clãs 1v1',
+            'RiverRaceDuel': 'Duelo da Guerra de Clãs',
+            'BoatBattle': 'Batalha de Barcos',
+            'Challenge': 'Desafio',
+            'GlobalTournament': 'Torneio Global',
+            'DoubleElixirChallenge': 'Elixir em Dobro',
+            'RageChallenge': 'Desafio da Fúria',
+            'DraftChallenge': 'Desafio de Escolha',
+            'MirrorDeckChallenge': 'Deck de Espelho',
+            'SuddenDeathChallenge': 'Morte Súbita',
+            'RampUpElixir_Ladder': 'Aceleração',
+            'Friendly': 'Batalha Amistosa',
+            'Showdown_Friendly': 'Batalha 1v1',
+            'TeamVsTeam': 'Batalha 2v2',
+            'Tournament': 'Torneio'
+        };
 
         function updatePlayer(tag) {
             let url = "/player/" + encodeURIComponent(tag) + "/full";
@@ -395,10 +430,6 @@
                     document.getElementById("clanBadge").src = "https://cdn.statsroyale.com/images/badges/" + data.clan.badgeId + ".png";
                     document.getElementById("arenaName").innerHTML = data.arena.name;
                     document.getElementById("arenaImg").src = "../static/imagens/arenas/" + data.arena.name + ".png";
-                    //document.getElementById("favouriteCardImg").src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + ".png";
-                    //document.getElementById("favouriteCardImgDl").src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + "_dl.png";
-                    //document.getElementById("favouriteCardImg").className += " glow-" + data.currentFavouriteCard.rarity;
-                    //document.getElementById("favouriteCardImgDl").className += " glow-" + data.currentFavouriteCard.rarity;
                     favouriteCardImg = document.getElementById("favouriteCardImg");
                     favouriteCardImgDl = document.getElementById("favouriteCardImgDl");
 
@@ -424,6 +455,7 @@
                     document.getElementById("threeCrownWins").innerHTML = data.threeCrownWins;
                     document.getElementById("losses").innerHTML = data.losses;
                     document.getElementById("totalDonations").innerHTML = data.totalDonations;
+                    document.getElementById("supportCardDiv").innerHTML = "<img style='width: 70px; height: 98.22px;' class='card-image' src=" + data.currentDeckSupportCards[0].iconUrls.medium + ">";
 
                     const deckContainer = document.getElementById("currentDeck");
                     deckContainer.innerHTML = "";
@@ -456,6 +488,7 @@
                     battleLogContainer.innerHTML = ""; // Limpa o spinner
 
                     data.forEach(battle => {
+                        console.log(battle)
                         const me = battle.team.find(p => p.tag === mainPlayerTag);
                         const opponent = battle.opponent[0];
 
@@ -495,6 +528,14 @@
                         ).join('');
 
                         // Cria o elemento principal do card de batalha
+                        //const battleCard = document.createElement('div');
+                        //battleCard.className = 'battle-card';
+
+                        // Preenche o card com a estrutura HTML e os dados da batalha
+                        const apiGameModeName = battle.gameMode.name;
+                        const translatedGameModeName = GAME_MODE_TRANSLATIONS[apiGameModeName] || apiGameModeName;
+
+                        // Cria o elemento principal do card de batalha
                         const battleCard = document.createElement('div');
                         battleCard.className = 'battle-card';
 
@@ -505,23 +546,36 @@
                             </div>
                             <div class="battle-players">
                                 <div class="player-side">
-                                    <div class="player-info">
-                                        <div class="name">${me.name}</div>
-                                        <div class="trophies">${me.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png"class="inline-block w-4 h-4 ml-1"></div>
+                                    <div class="light-purple-bg player-info">
+                                        <div class="flex justify-center items-center gap-2">
+                                            <img src="https://cdn.statsroyale.com/images/badges/${me.clan.badgeId}.png" class="h-6 w-auto">
+                                            <div class="text-lg name">${me.name}</div>
+                                        </div>
+                                        <div class="font-bold">${me.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
                                     </div>
-                                    <div class="player-deck">${generateDeckHtml(me.cards)}</div>
+                                    <div class="light-purple-bg player-deck">${generateDeckHtml(me.cards)}</div>
                                 </div>
                                 <div class="battle-meta">
-                                    <div class="font-orbitron text-xl">${scoreHtml}</div>
-                                    <span class="text-xs mt-2">${timeAgo}</span>
+                                    <div class="light-purple-bg  font-orbitron text-xl whitespace-nowrap">
+                                        ${scoreHtml}
+                                    </div>
+                                    <span class="light-purple-bg text-base text-center font-bold">${translatedGameModeName}</span>
                                 </div>
                                 <div class="player-side">
-                                    <div class="player-info">
-                                        <div class="name">${opponent.name}</div>
-                                        <div class="trophies">${opponent.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png"class="inline-block w-4 h-4 ml-1"></div>
+                                    <div class="light-purple-bg player-info">
+                                        <div class="flex justify-center items-center gap-2">
+                                            <div class="name">${opponent.name}</div>
+                                            <img src="https://cdn.statsroyale.com/images/badges/${opponent.clan.badgeId}.png" class="h-6 w-auto">
+                                        </div>
+                                        <div class="font-bold">${opponent.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
                                     </div>
-                                    <div class="player-deck">${generateDeckHtml(opponent.cards)}</div>
+                                    <div class="light-purple-bg player-deck">${generateDeckHtml(opponent.cards)}</div>
                                 </div>
+                            </div>
+                            <div class="text-sm font-bold battle-timestamp">
+                                <span class=light-purple-bg>
+                                    ${timeAgo}
+                                <span>
                             </div>
                         `;
                         
