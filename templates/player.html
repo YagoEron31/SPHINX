@@ -429,7 +429,7 @@
                     document.getElementById("clanName").innerHTML = data.clan.name;
                     document.getElementById("clanBadge").src = "https://cdn.statsroyale.com/images/badges/" + data.clan.badgeId + ".png";
                     document.getElementById("arenaName").innerHTML = data.arena.name;
-                    document.getElementById("arenaImg").src = "../static/imagens/arenas/" + data.arena.name + ".png";
+                    document.getElementById("arenaImg").src = "../static/imagens/arenas/" + data.arena.name.replace(" ", "_") + ".png";
                     favouriteCardImg = document.getElementById("favouriteCardImg");
                     favouriteCardImgDl = document.getElementById("favouriteCardImgDl");
 
@@ -632,4 +632,5 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 </body>
+
 </html>
