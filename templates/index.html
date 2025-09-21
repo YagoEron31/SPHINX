@@ -88,6 +88,7 @@
     </style>
 </head>
 <body class="bg-vortex-dark text-white font-rajdhani overflow-x-hidden">
+    <!-- Navigation -->
     <nav class="bg-vortex-primary/90 backdrop-blur-md fixed w-full z-50 border-b border-vortex-accent/20">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
@@ -118,10 +119,11 @@
         <div class="absolute inset-0 hero-gradient grid-pattern"></div>
         <div class="absolute inset-0 flex items-center justify-center">
             <div class="w-full h-full">
+                <!-- Main Team Slide -->
                 <div 
                 class="relative flex items-center justify-center bg-cover bg-center text-center h-screen
                         before:absolute before:inset-0 before:bg-black before:opacity-60" 
-                style="background-image: url('https://i.ibb.co/L5BKn0g/Card-Evolution.png');"
+                style="background-image: url({{ url_for('static', filename='imagens/outros/Card_Evolution.png') }});"
                 >
                 <div class="relative z-10 container mx-auto px-4" data-aos="fade-up" data-aos-duration="1000">
                     
@@ -153,12 +155,11 @@
         </div>
     </section>
 
+    <!-- Main Content -->
     <main id="content" class="relative z-10">
-        <section class="py-16 bg-vortex-primary relative overflow-hidden">
-            <img src="file-bfa766347012547b74f3a4b9c148f47c" alt="Firecracker" class="absolute -left-20 -top-20 w-96 opacity-15 transform -rotate-12 pointer-events-none hidden lg:block z-0">
-            <img src="file-1a5c43d35091702f2aa5394206c9a38d" alt="Royal Giant" class="absolute -right-24 -bottom-24 w-96 opacity-15 transform rotate-12 pointer-events-none hidden lg:block z-0">
-            
-            <div class="container mx-auto px-4 relative z-10">
+        <!-- Featured Products Carousel -->
+        <section class="py-16 bg-vortex-primary">
+            <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center mb-12">
                     <h2 class="text-3xl font-orbitron font-bold">
                         <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">COLEÇÃO</span> VORTEX
@@ -169,11 +170,12 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Product 1 -->
                     <div class="product-card bg-vortex-secondary rounded-xl overflow-hidden relative">
-                        <div class="h-64 bg-cover bg-center" style="background-image: url('file-bfa766347012547b74f3a4b9c148f47c');"></div>
+                        <div class="h-64 bg-cover bg-center" style="background-image: url('http://static.photos/black/640x360/8');"></div>
                         <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2">Camisa Temática: Firecracker</h3>
-                            <p class="text-gray-300 mb-4">Estilo explosivo para o jogador moderno.</p>
+                            <h3 class="text-xl font-semibold mb-2">Camisa Vortex Pro</h3>
+                            <p class="text-gray-300 mb-4">Jogabilidade profissional com estilo</p>
                             <div class="flex justify-between items-center">
                                 <span class="text-vortex-glow font-bold text-lg">R$ 129,90</span>
                                 <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full text-sm transition glow-effect">
@@ -188,11 +190,12 @@
                         </div>
                     </div>
                     
+                    <!-- Product 2 -->
                     <div class="product-card bg-vortex-secondary rounded-xl overflow-hidden relative">
-                        <div class="h-64 bg-cover bg-center" style="background-image: url('file-1a5c43d35091702f2aa5394206c9a38d');"></div>
+                        <div class="h-64 bg-cover bg-center" style="background-image: url('http://static.photos/black/640x360/3');"></div>
                         <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2">Moletom Temático: Gigante Real</h3>
-                            <p class="text-gray-300 mb-4">Conforto e poder para dominar a arena.</p>
+                            <h3 class="text-xl font-semibold mb-2">Moletom Vortex</h3>
+                            <p class="text-gray-300 mb-4">Conforto e estilo para torcer</p>
                             <div class="flex justify-between items-center">
                                 <span class="text-vortex-glow font-bold text-lg">R$ 179,90</span>
                                 <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full text-sm transition glow-effect">
@@ -207,11 +210,12 @@
                         </div>
                     </div>
                     
+                    <!-- Product 3 -->
                     <div class="product-card bg-vortex-secondary rounded-xl overflow-hidden relative">
-                        <div class="h-64 bg-cover bg-center" style="background-image: url('file-b69d2f25608ed1165a39626f63f53835');"></div>
+                        <div class="h-64 bg-cover bg-center" style="background-image: url('http://static.photos/black/640x360/3');"></div>
                         <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2">Boné Temático: Mosqueteira</h3>
-                            <p class="text-gray-300 mb-4">Proteção e precisão em um único item.</p>
+                            <h3 class="text-xl font-semibold mb-2">Boné Vortex</h3>
+                            <p class="text-gray-300 mb-4">Estilo e proteção em um só item</p>
                             <div class="flex justify-between items-center">
                                 <span class="text-vortex-glow font-bold text-lg">R$ 89,90</span>
                                 <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full text-sm transition glow-effect">
@@ -229,6 +233,7 @@
             </div>
         </section>
 
+        <!-- Team Interactive Carousel -->
         <section class="py-16 bg-vortex-dark">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-orbitron font-bold text-center mb-4">
@@ -237,8 +242,9 @@
                 <p class="text-xl text-center text-gray-300 max-w-2xl mx-auto mb-12">Conheça os jogadores que formam a equipe Vortex</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <!-- Moros -->
                     <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('file-1a5c43d35091702f2aa5394206c9a38d');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/8');"></div>
                         <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
                             <h3 class="text-2xl font-bold mb-1">Moros</h3>
                             <p class="text-vortex-highlight mb-2">Líder & Estrategista</p>
@@ -257,8 +263,9 @@
                         </div>
                     </div>
                     
+                    <!-- GabMont982 -->
                     <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('file-b69d2f25608ed1165a39626f63f53835');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/3');"></div>
                         <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
                             <h3 class="text-2xl font-bold mb-1">GabMont982</h3>
                             <p class="text-vortex-highlight mb-2">Suporte & Defesa</p>
@@ -277,8 +284,9 @@
                         </div>
                     </div>
                     
+                    <!-- Yago -->
                     <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('file-bfa766347012547b74f3a4b9c148f47c');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/4');"></div>
                         <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
                             <h3 class="text-2xl font-bold mb-1">Yago</h3>
                             <p class="text-vortex-highlight mb-2">Atirador & Dano</p>
@@ -297,6 +305,7 @@
                         </div>
                     </div>
                     
+                    <!-- LuffyX -->
                     <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
                         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/11');"></div>
                         <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -317,6 +326,7 @@
                         </div>
                     </div>
                     
+                    <!-- Maurilio -->
                     <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
                         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/16');"></div>
                         <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -346,6 +356,7 @@
             </div>
         </section>
 
+        <!-- News Section -->
         <section class="py-16 bg-vortex-primary">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-orbitron font-bold text-center mb-12">
@@ -353,8 +364,9 @@
                 </h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- News 1 -->
                     <div class="news-card bg-vortex-secondary rounded-xl overflow-hidden">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('file-1a5c43d35091702f2aa5394206c9a38d');"></div>
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('http://static.photos/gaming/640x360/1');"></div>
                         <div class="p-6">
                             <span class="text-vortex-highlight text-sm font-medium">TORNEIO</span>
                             <h3 class="text-xl font-semibold my-2">Vortex vence CRL Season 5</h3>
@@ -365,8 +377,9 @@
                         </div>
                     </div>
                     
+                    <!-- News 2 -->
                     <div class="news-card bg-vortex-secondary rounded-xl overflow-hidden">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('file-bfa766347012547b74f3a4b9c148f47c');"></div>
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('http://static.photos/gaming/640x360/2');"></div>
                         <div class="p-6">
                             <span class="text-vortex-highlight text-sm font-medium">PATCH</span>
                             <h3 class="text-xl font-semibold my-2">Nova atualização do jogo</h3>
@@ -377,8 +390,9 @@
                         </div>
                     </div>
                     
+                    <!-- News 3 -->
                     <div class="news-card bg-vortex-secondary rounded-xl overflow-hidden">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('file-b69d2f25608ed1165a39626f63f53835');"></div>
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('http://static.photos/gaming/640x360/3');"></div>
                         <div class="p-6">
                             <span class="text-vortex-highlight text-sm font-medium">COMUNIDADE</span>
                             <h3 class="text-xl font-semibold my-2">Meet & Greet Virtual</h3>
@@ -398,6 +412,7 @@
             </div>
         </section>
 
+        <!-- Game Section Preview -->
         <section class="py-16 bg-vortex-dark">
             <div class="container mx-auto px-4">
                 <div class="flex flex-col lg:flex-row items-center">
@@ -432,6 +447,7 @@
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="bg-vortex-primary border-t border-vortex-accent/20">
         <div class="container mx-auto px-4 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
