@@ -1,531 +1,424 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortex E-sports | Clash Royale Team</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <title>SPHINX E-SPORTS | Digital Pharaoh's Legacy</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        vortex: {
-                            primary: '#50207A',
-                            secondary: '#2A1B3D',
-                            accent: '#838CE5',
-                            highlight: '#D6B9FC',
-                            glow: '#B9A2F5',
-                            dark: '#1A1025',
-                        }
-                    },
-                    fontFamily: {
-                        'orbitron': ['Orbitron', 'sans-serif'],
-                        'rajdhani': ['Rajdhani', 'sans-serif'],
-                    },
-                    animation: {
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        glow: {
-                            'from': { 'text-shadow': '0 0 5px #fff, 0 0 10px #fff, 0 0 15px #838CE5, 0 0 20px #838CE5' },
-                            'to': { 'text-shadow': '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #838CE5, 0 0 40px #838CE5' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
     <style>
-        .hero-gradient {
-            background: linear-gradient(135deg, rgba(80,32,122,0.95) 0%, rgba(42,27,61,0.95) 100%);
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #121212;
+            color: #F3F4F6;
+            overflow-x: hidden;
         }
-        .glow-effect {
-            box-shadow: 0 0 15px rgba(131, 140, 229, 0.7);
+        
+        h1, h2, h3, h4, .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
-        .glow-effect:hover {
-            box-shadow: 0 0 25px rgba(131, 140, 229, 0.9);
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
-        .grid-pattern {
-            background-image: 
-                linear-gradient(rgba(214, 185, 252, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(214, 185, 252, 0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
+        
+        .golden-gradient {
+            background: linear-gradient(135deg, #FBBF24 0%, #FDE047 100%);
+        }
+        
+        .hieroglyph-bg {
+            background-image: url('http://static.photos/abstract/1024x576/42');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
         .player-card:hover .player-info {
             transform: translateY(0);
             opacity: 1;
         }
-        .player-info {
-            transition: all 0.3s ease;
-            transform: translateY(100%);
-            opacity: 0;
-        }
-        .news-card:hover {
-            transform: translateY(-5px);
-        }
-        .news-card {
-            transition: transform 0.3s ease;
-        }
-        .product-card:hover .product-overlay {
-            opacity: 1;
-        }
-        .product-overlay {
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
     </style>
 </head>
-<body class="bg-vortex-dark text-white font-rajdhani overflow-x-hidden">
+<body>
+    <!-- Vanta.js Background -->
+    <div id="vanta-bg" class="fixed top-0 left-0 w-full h-full -z-10 opacity-20"></div>
+
     <!-- Navigation -->
-    <nav class="bg-vortex-primary/90 backdrop-blur-md fixed w-full z-50 border-b border-vortex-accent/20">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-10 h-10 bg-vortex-accent rounded-full flex items-center justify-center glow-effect">
-                    <i data-feather="zap" class="text-white"></i>
-                </div>
-                <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span>
+    <nav class="border-b border-gray-800 py-4 px-6 md:px-12 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="w-10 h-10 rounded-full golden-gradient flex items-center justify-center">
+                <span class="font-orbitron text-black text-lg font-bold">S</span>
             </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="/" class="text-vortex-glow font-medium hover:text-white transition">Início</a>
-                <a href="/equipe" class="text-gray-300 hover:text-white transition">A Equipe</a>
-                <a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a>
-                <a href="/loja" class="text-gray-300 hover:text-white transition">Loja</a>
-                <a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button class="md:hidden text-gray-300 hover:text-white">
-                    <i data-feather="menu"></i>
-                </button>
-                <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full font-medium transition glow-effect">
-                    <i data-feather="shopping-bag" class="mr-2"></i> Loja
-                </button>
-            </div>
+            <h1 class="font-orbitron text-xl md:text-2xl font-bold tracking-wider">SPHINX</h1>
+        </div>
+        
+        <div class="hidden md:flex space-x-8">
+            <a href="#" class="text-white hover:text-amber-300 font-medium transition">HOME</a>
+            <a href="#" class="text-white hover:text-amber-300 font-medium transition">TEAM</a>
+            <a href="#" class="text-white hover:text-amber-300 font-medium transition">MATCHES</a>
+            <a href="#" class="text-white hover:text-amber-300 font-medium transition">SHOP</a>
+            <a href="#" class="text-white hover:text-amber-300 font-medium transition">NEWS</a>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+            <button class="md:hidden text-white">
+                <i data-feather="menu"></i>
+            </button>
+            <button class="hidden md:block px-4 py-2 border border-amber-300 text-amber-300 font-orbitron hover:bg-amber-300 hover:text-black transition">
+                WATCH LIVE
+            </button>
         </div>
     </nav>
 
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 hero-gradient grid-pattern"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="w-full h-full">
-                <!-- Main Team Slide -->
-                <div 
-                class="relative flex items-center justify-center bg-cover bg-center text-center h-screen
-                        before:absolute before:inset-0 before:bg-black before:opacity-60" 
-                style="background-image: url({{ url_for('static', filename='imagens/outros/Card_Evolution.png') }});"
-                >
-                <div class="relative z-10 container mx-auto px-4" data-aos="fade-up" data-aos-duration="1000">
-                    
-                    <h1 class="text-5xl md:text-7xl font-orbitron font-bold mb-6 text-white">
-                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span> E-SPORTS
-                    </h1>
-
-                    <p class="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-gray-200">
-                        Domine o campo de batalha com nossa equipe de elite de Clash Royale
-                    </p>
-                    
-                    <div class="flex justify-center space-x-4">
-                        <a href="/equipe" class="bg-vortex-accent hover:bg-vortex-highlight px-8 py-3 rounded-full font-medium transition glow-effect">
-                            Conheça a Equipe
-                        </a>
-                        <a href="#" class="bg-transparent border-2 border-vortex-accent hover:bg-vortex-secondary/50 px-8 py-3 rounded-full font-medium transition">
-                            Nossa Loja
-                        </a>
-                    </div>
-
-                </div>
-                </div>
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 hieroglyph-bg opacity-10"></div>
+        <div class="container mx-auto px-6 md:px-12 z-10 text-center">
+            <div class="animate-float">
+                <h1 class="font-orbitron text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-amber-300">
+                    SPHINX <span class="text-white">E-SPORTS</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
+                    The legacy is eternal. Victory is inevitable.
+                </p>
             </div>
-        </div>
-        <div class="absolute bottom-10 left-0 right-0 flex justify-center">
-            <a href="#content" class="animate-bounce text-vortex-accent">
-                <i data-feather="chevron-down" class="w-10 h-10"></i>
-            </a>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-4 mt-10">
+                <button class="px-8 py-4 golden-gradient text-black font-orbitron font-bold hover:opacity-90 transition">
+                    MEET THE GUARDIANS
+                </button>
+                <button class="px-8 py-4 border-2 border-amber-300 text-amber-300 font-orbitron font-bold hover:bg-amber-300 hover:text-black transition">
+                    WATCH LIVE
+                </button>
+            </div>
         </div>
     </section>
 
-    <!-- Main Content -->
-    <main id="content" class="relative z-10">
-        <!-- Featured Products Carousel -->
-        <section class="py-16 bg-vortex-primary">
-            <div class="container mx-auto px-4">
-                <div class="flex justify-between items-center mb-12">
-                    <h2 class="text-3xl font-orbitron font-bold">
-                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">COLEÇÃO</span> VORTEX
-                    </h2>
-                    <a href="shop.html" class="flex items-center text-vortex-highlight hover:text-white transition">
-                        Ver tudo <i data-feather="arrow-right" class="ml-2"></i>
-                    </a>
+    <!-- Team Section -->
+    <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-black to-gray-900">
+        <div class="container mx-auto">
+            <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
+                GUARDIANS OF THE ARENA
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Player 1 -->
+                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
+                    <img src="http://static.photos/gaming/640x360/1" alt="Player 1" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="font-orbitron text-2xl text-amber-300">ANUBIS</h3>
+                        <p class="text-white">Sniper</p>
+                    </div>
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-10 opacity-0">
+                        <h3 class="font-orbitron text-2xl text-amber-300">ANUBIS</h3>
+                        <p class="text-purple-400 mb-2">Sniper</p>
+                        <p class="text-white mb-4">"Precision is my religion."</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Product 1 -->
-                    <div class="product-card bg-vortex-secondary rounded-xl overflow-hidden relative">
-                        <div class="h-64 bg-cover bg-center" style="background-image: url('http://static.photos/black/640x360/8');"></div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2">Camisa Vortex Pro</h3>
-                            <p class="text-gray-300 mb-4">Jogabilidade profissional com estilo</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-vortex-glow font-bold text-lg">R$ 129,90</span>
-                                <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full text-sm transition glow-effect">
-                                    Adicionar
-                                </button>
-                            </div>
+                <!-- Player 2 -->
+                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
+                    <img src="http://static.photos/gaming/640x360/2" alt="Player 2" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="font-orbitron text-2xl text-amber-300">HORUS</h3>
+                        <p class="text-white">Strategist</p>
+                    </div>
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-10 opacity-0">
+                        <h3 class="font-orbitron text-2xl text-amber-300">HORUS</h3>
+                        <p class="text-purple-400 mb-2">Strategist</p>
+                        <p class="text-white mb-4">"I see all moves before they happen."</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
                         </div>
-                        <div class="product-overlay absolute inset-0 bg-black/70 flex items-center justify-center">
-                            <button class="bg-vortex-accent hover:bg-vortex-highlight px-6 py-3 rounded-full font-medium transition glow-effect">
-                                Ver Detalhes
+                    </div>
+                </div>
+                
+                <!-- Player 3 -->
+                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
+                    <img src="http://static.photos/gaming/640x360/3" alt="Player 3" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="font-orbitron text-2xl text-amber-300">BASTET</h3>
+                        <p class="text-white">Assassin</p>
+                    </div>
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-10 opacity-0">
+                        <h3 class="font-orbitron text-2xl text-amber-300">BASTET</h3>
+                        <p class="text-purple-400 mb-2">Assassin</p>
+                        <p class="text-white mb-4">"Silent as the night, deadly as the storm."</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 border-2 border-amber-300 text-amber-300 font-orbitron font-bold hover:bg-amber-300 hover:text-black transition">
+                    VIEW FULL ROSTER
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Section -->
+    <section class="py-20 px-6 md:px-12 bg-black">
+        <div class="container mx-auto">
+            <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
+                PHARAOH'S ARMORY
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
+                    <div class="aspect-square bg-gray-900 flex items-center justify-center">
+                        <img src="http://static.photos/black/640x360/1" alt="Jersey" class="w-full h-full object-cover group-hover:scale-105 transition">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-orbitron text-xl text-white">SPHINX LEGACY JERSEY</h3>
+                        <p class="text-gray-400 mb-2">Limited Edition</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-300 font-bold text-lg">$79.99</span>
+                            <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
+                                ADD TO CART
                             </button>
                         </div>
                     </div>
-                    
-                    <!-- Product 2 -->
-                    <div class="product-card bg-vortex-secondary rounded-xl overflow-hidden relative">
-                        <div class="h-64 bg-cover bg-center" style="background-image: url('http://static.photos/black/640x360/3');"></div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2">Moletom Vortex</h3>
-                            <p class="text-gray-300 mb-4">Conforto e estilo para torcer</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-vortex-glow font-bold text-lg">R$ 179,90</span>
-                                <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full text-sm transition glow-effect">
-                                    Adicionar
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-overlay absolute inset-0 bg-black/70 flex items-center justify-center">
-                            <button class="bg-vortex-accent hover:bg-vortex-highlight px-6 py-3 rounded-full font-medium transition glow-effect">
-                                Ver Detalhes
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
+                    <div class="aspect-square bg-gray-900 flex items-center justify-center">
+                        <img src="http://static.photos/black/640x360/2" alt="Cap" class="w-full h-full object-cover group-hover:scale-105 transition">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-orbitron text-xl text-white">PHARAOH'S CROWN CAP</h3>
+                        <p class="text-gray-400 mb-2">Signature Series</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-300 font-bold text-lg">$34.99</span>
+                            <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
+                                ADD TO CART
                             </button>
                         </div>
                     </div>
-                    
-                    <!-- Product 3 -->
-                    <div class="product-card bg-vortex-secondary rounded-xl overflow-hidden relative">
-                        <div class="h-64 bg-cover bg-center" style="background-image: url('http://static.photos/black/640x360/3');"></div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2">Boné Vortex</h3>
-                            <p class="text-gray-300 mb-4">Estilo e proteção em um só item</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-vortex-glow font-bold text-lg">R$ 89,90</span>
-                                <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full text-sm transition glow-effect">
-                                    Adicionar
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-overlay absolute inset-0 bg-black/70 flex items-center justify-center">
-                            <button class="bg-vortex-accent hover:bg-vortex-highlight px-6 py-3 rounded-full font-medium transition glow-effect">
-                                Ver Detalhes
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
+                    <div class="aspect-square bg-gray-900 flex items-center justify-center">
+                        <img src="http://static.photos/black/640x360/3" alt="Hoodie" class="w-full h-full object-cover group-hover:scale-105 transition">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-orbitron text-xl text-white">DUSK OF SPHINX HOODIE</h3>
+                        <p class="text-gray-400 mb-2">Premium Edition</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-300 font-bold text-lg">$89.99</span>
+                            <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
+                                ADD TO CART
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Team Interactive Carousel -->
-        <section class="py-16 bg-vortex-dark">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-orbitron font-bold text-center mb-4">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">OPERADORES</span> DE ELITE
-                </h2>
-                <p class="text-xl text-center text-gray-300 max-w-2xl mx-auto mb-12">Conheça os jogadores que formam a equipe Vortex</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                    <!-- Moros -->
-                    <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/8');"></div>
-                        <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
-                            <h3 class="text-2xl font-bold mb-1">Moros</h3>
-                            <p class="text-vortex-highlight mb-2">Líder & Estrategista</p>
-                            <p class="text-gray-300 text-sm mb-4">Especialista em decks de pressão e contra-ataques rápidos.</p>
-                            <div class="flex space-x-2">
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitter" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="instagram" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitch" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- GabMont982 -->
-                    <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/3');"></div>
-                        <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
-                            <h3 class="text-2xl font-bold mb-1">GabMont982</h3>
-                            <p class="text-vortex-highlight mb-2">Suporte & Defesa</p>
-                            <p class="text-gray-300 text-sm mb-4">Mestra em estratégias defensivas e suporte de equipe.</p>
-                            <div class="flex space-x-2">
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitter" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="instagram" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitch" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Yago -->
-                    <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/4');"></div>
-                        <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
-                            <h3 class="text-2xl font-bold mb-1">Yago</h3>
-                            <p class="text-vortex-highlight mb-2">Atirador & Dano</p>
-                            <p class="text-gray-300 text-sm mb-4">Especialista em decks de dano rápido e precisão.</p>
-                            <div class="flex space-x-2">
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitter" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="instagram" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitch" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- LuffyX -->
-                    <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/11');"></div>
-                        <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
-                            <h3 class="text-2xl font-bold mb-1">LuffyX</h3>
-                            <p class="text-vortex-highlight mb-2">Tanque & Controle</p>
-                            <p class="text-gray-300 text-sm mb-4">Domina estratégias de controle de área e tanques.</p>
-                            <div class="flex space-x-2">
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitter" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="instagram" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitch" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Maurilio -->
-                    <div class="player-card bg-vortex-secondary rounded-xl overflow-hidden relative h-96">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/16');"></div>
-                        <div class="player-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6 flex flex-col justify-end">
-                            <h3 class="text-2xl font-bold mb-1">Maurilio</h3>
-                            <p class="text-vortex-highlight mb-2">Flex & Adaptação</p>
-                            <p class="text-gray-300 text-sm mb-4">Mestre em adaptação e contra-estratégias.</p>
-                            <div class="flex space-x-2">
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitter" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="instagram" class="w-4 h-4"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                    <i data-feather="twitch" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-12">
-                    <a href="/equipe" class="inline-flex items-center bg-vortex-accent hover:bg-vortex-highlight px-8 py-3 rounded-full font-medium transition glow-effect">
-                        Ver Equipe Completa <i data-feather="arrow-right" class="ml-2"></i>
-                    </a>
-                </div>
+            
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 golden-gradient text-black font-orbitron font-bold hover:opacity-90 transition">
+                    EXPLORE ALL MERCH
+                </button>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- News Section -->
-        <section class="py-16 bg-vortex-primary">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-orbitron font-bold text-center mb-12">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">ÚLTIMAS</span> NOTÍCIAS
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- News 1 -->
-                    <div class="news-card bg-vortex-secondary rounded-xl overflow-hidden">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('http://static.photos/gaming/640x360/1');"></div>
-                        <div class="p-6">
-                            <span class="text-vortex-highlight text-sm font-medium">TORNEIO</span>
-                            <h3 class="text-xl font-semibold my-2">Vortex vence CRL Season 5</h3>
-                            <p class="text-gray-300 text-sm mb-4">Nossa equipe conquistou o primeiro lugar no torneio mais importante do ano com uma performance impecável.</p>
-                            <div class="flex items-center text-gray-400 text-sm">
-                                <i data-feather="calendar" class="w-4 h-4 mr-2"></i> 15 de Junho, 2023
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- News 2 -->
-                    <div class="news-card bg-vortex-secondary rounded-xl overflow-hidden">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('http://static.photos/gaming/640x360/2');"></div>
-                        <div class="p-6">
-                            <span class="text-vortex-highlight text-sm font-medium">PATCH</span>
-                            <h3 class="text-xl font-semibold my-2">Nova atualização do jogo</h3>
-                            <p class="text-gray-300 text-sm mb-4">Veja como nossa equipe está se adaptando às mudanças no meta após a atualização mais recente.</p>
-                            <div class="flex items-center text-gray-400 text-sm">
-                                <i data-feather="calendar" class="w-4 h-4 mr-2"></i> 2 de Junho, 2023
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- News 3 -->
-                    <div class="news-card bg-vortex-secondary rounded-xl overflow-hidden">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('http://static.photos/gaming/640x360/3');"></div>
-                        <div class="p-6">
-                            <span class="text-vortex-highlight text-sm font-medium">COMUNIDADE</span>
-                            <h3 class="text-xl font-semibold my-2">Meet & Greet Virtual</h3>
-                            <p class="text-gray-300 text-sm mb-4">Participe do nosso próximo evento virtual e converse com os jogadores da equipe Vortex.</p>
-                            <div class="flex items-center text-gray-400 text-sm">
-                                <i data-feather="calendar" class="w-4 h-4 mr-2"></i> 28 de Maio, 2023
-                            </div>
+    <!-- News Section -->
+    <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-gray-900 to-black">
+        <div class="container mx-auto">
+            <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
+                RECENT SCROLLS
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- News 1 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
+                    <img src="http://static.photos/gaming/640x360/4" alt="News 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
+                            TOURNAMENT
+                        </span>
+                        <h3 class="font-orbitron text-xl text-white mb-3">SPHINX DOMINATES WORLD CHAMPIONSHIP</h3>
+                        <p class="text-gray-400 mb-4">Our team secured first place in the global finals with a flawless performance...</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">3 days ago</span>
+                            <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
+                                READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="text-center mt-12">
-                    <a href="#" class="inline-flex items-center border-2 border-vortex-accent hover:bg-vortex-secondary/50 px-8 py-3 rounded-full font-medium transition">
-                        Ver Todas as Notícias <i data-feather="arrow-right" class="ml-2"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Game Section Preview -->
-        <section class="py-16 bg-vortex-dark">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col lg:flex-row items-center">
-                    <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10" data-aos="fade-right">
-                        <h2 class="text-3xl font-orbitron font-bold mb-6">
-                            <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">CLASH ROYALE</span> O JOGO
-                        </h2>
-                        <p class="text-gray-300 mb-6">
-                            Clash Royale é um jogo de estratégia em tempo real que combina elementos de jogos de cartas colecionáveis e torres de defesa. Dois ou quatro jogadores duelam em um campo de batalha tentando destruir as torres do oponente usando cartas que representam tropas, feitiços e defesas.
-                        </p>
-                        <p class="text-gray-300 mb-8">
-                            A equipe Vortex domina todas as mecânicas avançadas do jogo, desde o gerenciamento de elixir até as estratégias mais complexas de contra-ataque. Nossos jogadores estão entre os melhores do mundo, consistentemente classificados no topo dos rankings competitivos.
-                        </p>
-                        <a href="game.html" class="inline-flex items-center bg-vortex-accent hover:bg-vortex-highlight px-8 py-3 rounded-full font-medium transition glow-effect">
-                            Saiba Mais <i data-feather="arrow-right" class="ml-2"></i>
-                        </a>
+                <!-- News 2 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
+                    <img src="http://static.photos/gaming/640x360/5" alt="News 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
+                            META
+                        </span>
+                        <h3 class="font-orbitron text-xl text-white mb-3">NEW PATCH ANALYSIS BY HORUS</h3>
+                        <p class="text-gray-400 mb-4">Our strategist breaks down the latest game update and how it affects competitive play...</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">1 week ago</span>
+                            <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
+                                READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="lg:w-1/2" data-aos="fade-left">
-                        <div class="relative rounded-xl overflow-hidden glow-effect">
-                            <div class="aspect-w-16 aspect-h-9">
-                                <iframe class="w-full h-96" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            </div>
-                            <div class="absolute inset-0 flex items-center justify-center bg-black/30">
-                                <div class="w-16 h-16 bg-vortex-accent rounded-full flex items-center justify-center glow-effect">
-                                    <i data-feather="play" class="text-white"></i>
-                                </div>
-                            </div>
+                </div>
+                
+                <!-- News 3 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
+                    <img src="http://static.photos/gaming/640x360/6" alt="News 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
+                            COMMUNITY
+                        </span>
+                        <h3 class="font-orbitron text-xl text-white mb-3">MEET & GREET EVENT ANNOUNCED</h3>
+                        <p class="text-gray-400 mb-4">Join us next month for an exclusive fan event featuring all SPHINX players...</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">2 weeks ago</span>
+                            <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
+                                READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+            
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 border-2 border-amber-300 text-amber-300 font-orbitron font-bold hover:bg-amber-300 hover:text-black transition">
+                    VIEW ALL NEWS
+                </button>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="bg-vortex-primary border-t border-vortex-accent/20">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer class="bg-black py-16 px-6 md:px-12 border-t border-gray-800">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
                 <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-10 h-10 bg-vortex-accent rounded-full flex items-center justify-center glow-effect">
-                            <i data-feather="zap" class="text-white"></i>
+                    <div class="flex items-center space-x-2 mb-6">
+                        <div class="w-10 h-10 rounded-full golden-gradient flex items-center justify-center">
+                            <span class="font-orbitron text-black text-lg font-bold">S</span>
                         </div>
-                        <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span>
+                        <h2 class="font-orbitron text-xl font-bold">SPHINX</h2>
                     </div>
-                    <p class="text-gray-300 text-sm">
-                        A equipe Vortex é uma das principais organizações de Clash Royale no cenário competitivo mundial.
+                    <p class="text-gray-400">
+                        The legacy is eternal. Victory is inevitable. Join us in building the future of competitive gaming.
                     </p>
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-semibold mb-4">Navegação</h4>
+                    <h3 class="font-orbitron text-lg text-amber-300 mb-4">QUICK LINKS</h3>
                     <ul class="space-y-2">
-                        <li><a href="/" class="text-gray-300 hover:text-white transition">Início</a></li>
-                        <li><a href="/equipe" class="text-gray-300 hover:text-white transition">A Equipe</a></li>
-                        <li><a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a></li>
-                        <li><a href="/loja" class="text-gray-300 hover:text-white transition">Loja</a></li>
-                        <li><a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-300 transition">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-300 transition">Team</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-300 transition">Schedule</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-300 transition">Shop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-300 transition">News</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-semibold mb-4">Redes Sociais</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="youtube"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="twitch"></i>
-                        </a>
-                    </div>
+                    <h3 class="font-orbitron text-lg text-amber-300 mb-4">CONTACT</h3>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400">contact@sphinx-esports.com</li>
+                        <li class="text-gray-400">+1 (555) 123-4567</li>
+                        <li class="text-gray-400">Cairo, Egypt</li>
+                    </ul>
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
-                    <p class="text-gray-300 text-sm mb-4">
-                        Inscreva-se para receber atualizações sobre a equipe, produtos exclusivos e muito mais.
+                    <h3 class="font-orbitron text-lg text-amber-300 mb-4">JOIN THE EMPIRE</h3>
+                    <p class="text-gray-400 mb-4">
+                        Subscribe to our newsletter for exclusive updates and offers.
                     </p>
-                    <form class="flex">
-                        <input type="email" placeholder="Seu e-mail" class="bg-vortex-secondary text-white px-4 py-2 rounded-l-full focus:outline-none focus:ring-2 focus:ring-vortex-accent w-full">
-                        <button type="submit" class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-r-full transition">
-                            <i data-feather="send"></i>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-300 w-full">
+                        <button class="px-4 py-2 golden-gradient text-black font-medium">
+                            <i data-feather="arrow-right"></i>
                         </button>
-                    </form>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="twitch"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="youtube"></i></a>
+                    </div>
                 </div>
             </div>
             
-            <div class="border-t border-vortex-secondary/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm mb-4 md:mb-0">
-                    © 2023 Vortex E-sports. Todos os direitos reservados.
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">
+                    © 2023 SPHINX E-SPORTS. All rights reserved.
                 </p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Termos de Serviço</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Política de Privacidade</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Cookies</a>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-amber-300 transition text-sm">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-amber-300 transition text-sm">Terms of Service</a>
+                    <a href="#" class="text-gray-500 hover:text-amber-300 transition text-sm">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
+        // Initialize Vanta.js background
+        VANTA.GLOBE({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0xfbbf24,
+            backgroundColor: 0x121212,
+            size: 0.8
         });
-        feather.replace();
+        
+        // Initialize Feather Icons
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
