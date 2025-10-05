@@ -5,33 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Os Guardiões | Sphinx E-sports</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <script>
-        // Configuração do Tailwind para o tema SPHINX
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sphinx: {
-                            gold: '#FBBF24',
-                            lightGold: '#FDE047',
-                            purple: '#A855F7',
-                            dark: '#1E1B24',
-                            bg: '#121212',
-                        }
-                    },
-                    fontFamily: {
-                        'orbitron': ['Orbitron', 'sans-serif'],
-                        'rajdhani': ['Rajdhani', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
         .hero-gradient {
             background: linear-gradient(135deg, rgba(18,18,18,0.95) 0%, rgba(30,27,36,0.95) 100%);
@@ -130,10 +109,10 @@
                     </div>
                 </div>
 
-                <div onclick="window.location='/jogador/GabMont982'" id="GabMont982" class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10" data-aos="fade-up" data-aos-delay="100">
+                <div onclick="window.location='/jogador/gabzz'" id="gabzz" class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10" data-aos="fade-up" data-aos-delay="100">
                      <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/4');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-2xl font-bold">GabMont982</h3>
+                            <h3 class="text-2xl font-bold">gabzz</h3>
                         </div>
                     </div>
                     <div class="p-6">
@@ -386,6 +365,33 @@
         </div>
     </footer>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuração do Tailwind para o tema SPHINX
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sphinx: {
+                            gold: '#FBBF24',
+                            lightGold: '#FDE047',
+                            purple: '#A855F7',
+                            dark: '#1E1B24',
+                            bg: '#121212',
+                        }
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
     <script>
         AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
         feather.replace();
@@ -427,6 +433,5 @@
         })
         setInterval(updatePlayers, 10000)
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
+    </body>
 </html>

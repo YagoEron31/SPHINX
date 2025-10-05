@@ -16,7 +16,7 @@ players_tags = {
     "yago": "#LGCL8RVJU",
     "Moros": "#RLJ9JP808",
     "LuffyX": "#U2CJLVJUY",
-    "GabMont982": "#PRCR808YJ"
+    "gabzz": "#PRCR808YJ"
 }
 
 @app.route("/")
