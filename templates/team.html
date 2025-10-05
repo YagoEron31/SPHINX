@@ -3,80 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Equipe | Vortex E-sports</title>
+    <title>Os Guardiões | Sphinx E-sports</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <script>
+        // Configuração do Tailwind para o tema SPHINX
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        vortex: {
-                            primary: '#0f0e17',
-                            secondary: '#332a50',
-                            accent: '#7f5af0',
-                            highlight: '#a786df',
-                            glow: '#b79af8',
-                            dark: '#010101',
+                        sphinx: {
+                            gold: '#FBBF24',
+                            lightGold: '#FDE047',
+                            purple: '#A855F7',
+                            dark: '#1E1B24',
+                            bg: '#121212',
                         }
                     },
                     fontFamily: {
                         'orbitron': ['Orbitron', 'sans-serif'],
                         'rajdhani': ['Rajdhani', 'sans-serif'],
                     },
-                    animation: {
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        glow: {
-                            'from': { 'text-shadow': '0 0 5px #fff, 0 0 10px #fff, 0 0 15px #7f5af0, 0 0 20px #7f5af0' },
-                            'to': { 'text-shadow': '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #7f5af0, 0 0 40px #7f5af0' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' }
-                        }
-                    }
                 }
             }
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
     <style>
         .hero-gradient {
-            background: linear-gradient(135deg, rgba(15,14,23,0.95) 0%, rgba(51,42,80,0.95) 100%);
+            background: linear-gradient(135deg, rgba(18,18,18,0.95) 0%, rgba(30,27,36,0.95) 100%);
         }
         .glow-effect {
-            box-shadow: 0 0 15px rgba(127, 90, 240, 0.7);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
         }
         .glow-effect:hover {
-            box-shadow: 0 0 25px rgba(127, 90, 240, 0.9);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.9);
         }
         .grid-pattern {
             background-image: 
-                linear-gradient(rgba(127, 90, 240, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(127, 90, 240, 0.1) 1px, transparent 1px);
+                linear-gradient(rgba(251, 191, 36, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251, 191, 36, 0.05) 1px, transparent 1px);
             background-size: 30px 30px;
-        }
-        .player-card:hover .player-info {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .player-info {
-            transition: all 0.3s ease;
-            transform: translateY(100%);
-            opacity: 0;
         }
         .stats-bar {
             height: 6px;
-            background: linear-gradient(90deg, #7f5af0 0%, #a786df 100%);
+            background: linear-gradient(90deg, #FBBF24 0%, #FDE047 100%); /* sphinx-gold to sphinx-lightGold */
         }
         .tab-content {
             display: none;
@@ -84,621 +58,64 @@
         .tab-content.active {
             display: block;
         }
-        
-        .indigo {
-            color: #6610f2;
-        }
-
     </style>
 </head>
-<body class="bg-vortex-dark text-white font-rajdhani overflow-x-hidden">
-    <!-- Navigation -->
-    <nav class="bg-vortex-primary/90 backdrop-blur-md fixed w-full z-50 border-b border-vortex-accent/20">
+<body class="bg-sphinx-bg text-white font-rajdhani overflow-x-hidden">
+    <nav class="bg-sphinx-dark/90 backdrop-blur-md fixed w-full z-50 border-b border-sphinx-gold/20">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-10 h-10 bg-vortex-accent rounded-full flex items-center justify-center glow-effect">
-                    <i data-feather="zap" class="text-white"></i>
-                </div>
-                <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span>
+            <div class="flex items-center space-x-4">
+                 <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-sphinx-lightGold">SPHINX</span>
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="/" class="text-gray-300 hover:text-white transition">Início</a>
-                <a href="/equipe" class="text-vortex-glow font-medium hover:text-white transition">A Equipe</a>
+                <a href="/equipe" class="text-sphinx-gold font-medium hover:text-white transition">Guardiões</a>
                 <a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a>
-                <a href="/loja" class="text-gray-300 hover:text-white transition">Loja</a>
+                <a href="/loja" class="text-gray-300 hover:text-white transition">Arsenal</a>
                 <a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a>
             </div>
-            <div class="flex items-center space-x-4">
-                <button class="md:hidden text-gray-300 hover:text-white">
+            <div class="md:hidden">
+                <button class="text-gray-300 hover:text-white">
                     <i data-feather="menu"></i>
-                </button>
-                <button class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-full font-medium transition glow-effect">
-                    <i data-feather="shopping-bag" class="mr-2"></i> Loja
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Team Hero -->
     <section class="relative pt-32 pb-20 hero-gradient grid-pattern">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-6xl font-orbitron font-bold mb-6" data-aos="fade-up">
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-violet-300">NOSSA</span> EQUIPE
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-yellow-200">NOSSOS GUARDIÕES</span>
             </h1>
             <p class="text-xl md:text-2xl max-w-2xl mx-auto text-gray-300" data-aos="fade-up" data-aos-delay="100">
-                Conheça os jogadores de elite que formam a equipe Vortex e dominam o cenário competitivo de Clash Royale.
+                Conheça os guerreiros de elite que defendem o legado da Sphinx e dominam a arena de Clash Royale.
             </p>
         </div>
     </section>
 
-    <!-- Team Members -->
-    <section class="py-16 bg-vortex-dark">
+    <section class="py-16 bg-sphinx-bg">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                <!-- Moros -->
-                <div onclick="window.location='/jogador/Moros'" id="Moros" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up">
-                    <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/8');">
+                <div onclick="window.location='/jogador/Anubis'" id="Anubis" class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10" data-aos="fade-up">
+                    <div class="relative h-80 bg-cover bg-center" style="background-image: url('https://i.imgur.com/gK2xQY6.jpeg');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-2xl font-bold">Moros</h3>
+                            <h3 class="text-2xl font-bold">Anubis</h3>
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex justify-content-around items-center mb-4">
-                            <!-- <div>
-                                <span class="text-gray-400 text-sm">Vitórias</span>
-                                <div class="text-xl font-bold wins">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div> -->
+                        <div class="flex justify-around items-center mb-4">
                             <div>
                                 <span class="text-gray-400 text-sm">Troféus</span>
-                                <div class="text-xl font-bold trophies">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
+                                <div class="text-xl font-bold trophies text-sphinx-lightGold">
+                                    <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
                                 </div>
                             </div>
                             <div>
                                 <span class="text-gray-400 text-sm">Nível</span>
-                                <div class="text-xl font-bold level">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
+                                <div class="text-xl font-bold level text-sphinx-lightGold">
+                                    <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
                                 </div>
                             </div>
                         </div>
                         <div class="flex space-x-2">
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitter" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="instagram" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitch" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GabMont982 -->
-                <div onclick="window.location='/jogador/GabMont982'" id="GabMont982" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/3');">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-2xl font-bold">GabMont982</h3>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-content-around items-center mb-4">
-                            <!-- <div>
-                                <span class="text-gray-400 text-sm">Vitórias</span>
-                                <div class="text-xl font-bold wins">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <div>
-                                <span class="text-gray-400 text-sm">Troféus</span>
-                                <div class="text-xl font-bold trophies">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-gray-400 text-sm">Nível</span>
-                                <div class="text-xl font-bold level">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitter" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="instagram" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitch" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- yago -->
-                <div onclick="window.location='/jogador/yago'" id="yago" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/4');">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-2xl font-bold">Yago</h3>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-content-around items-center mb-4">
-                            <!-- <div>
-                                <span class="text-gray-400 text-sm">Vitórias</span>
-                                <div class="text-xl font-bold wins">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <div>
-                                <span class="text-gray-400 text-sm">Troféus</span>
-                                <div class="text-xl font-bold trophies">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-gray-400 text-sm">Nível</span>
-                                <div class="text-xl font-bold level">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitter" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="instagram" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitch" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LuffyX -->
-                <div onclick="window.location='/jogador/LuffyX'" id="LuffyX" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up">
-                    <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/11');">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-2xl font-bold">LuffyX</h3>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-content-around items-center mb-4">
-                            <!-- <div>
-                                <span class="text-gray-400 text-sm">Vitórias</span>
-                                <div class="text-xl font-bold wins">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <div>
-                                <span class="text-gray-400 text-sm">Troféus</span>
-                                <div class="text-xl font-bold trophies">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-gray-400 text-sm">Nível</span>
-                                <div class="text-xl font-bold level">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitter" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="instagram" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitch" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Maurilio -->
-                <div onclick="window.location='/jogador/Maurilio'" id="Maurilio" class="cursor-pointer bg-vortex-secondary rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative h-80 bg-cover bg-center" style="background-image: url('http://static.photos/people/640x360/16');">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-2xl font-bold">Maurilio</h3>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-content-around items-center mb-4">
-                            <!-- <div>
-                                <span class="text-gray-400 text-sm">Vitórias</span>
-                                <div class="text-xl font-bold wins">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <div>
-                                <span class="text-gray-400 text-sm">Troféus</span>
-                                <div class="text-xl font-bold trophies">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-gray-400 text-sm">Nível</span>
-                                <div class="text-xl font-bold level">
-                                    <div class="spinner-border indigo" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitter" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="instagram" class="w-4 h-4"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 bg-vortex-primary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                                <i data-feather="twitch" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Player Stats -->
-    <section class="py-16 bg-vortex-primary">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-orbitron font-bold text-center mb-12">
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-violet-300">ESTATÍSTICAS</span> DA EQUIPE
-            </h2>
-            
-            <div class="max-w-4xl mx-auto">
-                <!-- Tabs -->
-                <div class="flex flex-wrap justify-center mb-8">
-                    <button onclick="showTab('overall')" class="tab-button bg-vortex-accent text-white px-6 py-2 rounded-l-full">
-                        Geral
-                    </button>
-                    <button onclick="showTab('tournaments')" class="tab-button bg-vortex-secondary text-gray-300 px-6 py-2">
-                        Torneios
-                    </button>
-                    <button onclick="showTab('individual')" class="tab-button bg-vortex-secondary text-gray-300 px-6 py-2 rounded-r-full">
-                        Individuais
-                    </button>
-                </div>
-                
-                <!-- Overall Stats -->
-                <div id="overall" class="tab-content active">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-vortex-secondary rounded-xl p-6 text-center">
-                            <div class="text-4xl font-bold text-vortex-glow mb-2">85%</div>
-                            <div class="text-gray-300">Taxa de Vitórias</div>
-                        </div>
-                        <div class="bg-vortex-secondary rounded-xl p-6 text-center">
-                            <div class="text-4xl font-bold text-vortex-glow mb-2">27</div>
-                            <div class="text-gray-300">Torneios Vencidos</div>
-                        </div>
-                        <div class="bg-vortex-secondary rounded-xl p-6 text-center">
-                            <div class="text-4xl font-bold text-vortex-glow mb-2">5</div>
-                            <div class="text-gray-300">Anos no Cenário</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-vortex-secondary rounded-xl p-6 mb-6">
-                        <h3 class="text-xl font-semibold mb-4">Distribuição de Vitórias por Tipo de Deck</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span>Decks de Pressão</span>
-                                    <span>42%</span>
-                                </div>
-                                <div class="w-full bg-vortex-primary rounded-full h-2">
-                                    <div class="stats-bar rounded-full h-2" style="width: 42%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span>Decks Defensivos</span>
-                                    <span>28%</span>
-                                </div>
-                                <div class="w-full bg-vortex-primary rounded-full h-2">
-                                    <div class="stats-bar rounded-full h-2" style="width: 28%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span>Decks de Dano Rápido</span>
-                                    <span>20%</span>
-                                </div>
-                                <div class="w-full bg-vortex-primary rounded-full h-2">
-                                    <div class="stats-bar rounded-full h-2" style="width: 20%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span>Outros</span>
-                                    <span>10%</span>
-                                </div>
-                                <div class="w-full bg-vortex-primary rounded-full h-2">
-                                    <div class="stats-bar rounded-full h-2" style="width: 10%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tournaments Stats -->
-                <div id="tournaments" class="tab-content">
-                    <div class="bg-vortex-secondary rounded-xl p-6 mb-6">
-                        <h3 class="text-xl font-semibold mb-4">Performance em Torneios</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="text-left border-b border-vortex-primary">
-                                        <th class="pb-2">Torneio</th>
-                                        <th class="pb-2">Posição</th>
-                                        <th class="pb-2">Vitórias</th>
-                                        <th class="pb-2">Premiação</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">CRL Season 5</td>
-                                        <td>1º</td>
-                                        <td>24-3</td>
-                                        <td>$50,000</td>
-                                    </tr>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">Royale Masters</td>
-                                        <td>2º</td>
-                                        <td>18-5</td>
-                                        <td>$25,000</td>
-                                    </tr>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">Crown Championship</td>
-                                        <td>3º</td>
-                                        <td>15-6</td>
-                                        <td>$15,000</td>
-                                    </tr>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">Vortex Invitational</td>
-                                        <td>1º</td>
-                                        <td>12-2</td>
-                                        <td>$20,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-3">Elite Series</td>
-                                        <td>1º</td>
-                                        <td>16-3</td>
-                                        <td>$30,000</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Individual Stats -->
-                <div id="individual" class="tab-content">
-                    <div class="bg-vortex-secondary rounded-xl p-6">
-                        <h3 class="text-xl font-semibold mb-4">Estatísticas Individuais</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="text-left border-b border-vortex-primary">
-                                        <th class="pb-2">Jogador</th>
-                                        <th class="pb-2">Vitórias</th>
-                                        <th class="pb-2">Troféus</th>
-                                        <th class="pb-2">MVP</th>
-                                        <th class="pb-2">Win Rate</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">Blitz</td>
-                                        <td>1,320</td>
-                                        <td>7,800+</td>
-                                        <td>14</td>
-                                        <td>88%</td>
-                                    </tr>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">Thunder</td>
-                                        <td>1,248</td>
-                                        <td>7,500+</td>
-                                        <td>12</td>
-                                        <td>85%</td>
-                                    </tr>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">Phantom</td>
-                                        <td>1,275</td>
-                                        <td>7,600+</td>
-                                        <td>9</td>
-                                        <td>84%</td>
-                                    </tr>
-                                    <tr class="border-b border-vortex-primary/30">
-                                        <td class="py-3">Valkyrie</td>
-                                        <td>1,189</td>
-                                        <td>7,400+</td>
-                                        <td>7</td>
-                                        <td>83%</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-3">Nova</td>
-                                        <td>1,156</td>
-                                        <td>7,200+</td>
-                                        <td>5</td>
-                                        <td>82%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-vortex-primary border-t border-vortex-accent/20">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-10 h-10 bg-vortex-accent rounded-full flex items-center justify-center glow-effect">
-                            <i data-feather="zap" class="text-white"></i>
-                        </div>
-                        <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-vortex-accent to-vortex-highlight">VORTEX</span>
-                    </div>
-                    <p class="text-gray-300 text-sm">
-                        A equipe Vortex é uma das principais organizações de Clash Royale no cenário competitivo mundial.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Navegação</h4>
-                    <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-300 hover:text-white transition">Início</a></li>
-                        <li><a href="team.html" class="text-gray-300 hover:text-white transition">A Equipe</a></li>
-                        <li><a href="game.html" class="text-gray-300 hover:text-white transition">O Jogo</a></li>
-                        <li><a href="shop.html" class="text-gray-300 hover:text-white transition">Loja</a></li>
-                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition">Contato</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Redes Sociais</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="youtube"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-vortex-secondary rounded-full flex items-center justify-center hover:bg-vortex-accent transition">
-                            <i data-feather="twitch"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
-                    <p class="text-gray-300 text-sm mb-4">
-                        Inscreva-se para receber atualizações sobre a equipe, produtos exclusivos e muito mais.
-                    </p>
-                    <form class="flex">
-                        <input type="email" placeholder="Seu e-mail" class="bg-vortex-secondary text-white px-4 py-2 rounded-l-full focus:outline-none focus:ring-2 focus:ring-vortex-accent w-full">
-                        <button type="submit" class="bg-vortex-accent hover:bg-vortex-highlight px-4 py-2 rounded-r-full transition">
-                            <i data-feather="send"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="border-t border-vortex-secondary/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm mb-4 md:mb-0">
-                    © 2023 Vortex E-sports. Todos os direitos reservados.
-                </p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Termos de Serviço</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Política de Privacidade</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Cookies</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
-        });
-        feather.replace();
-        
-        function showTab(tabId) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabId).classList.add('active');
-            
-            // Update tab buttons
-            document.querySelectorAll('.tab-button').forEach(button => {
-                if (button.textContent.trim().toLowerCase() === tabId) {
-                    button.classList.remove('bg-vortex-secondary', 'text-gray-300');
-                    button.classList.add('bg-vortex-accent', 'text-white');
-                } else {
-                    button.classList.remove('bg-vortex-accent', 'text-white');
-                    button.classList.add('bg-vortex-secondary', 'text-gray-300');
-                }
-            });
-        }
-
-        function updatePlayers(){
-            fetch("/team").then(response => {
-                if (response.status == 200) {
-                    return response.json();
-                }
-            }).then(data => {
-                for (const player in data) {
-                    
-                    let player_info = data[player];
-                    let player_card = document.getElementById(player);
-                    
-                    //let wins = player_card.querySelector(".wins");
-                    let trophies = player_card.querySelector(".trophies");
-                    let level = player_card.querySelector(".level");
-                    
-
-                    //wins.innerHTML = player_info["wins"];
-                    trophies.innerHTML = player_info["trophies"];
-                    level.innerHTML = player_info["expLevel"];
-                }
-            })
-        }
-        document.addEventListener("DOMContentLoaded", () => {
-            updatePlayers()
-        })
-        setInterval(updatePlayers, 10000)
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
-</html>
+                            <a href="#" class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                                <i data-feather="twitter" class="w-4 h-4">
