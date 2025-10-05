@@ -50,10 +50,8 @@
     </style>
 </head>
 <body>
-    <!-- Vanta.js Background -->
     <div id="vanta-bg" class="fixed top-0 left-0 w-full h-full -z-10 opacity-20"></div>
 
-    <!-- Navigation -->
     <nav class="border-b border-gray-800 py-4 px-6 md:px-12 flex justify-between items-center">
         <div class="flex items-center space-x-2">
             <div class="w-10 h-10 rounded-full golden-gradient flex items-center justify-center">
@@ -80,7 +78,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="min-h-screen flex items-center justify-center relative overflow-hidden">
         <div class="relative flex items-center justify-center bg-cover bg-center text-center h-screen before:absolute before:inset-0 before:bg-black before:opacity-60" style="width: 100vw; background-image: url('../static/imagens/outros/Card_Evolution.png');">
         <div class="container mx-auto px-6 md:px-12 z-10 text-center">
@@ -105,26 +102,24 @@
         </div>
     </section>
 
-    <!-- Team Section -->
     <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-black to-gray-900">
         <div class="container mx-auto">
             <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
                 GUARDIANS OF THE ARENA
             </h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Player 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                 <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/1" alt="Player 1" class="w-full h-full object-cover">
+                    <img src="http://static.photos/gaming/640x360/1" alt="Player Anubis" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
                     <div class="absolute bottom-0 left-0 p-6">
                         <h3 class="font-orbitron text-2xl text-amber-300">ANUBIS</h3>
-                        <p class="text-white">Sniper</p>
+                        <p class="text-white">Líder & Estrategista</p>
                     </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-10 opacity-0">
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
                         <h3 class="font-orbitron text-2xl text-amber-300">ANUBIS</h3>
-                        <p class="text-purple-400 mb-2">Sniper</p>
-                        <p class="text-white mb-4">"Precision is my religion."</p>
+                        <p class="text-purple-400 mb-2">Líder & Estrategista</p>
+                        <p class="text-white mb-4">"O juiz da batalha, prevendo cada movimento."</p>
                         <div class="flex space-x-4">
                             <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
                             <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
@@ -133,18 +128,17 @@
                     </div>
                 </div>
                 
-                <!-- Player 2 -->
                 <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/2" alt="Player 2" class="w-full h-full object-cover">
+                    <img src="http://static.photos/gaming/640x360/2" alt="Player Horus" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
                     <div class="absolute bottom-0 left-0 p-6">
                         <h3 class="font-orbitron text-2xl text-amber-300">HORUS</h3>
-                        <p class="text-white">Strategist</p>
+                        <p class="text-white">Caçador Alado</p>
                     </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-10 opacity-0">
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
                         <h3 class="font-orbitron text-2xl text-amber-300">HORUS</h3>
-                        <p class="text-purple-400 mb-2">Strategist</p>
-                        <p class="text-white mb-4">"I see all moves before they happen."</p>
+                        <p class="text-purple-400 mb-2">Caçador Alado</p>
+                        <p class="text-white mb-4">"Visão de águia para ataques precisos."</p>
                         <div class="flex space-x-4">
                             <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
                             <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
@@ -153,18 +147,55 @@
                     </div>
                 </div>
                 
-                <!-- Player 3 -->
                 <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/3" alt="Player 3" class="w-full h-full object-cover">
+                    <img src="http://static.photos/gaming/640x360/3" alt="Player Bastet" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
                     <div class="absolute bottom-0 left-0 p-6">
                         <h3 class="font-orbitron text-2xl text-amber-300">BASTET</h3>
-                        <p class="text-white">Assassin</p>
+                        <p class="text-white">Defensora Ágil</p>
                     </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-10 opacity-0">
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
                         <h3 class="font-orbitron text-2xl text-amber-300">BASTET</h3>
-                        <p class="text-purple-400 mb-2">Assassin</p>
-                        <p class="text-white mb-4">"Silent as the night, deadly as the storm."</p>
+                        <p class="text-purple-400 mb-2">Defensora Ágil</p>
+                        <p class="text-white mb-4">"Protege o território com reflexos felinos."</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
+                    <img src="http://static.photos/gaming/640x360/7" alt="Player Sobek" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="font-orbitron text-2xl text-amber-300">SOBEK</h3>
+                        <p class="text-white">Tanque Implacável</p>
+                    </div>
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
+                        <h3 class="font-orbitron text-2xl text-amber-300">SOBEK</h3>
+                        <p class="text-purple-400 mb-2">Tanque Implacável</p>
+                        <p class="text-white mb-4">"A força bruta que quebra qualquer defesa."</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
+                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
+                    <img src="http://static.photos/gaming/640x360/8" alt="Player Thoth" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="font-orbitron text-2xl text-amber-300">THOTH</h3>
+                        <p class="text-white">Mago do Conhecimento</p>
+                    </div>
+                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
+                        <h3 class="font-orbitron text-2xl text-amber-300">THOTH</h3>
+                        <p class="text-purple-400 mb-2">Mago do Conhecimento</p>
+                        <p class="text-white mb-4">"Mestre dos feitiços e do controle de elixir."</p>
                         <div class="flex space-x-4">
                             <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
                             <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
@@ -182,7 +213,6 @@
         </div>
     </section>
 
-    <!-- Shop Section -->
     <section class="py-20 px-6 md:px-12 bg-black">
         <div class="container mx-auto">
             <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
@@ -190,7 +220,6 @@
             </h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Product 1 -->
                 <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
                     <div class="aspect-square bg-gray-900 flex items-center justify-center">
                         <img src="http://static.photos/black/640x360/1" alt="Jersey" class="w-full h-full object-cover group-hover:scale-105 transition">
@@ -207,7 +236,6 @@
                     </div>
                 </div>
                 
-                <!-- Product 2 -->
                 <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
                     <div class="aspect-square bg-gray-900 flex items-center justify-center">
                         <img src="http://static.photos/black/640x360/2" alt="Cap" class="w-full h-full object-cover group-hover:scale-105 transition">
@@ -224,7 +252,6 @@
                     </div>
                 </div>
                 
-                <!-- Product 3 -->
                 <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
                     <div class="aspect-square bg-gray-900 flex items-center justify-center">
                         <img src="http://static.photos/black/640x360/3" alt="Hoodie" class="w-full h-full object-cover group-hover:scale-105 transition">
@@ -250,7 +277,6 @@
         </div>
     </section>
 
-    <!-- News Section -->
     <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-gray-900 to-black">
         <div class="container mx-auto">
             <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
@@ -258,7 +284,6 @@
             </h2>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- News 1 -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
                     <img src="http://static.photos/gaming/640x360/4" alt="News 1" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -276,7 +301,6 @@
                     </div>
                 </div>
                 
-                <!-- News 2 -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
                     <img src="http://static.photos/gaming/640x360/5" alt="News 2" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -294,7 +318,6 @@
                     </div>
                 </div>
                 
-                <!-- News 3 -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
                     <img src="http://static.photos/gaming/640x360/6" alt="News 3" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -321,7 +344,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-black py-16 px-6 md:px-12 border-t border-gray-800">
         <div class="container mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -379,7 +401,7 @@
             
             <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-500 text-sm">
-                    © 2023 SPHINX E-SPORTS. All rights reserved.
+                    © 2025 SPHINX E-SPORTS. All rights reserved.
                 </p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
                     <a href="#" class="text-gray-500 hover:text-amber-300 transition text-sm">Privacy Policy</a>
