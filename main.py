@@ -1,12 +1,15 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import requests
 from crAPImanager import ApiManager
+from DBmanager import dbManager
 import os
 
 app = Flask(__name__)
 
 api_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjllMGY1MmZiLTQzZDUtNGMzZS1hNWNmLTY0OTQ2NzIxMzFmOCIsImlhdCI6MTc1Nzg4MTMzOSwic3ViIjoiZGV2ZWxvcGVyL2E3MzM0Yzc5LTkzYWQtYjZlZi0wNDNlLWU3ZDc5NTEyNDFlYyIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyI0NS43OS4yMTguNzkiXSwidHlwZSI6ImNsaWVudCJ9XX0.2JIVhW5aGUJuq71nqdOm0LV55qPPrvkzlS7TaNfM0OKZAK5UgiB2v_0aG60Il670IfVWxvWZA8tPSl6ORiEPSg"
 api_manager = ApiManager(api_token)
+
+db_manager = dbManager("banco.db")
 
 players_tags = {
     "Maurilio": "#2YUCRQPYC",
@@ -66,6 +69,31 @@ def battlelog(tag, count):
 def team():
     players = api_manager.getTeamBasic(players_tags)
     return jsonify(players), 200
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        pass
+    elif request.method == "POST":
+        pass
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        return render_template("registro.html")
+    elif request.method == "POST":
+        response = request.json
+        usuario = response["usuario"]
+        email = response["email"]
+        senha = response["senha"]
+        resposta = db_manager.adicionarUsuario(usuario, email, senha, 0)
+        return {"response": resposta}, 200
+
+
+@app.route("/logout")
+def logout():
+    pass
 
 
 if __name__ == "__main__":
