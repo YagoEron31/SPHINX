@@ -19,21 +19,26 @@ players_tags = {
     "gabzz": "#PRCR808YJ"
 }
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/contato")
 def contato():
     return render_template("contato.html")
 
+
 @app.route("/jogo")
 def jogo():
     return render_template("jogo.html")
 
+
 @app.route("/loja")
 def loja():
     return render_template("loja.html")
+
 
 @app.route("/equipe")
 def equipe():
@@ -75,18 +80,20 @@ def team():
 def login():
     if request.method == "GET":
         return render_template("login.html")
+
     elif request.method == "POST":
         response = request.json
         usuario = response["usuario"]
         senha = response["senha"]
         resposta = db_manager.verificarUsuario(usuario, senha)
-        print(resposta)
         return {"response": resposta}, 200
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         return render_template("registro.html")
+
     elif request.method == "POST":
         response = request.json
         usuario = response["usuario"]
