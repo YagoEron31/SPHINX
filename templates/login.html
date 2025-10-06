@@ -1,0 +1,31 @@
+<head>
+
+</head>
+<body>
+    <input id="usuario" type="text"></input>
+    <input id="senha" type="password"></input>
+    <button onclick="login()">Entrar</button>
+    <script>
+        async function sha256(mensagem) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(mensagem);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        async function login() {
+            let usuario = document.getElementById("usuario").value;
+            let senha = document.getElementById("senha").value;
+            let hash_senha = await sha256(senha);
+            
+            fetch("/login", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({"usuario": usuario,
+                                      "senha": hash_senha})
+            });
+        }
+    </script>
+</body>

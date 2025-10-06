@@ -89,7 +89,6 @@ class dbManager():
         conexao, cursor = self.conexao()
         query = "SELECT * FROM usuarios WHERE usuario = ? and senha = ?;"
         cursor.execute(query, (usuario, senha))
-        conexao.commit()
         if not cursor.fetchall():
             conexao.close()
             return False

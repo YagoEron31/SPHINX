@@ -74,9 +74,14 @@ def team():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        pass
+        return render_template("login.html")
     elif request.method == "POST":
-        pass
+        response = request.json
+        usuario = response["usuario"]
+        senha = response["senha"]
+        resposta = db_manager.verificarUsuario(usuario, senha)
+        print(resposta)
+        return {"response": resposta}, 200
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
