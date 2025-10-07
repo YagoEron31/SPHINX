@@ -14,10 +14,16 @@ class ApiManager():
             player = self.getPlayerBasic(tag)
             players[player["name"]] = player
         return players
+    
 
-    def getPlayerBasic(self, playerTag):
+    def getPlayer(self, playerTag):
         url = ApiManager.BASEURLPROXY + "/players/" + playerTag.replace("#", "%23")
         response = requests.get(url, headers=self.headers).json()
+        return response
+    
+
+    def getPlayerBasic(self, playerTag):
+        response = self.getPlayer(playerTag)
         player = {
             "name": response["name"],
             "arena": response["arena"],
@@ -27,13 +33,7 @@ class ApiManager():
         }
         return player
     
-
-    def getPlayer(self, playerTag):
-        url = ApiManager.BASEURLPROXY + "/players/" + playerTag.replace("#", "%23")
-        response = requests.get(url, headers=self.headers).json()
-        return response
-    
-    
+ 
     def getBattleLog(self, playerTag, count=5):
         url = ApiManager.BASEURLPROXY + "/players/" + playerTag.replace("#", "%23") + "/battlelog"
         response = requests.get(url, headers=self.headers).json()

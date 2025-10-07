@@ -14,8 +14,8 @@ class dbManager():
 
     def adicionarUsuario(self, usuario, email, senha, cargo):
         conexao, cursor = self.conexao()
-        query = "SELECT * FROM usuarios WHERE email=?;"
-        cursor.execute(query, (email))
+        query = "SELECT * FROM usuarios WHERE email = ?;"
+        cursor.execute(query, (email,))
         if cursor.fetchone(): 
             conexao.close()
             resposta = "Email já cadastrado"
@@ -55,7 +55,7 @@ class dbManager():
     def quantidadeEmEstoque(self, id_produto):
         conexao, cursor = self.conexao()
         query = "SELECT estoque FROM produtos WHERE id = ?;"
-        cursor.execute(query, (id_produto))
+        cursor.execute(query, (id_produto,))
         quantidade = cursor.fetchone()[0]
 
         conexao.close()
@@ -79,16 +79,16 @@ class dbManager():
     def removerProduto(self, id_produto):
         conexao, cursor = self.conexao()
         query = "DELETE FROM produtos WHERE id = ?;"
-        cursor.execute(query, (id_produto))
+        cursor.execute(query, (id_produto,))
         conexao.commit()
         conexao.close()
         return "Produto deletado"
 
 
-    def verificarUsuario(self, usuario, senha):
+    def verificarUsuario(self, email, senha):
         conexao, cursor = self.conexao()
-        query = "SELECT * FROM usuarios WHERE usuario = ? and senha = ?;"
-        cursor.execute(query, (usuario, senha))
+        query = "SELECT * FROM usuarios WHERE email = ? and senha = ?;"
+        cursor.execute(query, (email, senha))
         if not cursor.fetchall():
             conexao.close()
             return False
@@ -96,3 +96,15 @@ class dbManager():
         conexao.close()
         return True
 
+    
+    def obterUsuarioPorEmail(self, email):
+        conexao, cursor = self.conexao()
+        query = "SELECT id_usuario, usuario FROM usuarios WHERE email = ?;"
+        cursor.execute(query, (email,))
+        usuario = cursor.fetchone()
+        if not usuario:
+            conexao.close()
+            return False
+        
+        conexao.close()
+        return usuario

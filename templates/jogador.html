@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Guardião | Sphinx E-sports</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script>
+        // Configuração do Tailwind para o tema SPHINX
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sphinx: {
+                            gold: '#FBBF24',
+                            lightGold: '#FDE047',
+                            purple: '#A855F7',
+                            dark: '#1E1B24',
+                            bg: '#121212',
+                        }
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(18,18,18,0.95) 0%, rgba(30,27,36,0.95) 100%);
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.9);
+        }
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(251, 191, 36, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251, 191, 36, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .card-image {
+            border: 2px solid #FBBF24; /* sphinx-gold */
+            border-radius: 10px;
+            background-color: #121212; /* sphinx-bg */
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+        .card-image img {
+            width: 100%;
+            height: auto;
+        }
+        .clan-badge {
+            width: 40px;
+            height: auto;
+        }
+        .battle-log-victory {
+            color: #28a745;
+        }
+        .battle-log-defeat {
+            color: #dc3545;
+        }
+
+        .battle-card {
+            background-color: rgba(30, 27, 36, 0.5); /* sphinx-dark com opacidade */
+            border: 1px solid rgba(251, 191, 36, 0.3); /* sphinx-gold com opacidade */
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .battle-result {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+        }
+        .battle-players {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .player-side {
+            width: 48%;
+            display: flex;
+            flex-direction: column;
+        }
+        .player-info {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .player-info .name {
+            font-weight: bold;
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .player-info .trophies {
+            font-size: 0.8rem;
+            color: #FDE047; /* sphinx-lightGold */
+        }
+        .player-deck {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+        .player-deck img {
+            width: 100%;
+            border-radius: 4px;
+        }
+        .battle-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #FDE047; /* sphinx-lightGold */
+            font-size: 0.75rem;
+            padding-top: 24px;
+        }
+        .battle-log-scroll-container {
+            max-height: 750px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        .battle-log-scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .battle-log-scroll-container::-webkit-scrollbar-track {
+            background: rgba(18, 18, 18, 0.5);
+            border-radius: 4px;
+        }
+        .battle-log-scroll-container::-webkit-scrollbar-thumb {
+            background-color: #FBBF24; /* sphinx-gold */
+            border-radius: 4px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        .battle-log-scroll-container::-webkit-scrollbar-thumb:hover {
+            background-color: #FDE047; /* sphinx-lightGold */
+        }
+        .battle-timestamp {
+            font-size: 0.75rem;
+            color: rgba(251, 191, 36, 0.7);
+            text-align: right;
+            margin-top: 8px;
+        }
+        /* ESTILOS DE BRILHO MANTIDOS */
+        .card-glow { filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5)); }
+        .glow-common { filter: drop-shadow(0 0 8px rgba(173, 216, 230, 0.8)); }
+        .glow-rare { filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.9)); }
+        .glow-epic { filter: drop-shadow(0 0 10px rgba(186, 85, 211, 1)); }
+        .glow-legendary { filter: url(#legendary-glow); }
+        .glow-champion { filter: drop-shadow(0 0 12px rgba(233, 179, 12, 1)); }
+
+        .gold-accent-bg {
+            background-color: rgba(251, 191, 36, 0.1); /* sphinx-gold com 10% de opacidade */
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-sphinx-bg text-white font-rajdhani overflow-x-hidden">
+    <nav class="bg-sphinx-dark/90 backdrop-blur-md fixed w-full z-50 border-b border-sphinx-gold/20">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+             <div class="flex items-center space-x-4">
+                <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-sphinx-lightGold">SPHINX</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-300 hover:text-white transition">Início</a>
+                <a href="/equipe" class="text-sphinx-gold font-medium hover:text-white transition">Guardiões</a>
+                <a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a>
+                <a href="/loja" class="text-gray-300 hover:text-white transition">Arsenal</a>
+                <a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-gray-300 hover:text-white">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-40 pb-[500px] md:pb-[350px] lg:pb-[250px] hero-gradient grid-pattern">
+        <div class="container mx-auto px-4 text-center">
+            <div data-aos="fade-up">
+                <div class="flex justify-center items-center space-x-4 mb-4">
+                    <img id="clanBadge" alt="" class="clan-badge">
+                    <span id="clanName" class="text-lg text-gray-300">
+                        <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </span>
+                </div>
+                <h1 class="text-4xl md:text-7xl font-orbitron font-bold mb-4">
+                    <span id="titleName" class="bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-yellow-200">
+                         <div class="spinner-border text-sphinx-gold" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </span>
+                </h1>
+                <p id="tag" class="text-xl text-sphinx-lightGold font-mono">
+                    {{ tag }}
+                </p>
+            </div>
+            
+            <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-sphinx-dark/50 rounded-lg p-4" style="align-content: center;">
+                    <div id="expLevel" class="text-3xl font-bold text-sphinx-gold">
+                        <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                    </div>
+                    <div class="text-gray-300 text-sm">Nível</div>
+                </div>
+                <div class="bg-sphinx-dark/50 rounded-lg p-4" style="align-content: center;">
+                    <div id="trophies" class="text-3xl font-bold text-sphinx-gold">
+                         <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                    </div>
+                    <div class="text-gray-300 text-sm">Troféus</div>
+                </div>
+                <div class="bg-sphinx-dark/50 rounded-lg p-4" style="align-content: center;">
+                    <div id="bestTrophies" class="text-3xl font-bold text-sphinx-gold">
+                         <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                    </div>
+                    <div class="text-gray-300 text-sm">Recorde</div>
+                </div>
+                <div class="bg-sphinx-dark/50 rounded-lg p-4" style="align-content: center;">
+                    <img id="arenaImg">
+                    <div id="arenaName" class="text-3xl font-bold text-sphinx-gold">
+                         <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                    </div>
+                    <div class="text-gray-300 text-sm">Arena</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <img class="absolute h-[480px] right-[5%] md:right-[20%] lg:right-[70%] bottom-[-46px]" id="favouriteCardImg">
+            <img class="absolute h-[480px] right-[5%] md:right-[20%] lg:right-[70%] bottom-[-46px]" id="favouriteCardImgDl">
+        </div>
+    </section>
+
+    <section class="py-16 bg-sphinx-bg" style="background-image: url('../static/imagens/outros/bg.png')">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-1 space-y-8">
+                    <div class="bg-sphinx-dark rounded-xl p-6 border border-sphinx-gold/10" data-aos="fade-right">
+                        <img src="http://static.photos/people/640x360/8" alt="Foto do Jogador" class="w-full h-80 object-cover rounded-lg mb-4">
+                        <h3 id="cardName" class="text-2xl font-bold font-orbitron"></h3>
+                        <div class="flex space-x-2 mt-2">
+                                <a href="#" class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                                    <i data-feather="twitter" class="w-4 h-4"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                                    <i data-feather="twitch" class="w-4 h-4"></i>
+                                </a>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-sphinx-dark rounded-xl p-6 border border-sphinx-gold/10" data-aos="fade-right" data-aos-delay="100">
+                        <h3 class="text-xl font-bold font-orbitron mb-4">Deck do Guardião</h3>
+                        <div id="currentDeck" class="gold-accent-bg py-3 grid grid-cols-4 gap-3">
+                            <div class="card-slot"><div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div></div>
+                        </div>
+                        <div class="flex justify-center">
+                            <div id="supportCardDiv" class="gold-accent-bg py-3 card-slot mx-auto mt-2">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-8">
+                    <div data-aos="fade-left">
+                        <h3 class="text-2xl font-bold font-orbitron mb-4">Estatísticas de Batalha</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-sphinx-dark rounded-xl p-4 text-center border border-sphinx-gold/10">
+                                <div id="wins" class="text-3xl font-bold text-sphinx-gold">
+                                    <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                                </div>
+                                <div class="text-gray-300 text-sm">Vitórias</div>
+                            </div>
+                                <div class="bg-sphinx-dark rounded-xl p-4 text-center border border-sphinx-gold/10">
+                                <div id="threeCrownWins" class="text-3xl font-bold text-sphinx-gold">
+                                    <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                                </div>
+                                <div class="text-gray-300 text-sm">3 Coroas</div>
+                            </div>
+                            <div class="bg-sphinx-dark rounded-xl p-4 text-center border border-sphinx-gold/10">
+                                <div id="losses" class="text-3xl font-bold text-sphinx-gold">
+                                    <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                                </div>
+                                <div class="text-gray-300 text-sm">Derrotas</div>
+                            </div>
+                            <div class="bg-sphinx-dark rounded-xl p-4 text-center border border-sphinx-gold/10">
+                                <div id="totalDonations" class="text-3xl font-bold text-sphinx-gold">
+                                    <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                                </div>
+                                <div class="text-gray-300 text-sm">Doações</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-sphinx-dark rounded-xl p-6 border border-sphinx-gold/10" data-aos="fade-left" data-aos-delay="100">
+                        <h3 class="text-xl font-bold font-orbitron mb-4">Papiros de Batalha Recentes</h3>
+                        
+                        <div class="battle-log-scroll-container">
+                            <div id="battleLogContainer">
+                                 <div class="spinner-border text-sphinx-gold" role="status"><span class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-sphinx-dark border-t border-sphinx-gold/20">
+        <div class="container mx-auto px-4 py-12">
+            <p class="text-center text-gray-400 text-sm">
+                © 2025 Sphinx E-sports. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        feather.replace();
+
+        const GAME_MODE_TRANSLATIONS = {
+            'Ladder': 'Caminho de Troféus', 'PathOfLegend': 'Caminho das Lendas', 'RiverRacePvp': 'Guerra de Clãs 1v1',
+            'RiverRaceDuel': 'Duelo da Guerra de Clãs', 'BoatBattle': 'Batalha de Barcos', 'Challenge': 'Desafio',
+            'GlobalTournament': 'Torneio Global', 'DoubleElixirChallenge': 'Elixir em Dobro', 'RageChallenge': 'Desafio da Fúria',
+            'DraftChallenge': 'Desafio de Escolha', 'MirrorDeckChallenge': 'Deck de Espelho', 'SuddenDeathChallenge': 'Morte Súbita',
+            'RampUpElixir_Ladder': 'Aceleração', 'Friendly': 'Batalha Amistosa', 'Showdown_Friendly': 'Batalha 1v1',
+            'TeamVsTeam': 'Batalha 2v2', 'Tournament': 'Torneio'
+        };
+
+        function updatePlayer(tag) {
+            let url = "/api/jogador/" + encodeURIComponent(tag) + "/full";
+            fetch(url).then(response => {
+                if (response.status == 200) return response.json();
+                else throw new Error('Erro ao buscar dados do jogador. Status: ' + response.status);
+            }).then(data => {
+                // ALTERAÇÃO AQUI:
+                document.title = data.name + " | Sphinx E-sports";
+                document.getElementById("titleName").innerHTML = data.name;
+                document.getElementById("clanName").innerHTML = data.clan.name;
+                document.getElementById("clanBadge").src = "https://cdn.statsroyale.com/images/badges/" + data.clan.badgeId + ".png";
+                document.getElementById("arenaName").innerHTML = data.arena.name;
+                document.getElementById("arenaImg").src = "../static/imagens/arenas/" + data.arena.name + ".png";
+                favouriteCardImg = document.getElementById("favouriteCardImg");
+                favouriteCardImgDl = document.getElementById("favouriteCardImgDl");
+                favouriteCardImg.onerror = function() { this.style.display = "None"; }
+                favouriteCardImgDl.onerror = function() { this.style.display = "None"; }
+                favouriteCardImg.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + ".png";
+                favouriteCardImgDl.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + "_dl.png";
+                favouriteCardImg.className += " glow-" + data.currentFavouriteCard.rarity;
+                favouriteCardImgDl.className += " glow-" + data.currentFavouriteCard.rarity;
+                document.getElementById("cardName").innerHTML = data.name;
+                document.getElementById("expLevel").innerHTML = data.expLevel;
+                document.getElementById("trophies").innerHTML = data.trophies;
+                document.getElementById("bestTrophies").innerHTML = data.bestTrophies;
+                document.getElementById("wins").innerHTML = data.wins;
+                document.getElementById("threeCrownWins").innerHTML = data.threeCrownWins;
+                document.getElementById("losses").innerHTML = data.losses;
+                document.getElementById("totalDonations").innerHTML = data.totalDonations;
+                document.getElementById("supportCardDiv").innerHTML = "<img style='width: 70px; height: 98.22px;' class='card-image' src=" + data.currentDeckSupportCards[0].iconUrls.medium + ">";
+                const deckContainer = document.getElementById("currentDeck");
+                deckContainer.innerHTML = "";
+                data.currentDeck.forEach(card => {
+                    const cardElement = document.createElement('div');
+                    cardElement.classList.add('card-image');
+                    cardElement.innerHTML = `<img src="${card.iconUrls.medium}" alt="${card.name}" title="${card.name}">`;
+                    deckContainer.appendChild(cardElement);
+                });
+            }).catch(error => console.error("Falha na função updatePlayer:", error));
+        }
+
+        function updateBattleLog(tag) {
+            let url = "/api/batalhas/" + encodeURIComponent(tag) + "/5";
+            const mainPlayerTag = tag;
+            fetch(url).then(response => {
+                if (response.status == 200) return response.json();
+                else throw new Error('Erro ao buscar dados do jogador. Status: ' + response.status);
+            }).then(data => {
+                const battleLogContainer = document.getElementById("battleLogContainer");
+                battleLogContainer.innerHTML = "";
+                data.forEach(battle => {
+                    const me = battle.team.find(p => p.tag === mainPlayerTag);
+                    const opponent = battle.opponent[0];
+                    if (!me) return;
+                    let resultText, resultClass;
+                    if (me.crowns > opponent.crowns) {
+                        resultText = "VITÓRIA";
+                        resultClass = "battle-log-victory";
+                    } else {
+                        resultText = "DERROTA";
+                        resultClass = "battle-log-defeat";
+                    }
+                    const scoreHtml = `<span>${me.crowns}</span> - <span>${opponent.crowns}</span>`;
+                    const iso = battle.battleTime;
+                    const parsableDate = new Date(`${iso.substring(0,4)}-${iso.substring(4,6)}-${iso.substring(6,8)}T${iso.substring(9,11)}:${iso.substring(11,13)}:${iso.substring(13)}`);
+                    const now = new Date();
+                    const diffMinutes = Math.floor((now - parsableDate) / (1000 * 60));
+                    const diffHours = Math.floor(diffMinutes / 60);
+                    const diffDays = Math.floor(diffHours / 24);
+                    let timeAgo;
+                    if (diffDays > 0) timeAgo = `${diffDays}d atrás`;
+                    else if (diffHours > 0) timeAgo = `${diffHours}h ${diffMinutes % 60}m atrás`;
+                    else timeAgo = `${diffMinutes}m atrás`;
+                    const generateDeckHtml = (cards) => cards.map(card => `<img src="${card.iconUrls.medium}" alt="${card.name}" title="${card.name}">`).join('');
+                    const apiGameModeName = battle.gameMode.name;
+                    const translatedGameModeName = GAME_MODE_TRANSLATIONS[apiGameModeName] || apiGameModeName;
+                    const battleCard = document.createElement('div');
+                    battleCard.className = 'battle-card';
+                    // ALTERAÇÃO AQUI: troque 'light-purple-bg' por 'gold-accent-bg'
+                    battleCard.innerHTML = `
+                        <div class="battle-result ${resultClass}">${resultText}</div>
+                        <div class="battle-players">
+                            <div class="player-side">
+                                <div class="gold-accent-bg player-info">
+                                    <div class="flex justify-center items-center gap-2">
+                                        <img src="https://cdn.statsroyale.com/images/badges/${me.clan.badgeId}.png" class="h-6 w-auto">
+                                        <div class="text-lg name">${me.name}</div>
+                                    </div>
+                                    <div class="font-bold">${me.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
+                                </div>
+                                <div class="gold-accent-bg player-deck">${generateDeckHtml(me.cards)}</div>
+                            </div>
+                            <div class="battle-meta">
+                                <div class="gold-accent-bg font-orbitron text-xl whitespace-nowrap">${scoreHtml}</div>
+                                <span class="gold-accent-bg text-base text-center font-bold">${translatedGameModeName}</span>
+                            </div>
+                            <div class="player-side">
+                                <div class="gold-accent-bg player-info">
+                                    <div class="flex justify-center items-center gap-2">
+                                        <div class="name">${opponent.name}</div>
+                                        <img src="https://cdn.statsroyale.com/images/badges/${opponent.clan.badgeId}.png" class="h-6 w-auto">
+                                    </div>
+                                    <div class="font-bold">${opponent.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
+                                </div>
+                                <div class="gold-accent-bg player-deck">${generateDeckHtml(opponent.cards)}</div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-bold battle-timestamp">
+                            <span class="gold-accent-bg">${timeAgo}<span>
+                        </div>`;
+                    battleLogContainer.appendChild(battleCard);
+                });
+            }).catch(error => console.error("Falha na função updateBattleLog:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let tag = document.getElementById("tag").innerText;
+            updatePlayer(tag);
+            updateBattleLog(tag);
+        });
+        setInterval(() => {
+            let tag = document.getElementById("tag").innerText;
+            updatePlayer(tag);
+            updateBattleLog(tag);
+        }, 30000);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <filter id="legendary-glow" x="-70%" y="-70%" width="240%" height="240%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"></feGaussianBlur>
+                <feFlood flood-color="#00ffff" flood-opacity="0.6" result="floodCyan"></feFlood>
+                <feComposite in="floodCyan" in2="blur" operator="in" result="cyanGlow"></feComposite>
+                <feOffset in="cyanGlow" dx="-5" dy="-5" result="cyanGlowOffset"></feOffset>
+                <feFlood flood-color="#bdd921" flood-opacity="1" result="floodYellow"></feFlood>
+                <feComposite in="floodYellow" in2="blur" operator="in" result="yellowGlow"></feComposite>
+                <feFlood flood-color="#ff00ff" flood-opacity="0.6" result="floodMagenta"></feFlood>
+                <feComposite in="magentaGlow" in2="blur" operator="in" result="magentaGlow"></feComposite>
+                <feOffset in="magentaGlow" dx="5" dy="5" result="magentaGlowOffset"></feOffset>
+                <feMerge>
+                    <feMergeNode in="cyanGlowOffset" />
+                    <feMergeNode in="yellowGlow" />
+                    <feMergeNode in="magentaGlowOffset" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>
