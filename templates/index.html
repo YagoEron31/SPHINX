@@ -79,7 +79,11 @@
             <a href="#" class="text-white hover:text-amber-300 font-medium transition">SHOP</a>
             <a href="#" class="text-white hover:text-amber-300 font-medium transition">NEWS</a>
         </div>
-        
+        {% if usuario %}
+            <div>
+                {{ usuario }}
+            </div>
+        {% endif %}
         <div class="flex items-center space-x-4">
             <button class="md:hidden text-white">
                 <i data-feather="menu"></i>
