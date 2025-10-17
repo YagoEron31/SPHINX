@@ -24,11 +24,7 @@ players_tags = {
 
 @app.route("/")
 def index():
-    print(session.keys())
-    if len(session.keys()) > 1:
-        usuario = session["usuario"]
-    else: usuario = None
-    return render_template("index.html", usuario=usuario)
+    return render_template("index.html")
 
 
 @app.route("/contato")
