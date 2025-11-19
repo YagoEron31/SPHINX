@@ -1,183 +1,144 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contato | Sphinx E-sports</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico"> <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% extends "base.html" %}
 
-    <script>
-        // Configuração do Tailwind para o tema SPHINX
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sphinx: {
-                            gold: '#FBBF24',
-                            lightGold: '#FDE047',
-                            purple: '#A855F7',
-                            dark: '#1E1B24',
-                            bg: '#121212',
-                        }
-                    },
-                    fontFamily: {
-                        'orbitron': ['Orbitron', 'sans-serif'],
-                        'rajdhani': ['Rajdhani', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    <style>
-        .hero-gradient {
-            background: linear-gradient(135deg, rgba(18,18,18,0.95) 0%, rgba(30,27,36,0.95) 100%);
-        }
-        .glow-effect {
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
-        }
-        .glow-effect:hover {
-            box-shadow: 0 0 25px rgba(251, 191, 36, 0.9);
-        }
-        .grid-pattern {
-            background-image: 
-                linear-gradient(rgba(251, 191, 36, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(251, 191, 36, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-        /* Estilos para o formulário no tema SPHINX */
-        .form-input {
-            background-color: #121212;
-            border: 1px solid #1E1B24;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            color: #ffffff;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #FBBF24;
-            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
-        }
-    </style>
-</head>
-<body class="bg-sphinx-bg text-white font-rajdhani overflow-x-hidden">
-    <nav class="bg-sphinx-dark/90 backdrop-blur-md fixed w-full z-50 border-b border-sphinx-gold/20">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-sphinx-lightGold">SPHINX</span>
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="/" class="text-gray-300 hover:text-white transition">Início</a>
-                <a href="/equipe" class="text-gray-300 hover:text-white transition">Guardiões</a>
-                <a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a>
-                <a href="/loja" class="text-gray-300 hover:text-white transition">Arsenal</a>
-                <a href="/contato" class="text-sphinx-gold font-medium hover:text-white transition">Contato</a>
-            </div>
-            <div class="md:hidden">
-                <button class="text-gray-300 hover:text-white">
-                    <i data-feather="menu"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
+{% block title %}Contato | Sphinx E-sports{% endblock %}
 
-    <section class="relative pt-40 pb-20 hero-gradient grid-pattern">
-        <div class="container mx-auto px-4 text-center">
-            <div data-aos="fade-up">
-                <h1 class="text-4xl md:text-7xl font-orbitron font-bold mb-4">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-yellow-200">CONTATE O IMPÉRIO</span>
-                </h1>
-                <p class="text-xl text-sphinx-lightGold max-w-2xl mx-auto">
-                    Para propostas, parcerias ou para se juntar à nossa legião, envie seu papiro digital.
-                </p>
-            </div>
-        </div>
-    </section>
+{% block styles %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+    .hero-gradient {
+        background: linear-gradient(135deg, rgba(18, 18, 18, 0.95) 0%, rgba(30, 27, 36, 0.95) 100%);
+    }
 
-    <section class="py-16 bg-sphinx-bg">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+    .glow-effect {
+        box-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
+    }
 
-                <div class="lg:col-span-3 bg-sphinx-dark rounded-xl p-8 border border-sphinx-gold/10" data-aos="fade-right">
-                    <h3 class="text-3xl font-bold font-orbitron mb-6">Envie seu Papiro Digital</h3>
-                    <form action="#" method="POST" class="space-y-6">
-                        <div>
-                            <label for="name" class="block text-lg font-medium text-sphinx-lightGold mb-2">Seu Nome</label>
-                            <input type="text" id="name" name="name" class="w-full form-input" required>
-                        </div>
-                        <div>
-                            <label for="email" class="block text-lg font-medium text-sphinx-lightGold mb-2">Seu E-mail</label>
-                            <input type="email" id="email" name="email" class="w-full form-input" required>
-                        </div>
-                        <div>
-                            <label for="message" class="block text-lg font-medium text-sphinx-lightGold mb-2">Sua Mensagem</label>
-                            <textarea id="message" name="message" rows="6" class="w-full form-input" required></textarea>
-                        </div>
-                        <div>
-                            <button type="submit" class="w-full bg-sphinx-gold hover:bg-sphinx-lightGold text-sphinx-bg font-bold py-3 px-6 rounded-lg glow-effect transition duration-300 font-orbitron text-lg">
-                                Enviar Mensagem
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    .glow-effect:hover {
+        box-shadow: 0 0 25px rgba(251, 191, 36, 0.9);
+    }
 
-                <div class="lg:col-span-2 space-y-8">
-                    <div class="bg-sphinx-dark rounded-xl p-8 border border-sphinx-gold/10" data-aos="fade-left" data-aos-delay="100">
-                        <h3 class="text-2xl font-bold font-orbitron mb-4">Nossas Coordenadas</h3>
-                        <div class="space-y-4 text-lg">
-                            <div class="flex items-center space-x-3">
-                                <i data-feather="mail" class="text-sphinx-gold"></i>
-                                <span class="text-gray-300">contato@sphinxesports.com</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <i data-feather="map-pin" class="text-sphinx-gold"></i>
-                                <span class="text-gray-300">Cairo, Egito (Online)</span>
-                            </div>
-                        </div>
-                    </div>
+    .grid-pattern {
+        background-image:
+            linear-gradient(rgba(251, 191, 36, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(251, 191, 36, 0.05) 1px, transparent 1px);
+        background-size: 30px 30px;
+    }
 
-                    <div class="bg-sphinx-dark rounded-xl p-8 border border-sphinx-gold/10" data-aos="fade-left" data-aos-delay="200">
-                        <h3 class="text-2xl font-bold font-orbitron mb-4">Siga a Lenda</h3>
-                        <div class="flex space-x-4">
-                             <a href="#" class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
-                                 <i data-feather="twitter" class="w-6 h-6"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
-                                 <i data-feather="twitch" class="w-6 h-6"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
-                                 <i data-feather="instagram" class="w-6 h-6"></i>
-                            </a>
-                             <a href="#" class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
-                                 <i data-feather="youtube" class="w-6 h-6"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    /* Estilos para o formulário no tema SPHINX */
+    .form-input {
+        background-color: #121212;
+        border: 1px solid #1E1B24;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        color: #ffffff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
 
-            </div>
-        </div>
-    </section>
+    .form-input:focus {
+        outline: none;
+        border-color: #FBBF24;
+        box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+    }
+</style>
+{% endblock %}
 
-    <footer class="bg-sphinx-dark border-t border-sphinx-gold/20">
-        <div class="container mx-auto px-4 py-12">
-            <p class="text-center text-gray-400 text-sm">
-                © 2025 Sphinx E-sports. Todos os direitos reservados.
+{% block content %}
+<section class="relative pt-40 pb-20 hero-gradient grid-pattern">
+    <div class="container mx-auto px-4 text-center">
+        <div data-aos="fade-up">
+            <h1 class="text-4xl md:text-7xl font-orbitron font-bold mb-4">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-yellow-200">CONTATE O
+                    IMPÉRIO</span>
+            </h1>
+            <p class="text-xl text-sphinx-lightGold max-w-2xl mx-auto">
+                Para propostas, parcerias ou para se juntar à nossa legião, envie seu papiro digital.
             </p>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script>
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
-        });
-        feather.replace();
-    </script>
-</body>
-</html>
+<section class="py-16 bg-sphinx-bg">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
+            <div class="lg:col-span-3 bg-sphinx-dark rounded-xl p-8 border border-sphinx-gold/10" data-aos="fade-right">
+                <h3 class="text-3xl font-bold font-orbitron mb-6">Envie seu Papiro Digital</h3>
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-lg font-medium text-sphinx-lightGold mb-2">Seu Nome</label>
+                        <input type="text" id="name" name="name" class="w-full form-input" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-lg font-medium text-sphinx-lightGold mb-2">Seu
+                            E-mail</label>
+                        <input type="email" id="email" name="email" class="w-full form-input" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-lg font-medium text-sphinx-lightGold mb-2">Sua
+                            Mensagem</label>
+                        <textarea id="message" name="message" rows="6" class="w-full form-input" required></textarea>
+                    </div>
+                    <div>
+                        <button type="submit"
+                            class="w-full bg-sphinx-gold hover:bg-sphinx-lightGold text-sphinx-bg font-bold py-3 px-6 rounded-lg glow-effect transition duration-300 font-orbitron text-lg">
+                            Enviar Mensagem
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-sphinx-dark rounded-xl p-8 border border-sphinx-gold/10" data-aos="fade-left"
+                    data-aos-delay="100">
+                    <h3 class="text-2xl font-bold font-orbitron mb-4">Nossas Coordenadas</h3>
+                    <div class="space-y-4 text-lg">
+                        <div class="flex items-center space-x-3">
+                            <i data-feather="mail" class="text-sphinx-gold"></i>
+                            <span class="text-gray-300">contato@sphinxesports.com</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-feather="map-pin" class="text-sphinx-gold"></i>
+                            <span class="text-gray-300">Cairo, Egito (Online)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-sphinx-dark rounded-xl p-8 border border-sphinx-gold/10" data-aos="fade-left"
+                    data-aos-delay="200">
+                    <h3 class="text-2xl font-bold font-orbitron mb-4">Siga a Lenda</h3>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
+                            <i data-feather="twitter" class="w-6 h-6"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
+                            <i data-feather="twitch" class="w-6 h-6"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
+                            <i data-feather="instagram" class="w-6 h-6"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition glow-effect">
+                            <i data-feather="youtube" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+</script>
+{% endblock %}

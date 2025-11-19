@@ -39,12 +39,24 @@ def jogo():
 
 @app.route("/loja")
 def loja():
-    return render_template("loja.html")
+    produtos = banco_de_dados.obterProdutos()
+    return render_template("loja.html", produtos=produtos)
 
 
-@app.route("/equipe")
-def equipe():
-    return render_template("equipe.html")
+@app.route("/carrinho/adicionar", methods=["POST"])
+def adicionar_carrinho():
+    if not session.get("usuario"):
+        return jsonify({"success": False, "message": "Faça login para adicionar ao carrinho"}), 401
+    
+    data = request.json
+    id_produto = data.get("id_produto")
+    id_carrinho = session.get("id")
+    
+    banco_de_dados.adicionarProdutoACarrinho(id_carrinho, id_produto, 1)
+    return jsonify({"success": True, "message": "Produto adicionado ao carrinho"}), 200
+
+
+
 
 @app.route("/live")
 def live():
@@ -95,11 +107,12 @@ def login():
             flash("Falha no login, email ou senha incorreto!", "danger")
             return jsonify({"success": False, "message": "email ou senha incorreto."}), 401
         
-        id, usuario = banco_de_dados.obterUsuarioPorEmail(email)
+        id, usuario, cargo = banco_de_dados.obterUsuarioPorEmail(email)
 
         session.clear()
         session["id"] = id
         session["usuario"] = usuario
+        session["cargo"] = cargo
 
         flash("Login realizado com successo!", "success")
         return jsonify({"success": True, "message": "login feito com sucesso.", "url": url_for("index")}), 200
@@ -122,10 +135,11 @@ def registro():
         
         resposta = banco_de_dados.adicionarUsuario(usuario, email, senha, 0)
 
-        id, usuario = banco_de_dados.obterUsuarioPorEmail(email)
+        id, usuario, cargo = banco_de_dados.obterUsuarioPorEmail(email)
         session.clear()
         session["id"] = id
         session["usuario"] = usuario
+        session["cargo"] = cargo
 
         flash("Conta criada com sucesso!", "success")
         return jsonify({"success": True, "message": "Conta criada.", "url": url_for("index")}), 200
@@ -138,8 +152,109 @@ def logout():
     return redirect(url_for("index"))
 
 
+# --- Admin Routes ---
+
+@app.route("/admin")
+def admin():
+    if not session.get("usuario") or session.get("cargo") != 1:
+        flash("Acesso negado.", "danger")
+        return redirect(url_for("index"))
+    
+    produtos = banco_de_dados.obterProdutos()
+    noticias = banco_de_dados.obterNoticias()
+    return render_template("admin.html", produtos=produtos, noticias=noticias)
+
+
+@app.route("/admin/produto/adicionar", methods=["POST"])
+def admin_adicionar_produto():
+    if not session.get("usuario") or session.get("cargo") != 1:
+        return jsonify({"success": False, "message": "Acesso negado"}), 403
+
+    data = request.form
+    nome = data.get("nome")
+    descricao = data.get("descricao")
+    categoria = data.get("categoria")
+    preco = data.get("preco")
+    estoque = data.get("estoque")
+    imagem = data.get("imagem") # Assuming URL for now, or file upload handling could be added later
+
+    banco_de_dados.adicionarProdutoAoBanco(nome, descricao, categoria, preco, estoque, imagem)
+    flash("Produto adicionado com sucesso!", "success")
+    return redirect(url_for("admin"))
+
+
+@app.route("/admin/produto/editar/<int:id>", methods=["POST"])
+def admin_editar_produto(id):
+    if not session.get("usuario") or session.get("cargo") != 1:
+        return jsonify({"success": False, "message": "Acesso negado"}), 403
+    
+    data = request.form
+    nome = data.get("nome")
+    descricao = data.get("descricao")
+    categoria = data.get("categoria")
+    preco = data.get("preco")
+    estoque = data.get("estoque")
+    imagem = data.get("imagem")
+
+    banco_de_dados.atualizarProduto(id, nome, descricao, categoria, preco, estoque, imagem)
+    flash("Produto atualizado com sucesso!", "success")
+    return redirect(url_for("admin"))
+
+
+@app.route("/admin/produto/deletar/<int:id>")
+def admin_deletar_produto(id):
+    if not session.get("usuario") or session.get("cargo") != 1:
+        flash("Acesso negado.", "danger")
+        return redirect(url_for("index"))
+    
+    banco_de_dados.removerProduto(id)
+    flash("Produto removido com sucesso!", "success")
+    return redirect(url_for("admin"))
+
+
+@app.route("/admin/noticia/adicionar", methods=["POST"])
+def admin_adicionar_noticia():
+    if not session.get("usuario") or session.get("cargo") != 1:
+        return jsonify({"success": False, "message": "Acesso negado"}), 403
+
+    data = request.form
+    titulo = data.get("titulo")
+    conteudo = data.get("conteudo")
+    imagem = data.get("imagem")
+
+    banco_de_dados.adicionarNoticia(titulo, conteudo, imagem)
+    flash("Notícia adicionada com sucesso!", "success")
+    return redirect(url_for("admin"))
+
+
+@app.route("/admin/noticia/editar/<int:id>", methods=["POST"])
+def admin_editar_noticia(id):
+    if not session.get("usuario") or session.get("cargo") != 1:
+        return jsonify({"success": False, "message": "Acesso negado"}), 403
+    
+    data = request.form
+    titulo = data.get("titulo")
+    conteudo = data.get("conteudo")
+    imagem = data.get("imagem")
+
+    banco_de_dados.atualizarNoticia(id, titulo, conteudo, imagem)
+    flash("Notícia atualizada com sucesso!", "success")
+    return redirect(url_for("admin"))
+
+
+@app.route("/admin/noticia/deletar/<int:id>")
+def admin_deletar_noticia(id):
+    if not session.get("usuario") or session.get("cargo") != 1:
+        flash("Acesso negado.", "danger")
+        return redirect(url_for("index"))
+    
+    banco_de_dados.removerNoticia(id)
+    flash("Notícia removida com sucesso!", "success")
+    return redirect(url_for("admin"))
+
 
 if __name__ == "__main__":
+    banco_de_dados.criarTabelas()
     host = os.getenv("HOST", "localhost")
     port = os.getenv("PORT", 5000)
     debug = os.getenv("DEBUG", True)

@@ -12,6 +12,49 @@ class dbManager():
         return conexao, cursor
 
 
+    def criarTabelas(self):
+        conexao, cursor = self.conexao()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
+                usuario TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                senha TEXT NOT NULL,
+                cargo INTEGER DEFAULT 0
+            );
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS produtos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nome TEXT NOT NULL,
+                descricao TEXT,
+                categoria TEXT,
+                preco REAL,
+                estoque INTEGER,
+                imagem TEXT
+            );
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS noticias (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                titulo TEXT NOT NULL,
+                conteudo TEXT NOT NULL,
+                data_publicacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+                imagem TEXT
+            );
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS itens_carrinho (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_produto INTEGER,
+                id_carrinho INTEGER,
+                quantidade INTEGER,
+                FOREIGN KEY(id_produto) REFERENCES produtos(id)
+            );
+        """)
+        conexao.commit()
+        conexao.close()
+
     def adicionarUsuario(self, usuario, email, senha, cargo):
         conexao, cursor = self.conexao()
         query = "SELECT * FROM usuarios WHERE email = ?;"
@@ -30,15 +73,64 @@ class dbManager():
         return resposta
 
 
-    def adicionarProdutoAoBanco(self, nome, descrição, categoria, preco, estoque, imagem=None):
+    def adicionarProdutoAoBanco(self, nome, descricao, categoria, preco, estoque, imagem=None):
         conexao, cursor = self.conexao()
-        query = "INSERT INTO produtos (nome, descricao, categoria, preco, estoque) VALUES (?, ?, ?, ?, ?);"
+        query = "INSERT INTO produtos (nome, descricao, categoria, preco, estoque, imagem) VALUES (?, ?, ?, ?, ?, ?);"
         
-        cursor.execute(query, (nome, descrição, categoria, preco, estoque))
+        cursor.execute(query, (nome, descricao, categoria, preco, estoque, imagem))
         conexao.commit()
         conexao.close()
         return
 
+    def obterProdutos(self):
+        conexao, cursor = self.conexao()
+        query = "SELECT * FROM produtos;"
+        cursor.execute(query)
+        produtos = cursor.fetchall()
+        conexao.close()
+        # Convert to list of dicts for easier handling
+        lista_produtos = []
+        for p in produtos:
+            lista_produtos.append({
+                "id": p[0],
+                "nome": p[1],
+                "descricao": p[2],
+                "categoria": p[3],
+                "preco": p[4],
+                "estoque": p[5],
+                "imagem": p[6] if len(p) > 6 else None
+            })
+        return lista_produtos
+
+    def obterProdutoPorId(self, id_produto):
+        conexao, cursor = self.conexao()
+        query = "SELECT * FROM produtos WHERE id = ?;"
+        cursor.execute(query, (id_produto,))
+        p = cursor.fetchone()
+        conexao.close()
+        if p:
+            return {
+                "id": p[0],
+                "nome": p[1],
+                "descricao": p[2],
+                "categoria": p[3],
+                "preco": p[4],
+                "estoque": p[5],
+                "imagem": p[6] if len(p) > 6 else None
+            }
+        return None
+
+    def atualizarProduto(self, id_produto, nome, descricao, categoria, preco, estoque, imagem=None):
+        conexao, cursor = self.conexao()
+        if imagem:
+            query = "UPDATE produtos SET nome=?, descricao=?, categoria=?, preco=?, estoque=?, imagem=? WHERE id=?;"
+            cursor.execute(query, (nome, descricao, categoria, preco, estoque, imagem, id_produto))
+        else:
+            query = "UPDATE produtos SET nome=?, descricao=?, categoria=?, preco=?, estoque=? WHERE id=?;"
+            cursor.execute(query, (nome, descricao, categoria, preco, estoque, id_produto))
+        conexao.commit()
+        conexao.close()
+        return "Produto atualizado"
     
     def adicionarProdutoACarrinho(self, id_carrinho, id_produto, quantidade):
         conexao, cursor = self.conexao()
@@ -56,7 +148,8 @@ class dbManager():
         conexao, cursor = self.conexao()
         query = "SELECT estoque FROM produtos WHERE id = ?;"
         cursor.execute(query, (id_produto,))
-        quantidade = cursor.fetchone()[0]
+        res = cursor.fetchone()
+        quantidade = res[0] if res else 0
 
         conexao.close()
         return quantidade
@@ -89,17 +182,17 @@ class dbManager():
         conexao, cursor = self.conexao()
         query = "SELECT * FROM usuarios WHERE email = ? and senha = ?;"
         cursor.execute(query, (email, senha))
-        if not cursor.fetchall():
-            conexao.close()
-            return False
-
+        usuario = cursor.fetchone()
+        print(usuario)
         conexao.close()
-        return True
+        if not usuario:
+            return False
+        return usuario # Returns the full tuple including cargo
 
     
     def obterUsuarioPorEmail(self, email):
         conexao, cursor = self.conexao()
-        query = "SELECT id_usuario, usuario FROM usuarios WHERE email = ?;"
+        query = "SELECT id_usuario, usuario, cargo FROM usuarios WHERE email = ?;"
         cursor.execute(query, (email,))
         usuario = cursor.fetchone()
         if not usuario:
@@ -108,3 +201,65 @@ class dbManager():
         
         conexao.close()
         return usuario
+
+    # --- Noticias ---
+    def adicionarNoticia(self, titulo, conteudo, imagem=None):
+        conexao, cursor = self.conexao()
+        query = "INSERT INTO noticias (titulo, conteudo, imagem) VALUES (?, ?, ?);"
+        cursor.execute(query, (titulo, conteudo, imagem))
+        conexao.commit()
+        conexao.close()
+        return "Notícia adicionada"
+
+    def obterNoticias(self):
+        conexao, cursor = self.conexao()
+        query = "SELECT * FROM noticias ORDER BY data_publicacao DESC;"
+        cursor.execute(query)
+        noticias = cursor.fetchall()
+        conexao.close()
+        lista_noticias = []
+        for n in noticias:
+            lista_noticias.append({
+                "id": n[0],
+                "titulo": n[1],
+                "conteudo": n[2],
+                "data": n[3],
+                "imagem": n[4]
+            })
+        return lista_noticias
+
+    def obterNoticiaPorId(self, id_noticia):
+        conexao, cursor = self.conexao()
+        query = "SELECT * FROM noticias WHERE id = ?;"
+        cursor.execute(query, (id_noticia,))
+        n = cursor.fetchone()
+        conexao.close()
+        if n:
+            return {
+                "id": n[0],
+                "titulo": n[1],
+                "conteudo": n[2],
+                "data": n[3],
+                "imagem": n[4]
+            }
+        return None
+
+    def atualizarNoticia(self, id_noticia, titulo, conteudo, imagem=None):
+        conexao, cursor = self.conexao()
+        if imagem:
+            query = "UPDATE noticias SET titulo=?, conteudo=?, imagem=? WHERE id=?;"
+            cursor.execute(query, (titulo, conteudo, imagem, id_noticia))
+        else:
+            query = "UPDATE noticias SET titulo=?, conteudo=? WHERE id=?;"
+            cursor.execute(query, (titulo, conteudo, id_noticia))
+        conexao.commit()
+        conexao.close()
+        return "Notícia atualizada"
+
+    def removerNoticia(self, id_noticia):
+        conexao, cursor = self.conexao()
+        query = "DELETE FROM noticias WHERE id = ?;"
+        cursor.execute(query, (id_noticia,))
+        conexao.commit()
+        conexao.close()
+        return "Notícia deletada"

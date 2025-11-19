@@ -1,136 +1,122 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loja | SPHINX E-SPORTS</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
-        
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: #121212;
-            color: #F3F4F6;
-            overflow-x: hidden;
-        }
-        
-        h1, h2, h3, h4, .font-orbitron {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-        }
+{% extends "base.html" %}
 
-        .golden-gradient {
-            background: linear-gradient(135deg, #FBBF24 0%, #FDE047 100%);
-        }
+{% block title %}Loja | SPHINX E-SPORTS{% endblock %}
 
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-        .product-image {
-            transition: transform 0.3s ease;
-        }
+{% block styles %}
+<style>
+    .product-card:hover .product-image {
+        transform: scale(1.05);
+    }
 
-        /* Estilização da barra de rolagem */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1A1025; }
-        ::-webkit-scrollbar-thumb { background-color: #FBBF24; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background-color: #FDE047; }
-    </style>
-</head>
-<body class="bg-vortex-dark text-white">
+    .product-image {
+        transition: transform 0.3s ease;
+    }
 
-    <a href="/carrinho" class="fixed bottom-8 right-8 bg-amber-300 text-black w-16 h-16 rounded-full flex items-center justify-center shadow-lg z-50 transform hover:scale-110 transition">
-        <i data-feather="shopping-cart"></i>
-        <span id="cart-item-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center border-2 border-black">0</span>
-    </a>
+    /* Estilização da barra de rolagem */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
 
-    <nav class="bg-black/80 backdrop-blur-md fixed w-full z-40 border-b border-gray-800 py-4 px-6 md:px-12 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-            <a href="/" class="flex items-center space-x-2">
-                <div class="w-10 h-10 rounded-full golden-gradient flex items-center justify-center">
-                    <span class="font-orbitron text-black text-lg font-bold">S</span>
+    ::-webkit-scrollbar-track {
+        background: #1A1025;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #FBBF24;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #FDE047;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/carrinho"
+    class="fixed bottom-8 right-8 bg-amber-300 text-black w-16 h-16 rounded-full flex items-center justify-center shadow-lg z-50 transform hover:scale-110 transition">
+    <i data-feather="shopping-cart"></i>
+    <span id="cart-item-count"
+        class="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center border-2 border-black">0</span>
+</a>
+
+<section class="pt-32 pb-16 bg-gradient-to-b from-gray-900 to-vortex-dark text-center">
+    <div class="container mx-auto">
+        <h1 class="font-orbitron text-5xl md:text-6xl font-bold text-amber-300">PHARAOH'S ARMORY</h1>
+        <p class="text-xl text-gray-300 mt-4">Equipe-se como uma lenda. Produtos oficiais SPHINX E-SPORTS.</p>
+    </div>
+</section>
+
+<main class="container mx-auto px-6 md:px-12 py-12">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div class="flex space-x-2 bg-gray-900 border border-gray-800 rounded-md p-1">
+            <button class="px-4 py-2 text-sm bg-gray-800 rounded">Todos</button>
+            <button class="px-4 py-2 text-sm text-gray-400 hover:text-white">Camisas</button>
+            <button class="px-4 py-2 text-sm text-gray-400 hover:text-white">Acessórios</button>
+        </div>
+        <div>
+            <select
+                class="bg-gray-900 border border-gray-800 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300">
+                <option>Ordenar por: Destaques</option>
+                <option>Ordenar por: Menor Preço</option>
+                <option>Ordenar por: Maior Preço</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {% for produto in produtos %}
+        <div
+            class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-1">
+            <div class="aspect-square bg-gray-900 flex items-center justify-center">
+                {% if produto.imagem %}
+                <img src="{{ produto.imagem }}" alt="{{ produto.nome }}"
+                    class="product-image w-full h-full object-cover">
+                {% else %}
+                <div class="flex flex-col items-center justify-center text-gray-600">
+                    <i data-feather="image" class="w-12 h-12 mb-2"></i>
+                    <span>Sem Imagem</span>
                 </div>
-                <h1 class="font-orbitron text-xl md:text-2xl font-bold tracking-wider">SPHINX</h1>
-            </a>
-        </div>
-        
-        <div class="hidden md:flex space-x-8">
-            <a href="/" class="text-white hover:text-amber-300 font-medium transition">HOME</a>
-            <a href="/equipe" class="text-white hover:text-amber-300 font-medium transition">TEAM</a>
-            <a href="#" class="text-white hover:text-amber-300 font-medium transition">MATCHES</a>
-            <a href="/loja" class="text-amber-300 font-bold hover:text-amber-300 transition">SHOP</a>
-            <a href="#" class="text-white hover:text-amber-300 font-medium transition">NEWS</a>
-        </div>
-        
-        <div class="flex items-center space-x-4">
-            <div id="user-auth-section" class="hidden md:flex items-center space-x-4">
-                
-                <a href="/login" class="text-white hover:text-amber-300 transition">LOGIN</a>
-                <a href="/registro" class="px-4 py-2 border border-amber-300 text-amber-300 font-orbitron hover:bg-amber-300 hover:text-black transition">
-                    CRIAR CONTA
-                </a>
-                </div>
-            <button class="md:hidden text-white">
-                <i data-feather="menu"></i>
-            </button>
-        </div>
-    </nav>
-
-    <section class="pt-32 pb-16 bg-gradient-to-b from-gray-900 to-vortex-dark text-center">
-        <div class="container mx-auto">
-            <h1 class="font-orbitron text-5xl md:text-6xl font-bold text-amber-300">PHARAOH'S ARMORY</h1>
-            <p class="text-xl text-gray-300 mt-4">Equipe-se como uma lenda. Produtos oficiais SPHINX E-SPORTS.</p>
-        </div>
-    </section>
-
-    <main class="container mx-auto px-6 md:px-12 py-12">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <div class="flex space-x-2 bg-gray-900 border border-gray-800 rounded-md p-1">
-                <button class="px-4 py-2 text-sm bg-gray-800 rounded">Todos</button>
-                <button class="px-4 py-2 text-sm text-gray-400 hover:text-white">Camisas</button>
-                <button class="px-4 py-2 text-sm text-gray-400 hover:text-white">Acessórios</button>
+                {% endif %}
             </div>
-            <div>
-                <select class="bg-gray-900 border border-gray-800 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300">
-                    <option>Ordenar por: Destaques</option>
-                    <option>Ordenar por: Menor Preço</option>
-                    <option>Ordenar por: Maior Preço</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-1">
-                <div class="aspect-square bg-gray-900 flex items-center justify-center">
-                    <img src="http://static.photos/black/640x360/1" alt="Jersey" class="product-image w-full h-full object-cover">
-                </div>
-                <div class="p-4 bg-gray-900">
-                    <h3 class="font-orbitron text-lg text-white">SPHINX LEGACY JERSEY</h3>
-                    <p class="text-gray-400 text-sm mb-2">Limited Edition</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-amber-300 font-bold text-xl">$79.99</span>
-                        <button onclick="adicionarAoCarrinho('jersey-legacy-01')" class="px-4 py-2 golden-gradient text-black font-medium text-sm hover:opacity-90 transition">
-                            ADD TO CART
-                        </button>
-                    </div>
+            <div class="p-4 bg-gray-900">
+                <h3 class="font-orbitron text-lg text-white">{{ produto.nome }}</h3>
+                <p class="text-gray-400 text-sm mb-2">{{ produto.categoria }}</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-amber-300 font-bold text-xl">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                    <button onclick="adicionarAoCarrinho({{ produto.id }})"
+                        class="px-4 py-2 golden-gradient text-black font-medium text-sm hover:opacity-90 transition">
+                        ADD TO CART
+                    </button>
                 </div>
             </div>
-            
-            </div>
-    </main>
-    
-    <footer class="bg-black py-16 px-6 md:px-12 border-t border-gray-800">
-        <div class="container mx-auto text-center text-gray-500">
-            © 2025 SPHINX E-SPORTS. All rights reserved.
         </div>
-    </footer>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}
 
-    <script>
-        feather.replace();
-
-    </script>
-</body>
-</html>
+{% block scripts %}
+<script>
+    async function adicionarAoCarrinho(idProduto) {
+        try {
+            const response = await fetch("/carrinho/adicionar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id_produto: idProduto })
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert("Produto adicionado ao carrinho!");
+                // Here you would typically update the cart count in the UI
+            } else {
+                alert(data.message);
+                if (response.status === 401) window.location.href = "/login";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Erro ao adicionar ao carrinho.");
+        }
+    }
+</script>
+{% endblock %}

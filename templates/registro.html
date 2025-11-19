@@ -1,48 +1,156 @@
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-<body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
+{% extends "base.html" %}
+
+{% block title %}SPHINX | Register{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        background-color: #000;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .input-field {
+        background-color: rgba(17, 24, 39, 0.8);
+        border: 1px solid #374151;
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+        border-color: #FBBF24;
+        box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+        outline: none;
+    }
+
+    .bg-image {
+        background-image: url('http://static.photos/abstract/1024x576/42');
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex h-full">
+    <!-- Left Side - Image/Brand -->
+    <div class="hidden lg:flex w-1/2 bg-image relative items-center justify-center">
+        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div class="z-10 text-center p-12">
+            <h1 class="font-orbitron text-6xl font-bold mb-4 text-white">JOIN THE ELITE</h1>
+            <p class="text-2xl text-amber-300 tracking-widest">BECOME A LEGEND</p>
+        </div>
+    </div>
+
+    <!-- Right Side - Register Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center bg-black relative">
+        <!-- Flash Messages -->
+        <div class="absolute top-0 w-full p-4">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
             {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show m-3" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             {% endfor %}
-        {% endif %}
-    {% endwith %}
+            {% endif %}
+            {% endwith %}
+        </div>
 
-    <input id="usuario" type="text"></input>
-    <input id="email" type="email"></input>
-    <input id="senha" type="password"></input>
-    <button onclick="registro()">Registrar</button>
+        <div class="w-full max-w-md p-8">
+            <div class="text-center mb-10">
+                <a href="{{ url_for('index') }}" class="inline-block mb-6">
+                    <img src="../static/imagens/outros/Logo_sem_texto_transparente.png" alt="Logo" class="h-16 mx-auto">
+                </a>
+                <h2 class="font-orbitron text-3xl font-bold text-white mb-2">CREATE ACCOUNT</h2>
+                <p class="text-gray-400">Start your journey with Sphinx</p>
+            </div>
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script>
-        async function sha256(mensagem) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(mensagem);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Username</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-feather="user" class="h-5 w-5 text-gray-500"></i>
+                        </div>
+                        <input id="usuario" type="text" class="input-field w-full pl-10 pr-4 py-3 rounded-lg"
+                            placeholder="GamerTag">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-feather="mail" class="h-5 w-5 text-gray-500"></i>
+                        </div>
+                        <input id="email" type="email" class="input-field w-full pl-10 pr-4 py-3 rounded-lg"
+                            placeholder="name@example.com">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-feather="lock" class="h-5 w-5 text-gray-500"></i>
+                        </div>
+                        <input id="senha" type="password" class="input-field w-full pl-10 pr-4 py-3 rounded-lg"
+                            placeholder="••••••••">
+                    </div>
+                </div>
+
+                <button onclick="registro()"
+                    class="w-full py-3 golden-gradient text-black font-orbitron font-bold rounded-lg hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg shadow-amber-500/20">
+                    CREATE ACCOUNT
+                </button>
+
+                <div class="text-center mt-6">
+                    <p class="text-gray-400">Already have an account? <a href="{{ url_for('login') }}"
+                            class="text-amber-300 hover:text-amber-200 font-bold transition">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function sha256(mensagem) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(mensagem);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
+    async function registro() {
+        let usuario = document.getElementById("usuario").value;
+        let email = document.getElementById("email").value;
+        let senha = document.getElementById("senha").value;
+
+        if (!usuario || !email || !senha) {
+            alert("Please fill in all fields");
+            return;
         }
 
+        let hash_senha = await sha256(senha);
 
-        async function registro() {
-            let usuario = document.getElementById("usuario").value;
-            let email = document.getElementById("email").value;
-            let senha = document.getElementById("senha").value;
-            let hash_senha = await sha256(senha);
-            
+        try {
             const response = await fetch("/registro", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({"usuario": usuario, 
-                                      "email": email,
-                                      "senha": hash_senha})
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    "usuario": usuario,
+                    "email": email,
+                    "senha": hash_senha
+                })
             });
 
             const data = await response.json();
@@ -51,6 +159,17 @@
             } else {
                 window.location.reload();
             }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
         }
-    </script>
-</body>
+    }
+
+    // Allow Enter key to submit
+    document.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            registro();
+        }
+    });
+</script>
+{% endblock %}

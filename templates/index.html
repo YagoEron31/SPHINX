@@ -1,119 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPHINX E-SPORTS | Digital Pharaoh's Legacy</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+{% extends "base.html" %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+{% block scripts %}
+<script>
+    bg_element = document.getElementById("bg");
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    let num = getRandomIntInclusive(1, 10);
     
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
-        
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: #121212;
-            color: #F3F4F6;
-            overflow-x: hidden;
-        }
-        
-        h1, h2, h3, h4, .font-orbitron {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-        }
-        
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .golden-gradient {
-            background: linear-gradient(135deg, #FBBF24 0%, #FDE047 100%);
-        }
-        
-        .hieroglyph-bg {
-            background-image: url('http://static.photos/abstract/1024x576/42');
-            background-size: cover;
-            background-position: center;
-            background-blend-mode: overlay;
-        }
-        
-        .player-card:hover .player-info {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    </style>
-</head>
-<body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show m-3" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
 
-    <nav class="bg-black/80 backdrop-blur-md fixed w-full z-40 border-b border-gray-800 py-4 px-6 md:px-12 flex justify-between items-center" style="top: 0;">
-        <a style="width: 3%; height: auto;" href="{{ url_for('index') }}" class="flex items-center space-x-2">
-           <img  src="../static/imagens/outros/Logo_sem_texto_transparente.png">
-        </a>
-        
-        <div class="hidden md:flex space-x-8">
-            <a href="{{ url_for('index') }}" class="text-white hover:text-amber-300 font-medium transition">HOME</a>
-            <a href="{{ url_for('equipe') }}" class="text-white hover:text-amber-300 font-medium transition">TIME</a>
-            <a href="{{ url_for('loja') }}" class="text-white hover:text-amber-300 font-medium transition">LOJA</a>
-            <a href="{{ url_for('live')}}" class="text-white hover:text-amber-300 font-medium transition">AO VIVO</a>
-        </div>
-        
-        <div class="flex items-center space-x-6">
-            
-            <a href="{{ url_for('loja') }}" class="relative text-white hover:text-amber-300 transition">
-                <i data-feather="shopping-cart"></i>
-                <span id="cart-item-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center border-black">0</span>
-            </a>
+    function updatePlayers() {
+        fetch("/api/equipe").then(response => {
+            if (response.status == 200) return response.json();
+        }).then(data => {
+            for (const player in data) {
+                let player_info = data[player];
+                let player_card = document.getElementById(player);
+                if (player_card) {
+                    let trophies = player_card.querySelector(".trophies");
+                    let level = player_card.querySelector(".level");
+                    trophies.innerHTML = player_info["trophies"];
+                    level.innerHTML = player_info["expLevel"];
+                }
+            }
+        })
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        bg_element.style.backgroundImage = "url('../static/imagens/backgrounds/bg" + String(num) + ".png')";
+        updatePlayers()
+    })
+    setInterval(updatePlayers, 10000)
+</script>
+{% endblock %}
 
-            <div class="hidden md:flex items-center space-x-4">
-                {% if session['usuario'] %}
-                    <div class="relative group">
-                        <div class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-800 transition">
-                            <i data-feather="user" class="w-5 h-5 text-amber-300"></i>
-                            <span class="font-medium text-white">{{ session['usuario'] }}</span>
-                        </div>
-                        <div class="absolute top-full right-0 mt-2 w-40 bg-gray-900 border border-gray-800 rounded-md shadow-lg p-2 opacity-0 scale-95 transform-gpu group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 ease-in-out origin-top-right">
-                            <a href="{{ url_for('logout') }}" class="flex items-center space-x-2 w-full text-left px-3 py-2 rounded-md text-red-400 hover:bg-red-500/20 transition">
-                                <i data-feather="log-out" class="w-4 h-4"></i>
-                                <span>Sair</span>
-                            </a>
-                        </div>
-                    </div>
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="text-white hover:text-amber-300 transition font-medium">LOGIN</a>
-                    <a href="{{ url_for('registro') }}" class="px-4 py-2 border border-amber-300 text-amber-300 font-orbitron hover:bg-amber-300 hover:text-black transition">
-                        CRIAR CONTA
-                    </a>
-                {% endif %}
-            </div>
-            
-            <button class="md:hidden text-white">
-                <i data-feather="menu"></i>
-            </button>
-        </div>
-    </nav>
-
-
-    <section class="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div id="bg" class="relative flex items-center justify-center bg-cover bg-center text-center h-screen before:absolute before:inset-0 before:bg-black before:opacity-60" style="width: 100vw;">
+{% block content %}
+<section class="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div id="bg"
+        class="relative flex items-center justify-center bg-cover bg-center text-center h-screen before:absolute before:inset-0 before:bg-black before:opacity-60"
+        style="width: 100vw;">
         <div class="container mx-auto px-6 md:px-12 z-10 text-center">
             <div class="animate-float">
                 <h1 class="font-orbitron text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-amber-300">
@@ -123,349 +49,383 @@
                     The legacy is eternal. Victory is inevitable.
                 </p>
             </div>
-            <!--
-            <div class="flex flex-col md:flex-row justify-center gap-4 mt-10">
-                <button class="px-8 py-4 golden-gradient text-black font-orbitron font-bold hover:opacity-90 transition">
-                    MEET THE GUARDIANS
-                </button>
-                <button class="px-8 py-4 border-2 border-amber-300 text-amber-300 font-orbitron font-bold hover:bg-amber-300 hover:text-black transition">
-                    WATCH LIVE
-                </button>
-            </div> 
-            -->
         </div>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-black to-gray-900">
-        <div class="container mx-auto">
-            <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
-                NOSSOS JOGADORES
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/1" alt="Player Anubis" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="font-orbitron text-2xl text-amber-300">ANUBIS</h3>
-                        <p class="text-white">Líder & Estrategista</p>
-                    </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                        <h3 class="font-orbitron text-2xl text-amber-300">ANUBIS</h3>
-                        <p class="text-purple-400 mb-2">Líder & Estrategista</p>
-                        <p class="text-white mb-4">"O juiz da batalha, prevendo cada movimento."</p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
-                        </div>
+<section class="py-20 px-6 md:px-12 bg-gradient-to-b from-black to-gray-900">
+    <div class="container mx-auto px-4">
+        <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
+            NOSSOS JOGADORES
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+            <div onclick="window.location='/jogador/Moros'" id="Moros"
+                class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10"
+                data-aos="fade-up">
+                <div class="relative h-80 bg-cover bg-center"
+                    style="background-image: url('http://static.photos/people/640x360/4');">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-bold">Moros</h3>
                     </div>
                 </div>
-                
-                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/2" alt="Player Horus" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="font-orbitron text-2xl text-amber-300">HORUS</h3>
-                        <p class="text-white">Caçador Alado</p>
-                    </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                        <h3 class="font-orbitron text-2xl text-amber-300">HORUS</h3>
-                        <p class="text-purple-400 mb-2">Caçador Alado</p>
-                        <p class="text-white mb-4">"Visão de águia para ataques precisos."</p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
+                <div class="p-6">
+                    <div class="flex justify-around items-center mb-4">
+                        <div>
+                            <span class="text-gray-400 text-sm">Troféus</span>
+                            <div class="text-xl font-bold trophies text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 text-sm">Nível</span>
+                            <div class="text-xl font-bold level text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/3" alt="Player Bastet" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="font-orbitron text-2xl text-amber-300">BASTET</h3>
-                        <p class="text-white">Defensora Ágil</p>
-                    </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                        <h3 class="font-orbitron text-2xl text-amber-300">BASTET</h3>
-                        <p class="text-purple-400 mb-2">Defensora Ágil</p>
-                        <p class="text-white mb-4">"Protege o território com reflexos felinos."</p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/7" alt="Player Sobek" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="font-orbitron text-2xl text-amber-300">SOBEK</h3>
-                        <p class="text-white">Tanque Implacável</p>
-                    </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                        <h3 class="font-orbitron text-2xl text-amber-300">SOBEK</h3>
-                        <p class="text-purple-400 mb-2">Tanque Implacável</p>
-                        <p class="text-white mb-4">"A força bruta que quebra qualquer defesa."</p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="player-card relative h-96 rounded-lg overflow-hidden group">
-                    <img src="http://static.photos/gaming/640x360/8" alt="Player Thoth" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="font-orbitron text-2xl text-amber-300">THOTH</h3>
-                        <p class="text-white">Mago do Conhecimento</p>
-                    </div>
-                    <div class="player-info absolute inset-0 bg-black bg-opacity-80 p-6 flex flex-col justify-end transition-all duration-300 transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                        <h3 class="font-orbitron text-2xl text-amber-300">THOTH</h3>
-                        <p class="text-purple-400 mb-2">Mago do Conhecimento</p>
-                        <p class="text-white mb-4">"Mestre dos feitiços e do controle de elixir."</p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitter"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="twitch"></i></a>
-                            <a href="#" class="text-white hover:text-amber-300"><i data-feather="instagram"></i></a>
-                        </div>
+                    <div class="flex space-x-2">
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitch" class="w-4 h-4"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            
-            <div class="text-center mt-12">
-                <button class="px-8 py-3 border-2 border-amber-300 text-amber-300 font-orbitron font-bold hover:bg-amber-300 hover:text-black transition">
-                    VIEW FULL ROSTER
-                </button>
-            </div>
-        </div>
-    </section>
 
-    <section class="py-20 px-6 md:px-12 bg-black">
-        <div class="container mx-auto">
-            <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
-                NOSSOS PRODUTOS
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
-                    <div class="aspect-square bg-gray-900 flex items-center justify-center">
-                        <img src="http://static.photos/black/640x360/1" alt="Jersey" class="w-full h-full object-cover group-hover:scale-105 transition">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-orbitron text-xl text-white">SPHINX LEGACY JERSEY</h3>
-                        <p class="text-gray-400 mb-2">Limited Edition</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-amber-300 font-bold text-lg">$79.99</span>
-                            <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
-                                ADD TO CART
-                            </button>
-                        </div>
+            <div onclick="window.location='/jogador/gabzz'" id="gabzz"
+                class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10"
+                data-aos="fade-up" data-aos-delay="100">
+                <div class="relative h-80 bg-cover bg-center"
+                    style="background-image: url('http://static.photos/people/640x360/4');">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-bold">gabzz</h3>
                     </div>
                 </div>
-                
-                <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
-                    <div class="aspect-square bg-gray-900 flex items-center justify-center">
-                        <img src="http://static.photos/black/640x360/2" alt="Cap" class="w-full h-full object-cover group-hover:scale-105 transition">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-orbitron text-xl text-white">PHARAOH'S CROWN CAP</h3>
-                        <p class="text-gray-400 mb-2">Signature Series</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-amber-300 font-bold text-lg">$34.99</span>
-                            <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
-                                ADD TO CART
-                            </button>
+                <div class="p-6">
+                    <div class="flex justify-around items-center mb-4">
+                        <div>
+                            <span class="text-gray-400 text-sm">Troféus</span>
+                            <div class="text-xl font-bold trophies text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 text-sm">Nível</span>
+                            <div class="text-xl font-bold level text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
-                    <div class="aspect-square bg-gray-900 flex items-center justify-center">
-                        <img src="http://static.photos/black/640x360/3" alt="Hoodie" class="w-full h-full object-cover group-hover:scale-105 transition">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-orbitron text-xl text-white">DUSK OF SPHINX HOODIE</h3>
-                        <p class="text-gray-400 mb-2">Premium Edition</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-amber-300 font-bold text-lg">$89.99</span>
-                            <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
-                                ADD TO CART
-                            </button>
-                        </div>
+                    <div class="flex space-x-2">
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitch" class="w-4 h-4"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            
-            <div class="text-center mt-12">
-                <button class="px-8 py-3 golden-gradient text-black font-orbitron font-bold hover:opacity-90 transition">
-                    ACESSE A LOJA
-                </button>
-            </div>
-        </div>
-    </section>
 
-    <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-gray-900 to-black">
-        <div class="container mx-auto">
-            <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
-                NOTÍCIAS
-            </h2>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
-                    <img src="http://static.photos/gaming/640x360/4" alt="News 1" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
-                            TOURNAMENT
-                        </span>
-                        <h3 class="font-orbitron text-xl text-white mb-3">SPHINX DOMINATES WORLD CHAMPIONSHIP</h3>
-                        <p class="text-gray-400 mb-4">Our team secured first place in the global finals with a flawless performance...</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500 text-sm">3 days ago</span>
-                            <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
-                                READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
-                            </a>
-                        </div>
+            <div onclick="window.location='/jogador/yago'" id="yago"
+                class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10"
+                data-aos="fade-up" data-aos-delay="200">
+                <div class="relative h-80 bg-cover bg-center"
+                    style="background-image: url('http://static.photos/people/640x360/4');">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-bold">Yago</h3>
                     </div>
                 </div>
-                
-                <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
-                    <img src="http://static.photos/gaming/640x360/5" alt="News 2" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
-                            META
-                        </span>
-                        <h3 class="font-orbitron text-xl text-white mb-3">NEW PATCH ANALYSIS BY HORUS</h3>
-                        <p class="text-gray-400 mb-4">Our strategist breaks down the latest game update and how it affects competitive play...</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500 text-sm">1 week ago</span>
-                            <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
-                                READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
-                            </a>
+                <div class="p-6">
+                    <div class="flex justify-around items-center mb-4">
+                        <div>
+                            <span class="text-gray-400 text-sm">Troféus</span>
+                            <div class="text-xl font-bold trophies text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 text-sm">Nível</span>
+                            <div class="text-xl font-bold level text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
-                    <img src="http://static.photos/gaming/640x360/6" alt="News 3" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
-                            COMMUNITY
-                        </span>
-                        <h3 class="font-orbitron text-xl text-white mb-3">MEET & GREET EVENT ANNOUNCED</h3>
-                        <p class="text-gray-400 mb-4">Join us next month for an exclusive fan event featuring all SPHINX players...</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500 text-sm">2 weeks ago</span>
-                            <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
-                                READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
-                            </a>
-                        </div>
+                    <div class="flex space-x-2">
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitch" class="w-4 h-4"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            
-            <div class="text-center mt-12">
-                <button class="px-8 py-3 border-2 border-amber-300 text-amber-300 font-orbitron font-bold hover:bg-amber-300 hover:text-black transition">
-                    VIEW ALL NEWS
-                </button>
+
+            <div onclick="window.location='/jogador/LuffyX'" id="LuffyX"
+                class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10"
+                data-aos="fade-up" data-aos-delay="300">
+                <div class="relative h-80 bg-cover bg-center"
+                    style="background-image: url('http://static.photos/people/640x360/4');">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-bold">LuffyX</h3>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-around items-center mb-4">
+                        <div>
+                            <span class="text-gray-400 text-sm">Troféus</span>
+                            <div class="text-xl font-bold trophies text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 text-sm">Nível</span>
+                            <div class="text-xl font-bold level text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitch" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div onclick="window.location='/jogador/Maurilio'" id="Maurilio"
+                class="cursor-pointer bg-sphinx-dark rounded-xl overflow-hidden border border-sphinx-gold/10"
+                data-aos="fade-up" data-aos-delay="400">
+                <div class="relative h-80 bg-cover bg-center"
+                    style="background-image: url('http://static.photos/people/640x360/4');">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-bold">Maurilio</h3>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-around items-center mb-4">
+                        <div>
+                            <span class="text-gray-400 text-sm">Troféus</span>
+                            <div class="text-xl font-bold trophies text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 text-sm">Nível</span>
+                            <div class="text-xl font-bold level text-sphinx-lightGold">
+                                <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
+                                        class="visually-hidden">Loading...</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 bg-sphinx-bg rounded-full flex items-center justify-center hover:bg-sphinx-gold text-white hover:text-sphinx-bg transition">
+                            <i data-feather="twitch" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer class="bg-black py-16 px-6 md:px-12 border-t border-gray-800">
-        <div class="container mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-                <div>
-                    <img style="width: 50%; height: auto;" src="../static/imagens/outros/Logo_com_texto_transparente.png">
+<section class="py-20 px-6 md:px-12 bg-black">
+    <div class="container mx-auto">
+        <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
+            NOSSOS PRODUTOS
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+                class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
+                <div class="aspect-square bg-gray-900 flex items-center justify-center">
+                    <img src="http://static.photos/black/640x360/1" alt="Jersey"
+                        class="w-full h-full object-cover group-hover:scale-105 transition">
                 </div>
-                
-                <div>
-                    <h3 class="font-orbitron text-lg text-amber-300 mb-4">QUICK LINKS</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{{ url_for('index') }}" class="text-gray-400 hover:text-amber-300 transition">Home</a></li>
-                        <li><a href="{{ url_for('equipe') }}" class="text-gray-400 hover:text-amber-300 transition">Time</a></li>
-                        <li><a href="{{ url_for('loja') }}" class="text-gray-400 hover:text-amber-300 transition">Loja</a></li>
-                        <li><a href="{{ url_for('live') }}" class="text-gray-400 hover:text-amber-300 transition">Ao vivo</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="font-orbitron text-lg text-amber-300 mb-4">CONTATO</h3>
-                    <ul class="space-y-2">
-                        <li class="text-gray-400">contact@sphinx-esports.com</li>
-                        <li class="text-gray-400">+1 (555) 123-4567</li>
-                        <li class="text-gray-400">Cairo, Egypt</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="font-orbitron text-lg text-amber-300 mb-4">JOIN THE EMPIRE</h3>
-                    <p class="text-gray-400 mb-4">
-                        Subscribe to our newsletter for exclusive updates and offers.
-                    </p>
-                    <div class="flex">
-                        <input type="email" placeholder="Your email" class="px-4 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-300 w-full">
-                        <button class="px-4 py-2 golden-gradient text-black font-medium">
-                            <i data-feather="arrow-right"></i>
+                <div class="p-4">
+                    <h3 class="font-orbitron text-xl text-white">SPHINX LEGACY JERSEY</h3>
+                    <p class="text-gray-400 mb-2">Limited Edition</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-amber-300 font-bold text-lg">$79.99</span>
+                        <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
+                            ADD TO CART
                         </button>
                     </div>
-                    <div class="flex space-x-4 mt-4">
-                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="twitch"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-amber-300 transition"><i data-feather="youtube"></i></a>
+                </div>
+            </div>
+
+            <div
+                class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
+                <div class="aspect-square bg-gray-900 flex items-center justify-center">
+                    <img src="http://static.photos/black/640x360/2" alt="Cap"
+                        class="w-full h-full object-cover group-hover:scale-105 transition">
+                </div>
+                <div class="p-4">
+                    <h3 class="font-orbitron text-xl text-white">PHARAOH'S CROWN CAP</h3>
+                    <p class="text-gray-400 mb-2">Signature Series</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-amber-300 font-bold text-lg">$34.99</span>
+                        <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
+                            ADD TO CART
+                        </button>
                     </div>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-500 text-sm">
-                    © 2025 SPHINX E-SPORTS. All rights reserved.
-                </p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-500 hover:text-amber-300 transition text-sm">Privacy Policy</a>
-                    <a href="#" class="text-gray-500 hover:text-amber-300 transition text-sm">Terms of Service</a>
-                    <a href="#" class="text-gray-500 hover:text-amber-300 transition text-sm">Cookie Policy</a>
+
+            <div
+                class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
+                <div class="aspect-square bg-gray-900 flex items-center justify-center">
+                    <img src="http://static.photos/black/640x360/3" alt="Hoodie"
+                        class="w-full h-full object-cover group-hover:scale-105 transition">
+                </div>
+                <div class="p-4">
+                    <h3 class="font-orbitron text-xl text-white">DUSK OF SPHINX HOODIE</h3>
+                    <p class="text-gray-400 mb-2">Premium Edition</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-amber-300 font-bold text-lg">$89.99</span>
+                        <button class="px-4 py-2 golden-gradient text-black font-medium text-sm">
+                            ADD TO CART
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script>
-        // Initialize Feather Icons
-        document.addEventListener('DOMContentLoaded', function() {
-            bg_element = document.getElementById("bg");
-            function getRandomIntInclusive(min, max) {
-                min = Math.ceil(min);
-                max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
+        <div class="text-center mt-12">
+            <button class="px-8 py-3 golden-gradient text-black font-orbitron font-bold hover:opacity-90 transition">
+                ACESSE A LOJA
+            </button>
+        </div>
+    </div>
+</section>
 
-            let num = getRandomIntInclusive(1, 10);
-            bg_element.style.backgroundImage = "url('../static/imagens/backgrounds/bg" + String(num) + ".png')";
-            
-            console.log(bg_element.attributes.style.value);
-            feather.replace();
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+<section class="py-20 px-6 md:px-12 bg-gradient-to-b from-gray-900 to-black">
+    <div class="container mx-auto">
+        <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
+            NOTÍCIAS
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div
+                class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
+                <img src="http://static.photos/gaming/640x360/4" alt="News 1" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span
+                        class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
+                        TOURNAMENT
+                    </span>
+                    <h3 class="font-orbitron text-xl text-white mb-3">SPHINX DOMINATES WORLD CHAMPIONSHIP</h3>
+                    <p class="text-gray-400 mb-4">Our team secured first place in the global finals with a flawless
+                        performance...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">3 days ago</span>
+                        <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
+                            READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
+                <img src="http://static.photos/gaming/640x360/5" alt="News 2" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span
+                        class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
+                        META
+                    </span>
+                    <h3 class="font-orbitron text-xl text-white mb-3">NEW PATCH ANALYSIS BY HORUS</h3>
+                    <p class="text-gray-400 mb-4">Our strategist breaks down the latest game update and how it affects
+                        competitive play...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">1 week ago</span>
+                        <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
+                            READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
+                <img src="http://static.photos/gaming/640x360/6" alt="News 3" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span
+                        class="inline-block px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 text-xs font-medium rounded-full mb-3">
+                        COMMUNITY
+                    </span>
+                    <h3 class="font-orbitron text-xl text-white mb-3">MEET & GREET EVENT ANNOUNCED</h3>
+                    <p class="text-gray-400 mb-4">Join us next month for an exclusive fan event featuring all SPHINX
+                        players...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">2 weeks ago</span>
+                        <a href="#" class="text-amber-300 hover:text-amber-200 font-medium text-sm flex items-center">
+                            READ MORE <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <button
+                class="px-8 py-3 border-2 border-amber-300 text-amber-300 font-orbitron font-bold hover:bg-amber-300 hover:text-black transition">
+                VIEW ALL NEWS
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}
