@@ -176,27 +176,55 @@
     </style>
 </head>
 <body class="bg-sphinx-bg text-white font-rajdhani overflow-x-hidden">
-    <nav class="bg-sphinx-dark/90 backdrop-blur-md fixed w-full z-50 border-b border-sphinx-gold/20">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-             <div class="flex items-center space-x-4">
-                <span class="text-2xl font-orbitron font-bold bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-sphinx-lightGold">SPHINX</span>
+    <div id="vanta-bg" class="fixed top-0 left-0 w-full h-full -z-10 opacity-20"></div>
+
+    <nav class="bg-black/80 backdrop-blur-md fixed w-full z-40 border-b border-gray-800 py-4 px-6 md:px-12 flex justify-between items-center">
+        <a style="width: 3%; height: auto;" href="{{ url_for('index') }}" class="flex items-center space-x-2">
+           <img  src="../static/imagens/outros/Logo_sem_texto_transparente.png">
+        </a>
+        
+        <div class="hidden md:flex space-x-8">
+            <a href="{{ url_for('index') }}" class="text-white hover:text-amber-300 font-medium transition">HOME</a>
+            <a href="{{ url_for('equipe') }}" class="text-white hover:text-amber-300 font-medium transition">TIME</a>
+            <a href="{{ url_for('loja') }}" class="text-white hover:text-amber-300 font-medium transition">LOJA</a>
+            <a href="{{ url_for('live')}}" class="text-white hover:text-amber-300 font-medium transition">AO VIVO</a>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+            
+            <a href="{{ url_for('loja') }}" class="relative text-white hover:text-amber-300 transition">
+                <i data-feather="shopping-cart"></i>
+                <span id="cart-item-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center border-black">0</span>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-4">
+                {% if session['usuario'] %}
+                    <div class="relative group">
+                        <div class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-800 transition">
+                            <i data-feather="user" class="w-5 h-5 text-amber-300"></i>
+                            <span class="font-medium text-white">{{ session['usuario'] }}</span>
+                        </div>
+                        <div class="absolute top-full right-0 mt-2 w-40 bg-gray-900 border border-gray-800 rounded-md shadow-lg p-2 opacity-0 scale-95 transform-gpu group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 ease-in-out origin-top-right">
+                            <a href="{{ url_for('logout') }}" class="flex items-center space-x-2 w-full text-left px-3 py-2 rounded-md text-red-400 hover:bg-red-500/20 transition">
+                                <i data-feather="log-out" class="w-4 h-4"></i>
+                                <span>Sair</span>
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="text-white hover:text-amber-300 transition font-medium">LOGIN</a>
+                    <a href="{{ url_for('registro') }}" class="px-4 py-2 border border-amber-300 text-amber-300 font-orbitron hover:bg-amber-300 hover:text-black transition">
+                        CRIAR CONTA
+                    </a>
+                {% endif %}
             </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="/" class="text-gray-300 hover:text-white transition">Início</a>
-                <a href="/equipe" class="text-sphinx-gold font-medium hover:text-white transition">Guardiões</a>
-                <a href="/jogo" class="text-gray-300 hover:text-white transition">O Jogo</a>
-                <a href="/loja" class="text-gray-300 hover:text-white transition">Arsenal</a>
-                <a href="/contato" class="text-gray-300 hover:text-white transition">Contato</a>
-            </div>
-            <div class="md:hidden">
-                <button class="text-gray-300 hover:text-white">
-                    <i data-feather="menu"></i>
-                </button>
-            </div>
+            
+            <button class="md:hidden text-white">
+                <i data-feather="menu"></i>
+            </button>
         </div>
     </nav>
-
-    <section class="relative pt-40 pb-[500px] md:pb-[350px] lg:pb-[250px] hero-gradient grid-pattern">
+    <section class="relative flex items-center justify-center bg-cover bg-center text-center h-screen before:absolute before:inset-0 before:bg-black before:opacity-60 pt-40 pb-[500px] md:pb-[350px] lg:pb-[250px]" style="width: 100vw; height: 60vh; background-image: url('../static/imagens/outros/Forbidden\ City.jpg');">
         <div class="container mx-auto px-4 text-center">
             <div data-aos="fade-up">
                 <div class="flex justify-center items-center space-x-4 mb-4">
@@ -208,7 +236,7 @@
                     </span>
                 </div>
                 <h1 class="text-4xl md:text-7xl font-orbitron font-bold mb-4">
-                    <span id="titleName" class="bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-yellow-200">
+                    <span id="titleName" class="bg-clip-text text-transparent bg-gradient-to-r from-sphinx-gold to-sphinx-gold">
                          <div class="spinner-border text-sphinx-gold" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
@@ -253,7 +281,7 @@
         </div>
     </section>
 
-    <section class="py-16 bg-sphinx-bg" style="background-image: url('../static/imagens/outros/bg.png')">
+    <section class="py-16 bg-sphinx-bg" style="background-image: url('../static/imagens/outros/fundo_roxo.png')">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-1 space-y-8">
@@ -350,7 +378,7 @@
             'Ladder': 'Caminho de Troféus', 'PathOfLegend': 'Caminho das Lendas', 'RiverRacePvp': 'Guerra de Clãs 1v1',
             'RiverRaceDuel': 'Duelo da Guerra de Clãs', 'BoatBattle': 'Batalha de Barcos', 'Challenge': 'Desafio',
             'GlobalTournament': 'Torneio Global', 'DoubleElixirChallenge': 'Elixir em Dobro', 'RageChallenge': 'Desafio da Fúria',
-            'DraftChallenge': 'Desafio de Escolha', 'MirrorDeckChallenge': 'Deck de Espelho', 'SuddenDeathChallenge': 'Morte Súbita',
+            'DraftMode': 'Batalha estratégica', 'MirrorDeckChallenge': 'Deck de Espelho', 'SuddenDeathChallenge': 'Morte Súbita',
             'RampUpElixir_Ladder': 'Aceleração', 'Friendly': 'Batalha Amistosa', 'Showdown_Friendly': 'Batalha 1v1',
             'TeamVsTeam': 'Batalha 2v2', 'Tournament': 'Torneio'
         };
@@ -372,8 +400,8 @@
                 favouriteCardImgDl = document.getElementById("favouriteCardImgDl");
                 favouriteCardImg.onerror = function() { this.style.display = "None"; }
                 favouriteCardImgDl.onerror = function() { this.style.display = "None"; }
-                favouriteCardImg.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + ".png";
-                favouriteCardImgDl.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").toLowerCase() + "_dl.png";
+                favouriteCardImg.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").replaceAll(".", "").toLowerCase() + ".png";
+                favouriteCardImgDl.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").replaceAll(".", "").toLowerCase() + "_dl.png";
                 favouriteCardImg.className += " glow-" + data.currentFavouriteCard.rarity;
                 favouriteCardImgDl.className += " glow-" + data.currentFavouriteCard.rarity;
                 document.getElementById("cardName").innerHTML = data.name;
@@ -504,5 +532,21 @@
         </defs>
     </svg>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Vanta.js background
+        VANTA.GLOBE({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0xfbbf24,
+            backgroundColor: 0x121212,
+            size: 0.8
+        });
+    </script>
 </body>
 </html>

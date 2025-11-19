@@ -46,6 +46,9 @@ def loja():
 def equipe():
     return render_template("equipe.html")
 
+@app.route("/live")
+def live():
+    return render_template("live.html")
 
 @app.route("/jogador/<nome>")
 def jogador(nome):
@@ -135,11 +138,11 @@ def logout():
     return redirect(url_for("index"))
 
 
+
 if __name__ == "__main__":
     host = os.getenv("HOST", "localhost")
     port = os.getenv("PORT", 5000)
     debug = os.getenv("DEBUG", True)
 
     app.run(host=host, port=port, debug=debug)
-
 
