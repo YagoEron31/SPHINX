@@ -55,6 +55,30 @@ class dbManager():
         conexao.commit()
         conexao.close()
 
+    # Tabela para registrar as compras finalizadas (Histórico)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS vendas (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_usuario INTEGER,
+                data_venda DATETIME DEFAULT CURRENT_TIMESTAMP,
+                valor_total REAL,
+                FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario)
+            );
+        """)
+        
+        # Tabela para os itens de uma venda finalizada (Snapshot do momento da compra)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS itens_venda (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_venda INTEGER,
+                id_produto INTEGER,
+                quantidade INTEGER,
+                preco_unitario REAL,
+                FOREIGN KEY(id_venda) REFERENCES vendas(id),
+                FOREIGN KEY(id_produto) REFERENCES produtos(id)
+            );
+        """)
+
     def adicionarUsuario(self, usuario, email, senha, cargo):
         conexao, cursor = self.conexao()
         query = "SELECT * FROM usuarios WHERE email = ?;"
@@ -263,3 +287,4 @@ class dbManager():
         conexao.commit()
         conexao.close()
         return "Notícia deletada"
+
