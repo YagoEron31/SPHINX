@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
 import requests
 from crAPImanager import ApiManager
 from DBmanager import dbManager
@@ -151,6 +151,65 @@ def logout():
     flash("Você foi desconectado de sua conta!", "success")
     return redirect(url_for("index"))
 
+# --- ROTAS DO CARRINHO (Adicione no main.py) ---
+
+@app.route('/carrinho')
+def carrinho():
+    if 'email' not in session: # Ou 'id_usuario', dependendo de como você salva o login
+        return redirect(url_for('login'))
+    
+    # Assumindo que você salvou o ID na sessão durante o login
+    # Se não salvou, precisará buscar o ID usando o email da sessão
+    usuario = db.obterUsuarioPorEmail(session['email']) 
+    id_usuario = usuario[0] # Pega o ID da tupla retornada
+    
+    itens = db.verCarrinho(id_usuario)
+    
+    # Calcula o total geral
+    total_geral = sum(item['total_item'] for item in itens)
+    
+    return render_template('carrinho.html', carrinho=itens, total_geral=total_geral)
+
+@app.route('/carrinho/adicionar', methods=['POST'])
+def adicionar_carrinho():
+    if 'email' not in session:
+        return jsonify({"success": False, "message": "Faça login para comprar"}), 401
+    
+    data = request.get_json()
+    id_produto = data.get('id_produto')
+    
+    # Pegando o ID do usuário logado
+    usuario = db.obterUsuarioPorEmail(session['email'])
+    id_usuario = usuario[0]
+
+    # Adiciona 1 unidade (você pode mudar a lógica para aceitar mais depois)
+    resposta = db.adicionarProdutoACarrinho(id_usuario, id_produto, 1)
+    
+    if resposta == "Produto adicionado ao carrinho":
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False, "message": resposta})
+
+@app.route('/carrinho/remover/<int:id_item>', methods=['POST'])
+def remover_item(id_item):
+    if 'email' not in session:
+        return jsonify({"success": False, "message": "Login necessário"}), 401
+        
+    db.removerDoCarrinho(id_item)
+    return jsonify({"success": True})
+
+@app.route('/carrinho/finalizar', methods=['POST'])
+def finalizar_compra():
+    if 'email' not in session:
+        return jsonify({"success": False, "message": "Login necessário"}), 401
+        
+    usuario = db.obterUsuarioPorEmail(session['email'])
+    id_usuario = usuario[0]
+    
+    sucesso, mensagem = db.finalizarCompra(id_usuario)
+    
+    return jsonify({"success": sucesso, "message": mensagem})
+
 
 # --- Admin Routes ---
 
@@ -260,4 +319,5 @@ if __name__ == "__main__":
     debug = os.getenv("DEBUG", True)
 
     app.run(host=host, port=port, debug=debug)
+
 
