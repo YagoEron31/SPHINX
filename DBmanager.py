@@ -285,6 +285,34 @@ class dbManager():
         query = "DELETE FROM noticias WHERE id = ?;"
         cursor.execute(query, (id_noticia,))
         conexao.commit()
+
+        def verCarrinho(self, id_usuario):
+        conexao, cursor = self.conexao()
+        # Fazemos um JOIN para pegar os detalhes do produto baseado no ID que está no carrinho
+        query = """
+            SELECT ic.id, p.nome, p.preco, ic.quantidade, (p.preco * ic.quantidade) as total_item, p.imagem, p.id
+            FROM itens_carrinho ic
+            JOIN produtos p ON ic.id_produto = p.id
+            WHERE ic.id_carrinho = ?;
+        """
+        # Nota: Estou assumindo que id_carrinho será o id do usuário logado
+        cursor.execute(query, (id_usuario,))
+        itens = cursor.fetchall()
+        conexao.close()
+        
+        lista_carrinho = []
+        for i in itens:
+            lista_carrinho.append({
+                "id_item_carrinho": i[0], # ID para remover depois se precisar
+                "produto": i[1],
+                "preco_unitario": i[2],
+                "quantidade": i[3],
+                "total_item": i[4],
+                "imagem": i[5],
+                "id_produto": i[6]
+            })
+        return lista_carrinho
         conexao.close()
         return "Notícia deletada"
+
 
