@@ -324,4 +324,59 @@ class dbManager():
         return "Item removido"
 
 
+    def finalizarCompra(self, id_usuario):
+        conexao, cursor = self.conexao()
+        try:
+            # 1. Pega os itens do carrinho desse usuário
+            cursor.execute("SELECT id_produto, quantidade FROM itens_carrinho WHERE id_carrinho = ?", (id_usuario,))
+            itens = cursor.fetchall()
+            
+            if not itens:
+                return False, "Carrinho vazio"
+
+            # 2. Verifica estoque e calcula total
+            total = 0
+            lista_para_venda = [] # Lista temporária para salvar detalhes
+            
+            for id_prod, qtd_compra in itens:
+                # Pega preço e estoque atual do produto
+                cursor.execute("SELECT preco, estoque FROM produtos WHERE id = ?", (id_prod,))
+                prod = cursor.fetchone()
+                preco, estoque_atual = prod
+                
+                if estoque_atual < qtd_compra:
+                    raise Exception(f"Produto ID {id_prod} sem estoque suficiente.")
+                
+                total += preco * qtd_compra
+                lista_para_venda.append((id_prod, qtd_compra, preco))
+
+            # 3. Cria a Venda
+            cursor.execute("INSERT INTO vendas (id_usuario, valor_total) VALUES (?, ?)", (id_usuario, total))
+            id_venda = cursor.lastrowid # Pega o ID da venda recém criada
+
+            # 4. Processa os itens: Salva em itens_venda e Baixa Estoque
+            for id_prod, qtd, preco in lista_para_venda:
+                # Salva histórico
+                cursor.execute("""
+                    INSERT INTO itens_venda (id_venda, id_produto, quantidade, preco_unitario) 
+                    VALUES (?, ?, ?, ?)
+                """, (id_venda, id_prod, qtd, preco))
+                
+                # Baixa estoque
+                cursor.execute("UPDATE produtos SET estoque = estoque - ? WHERE id = ?", (qtd, id_prod))
+
+            # 5. Limpa o carrinho do usuário
+            cursor.execute("DELETE FROM itens_carrinho WHERE id_carrinho = ?", (id_usuario,))
+
+            conexao.commit() # Confirma todas as alterações
+            return True, "Compra realizada com sucesso!"
+
+        except Exception as e:
+            conexao.rollback() # Se der erro, desfaz tudo
+            return False, str(e)
+        finally:
+            conexao.close()
+
+
+
 
