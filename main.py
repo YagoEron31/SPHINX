@@ -82,6 +82,13 @@ def live():
 @app.route("/jogador/<nome>")
 def jogador(nome):
     tag = players_tags[nome]
+    if session.get("id"): # Verifica se tem ID na sessão
+        id_usuario = session.get("id")
+        
+        # Corrigido: usa banco_de_dados em vez de db
+        itens = banco_de_dados.verCarrinho(id_usuario)
+        
+        return render_template("jogador.html", quantidade_carrinho=len(itens))
     return render_template("jogador.html", tag=tag)
 
 
