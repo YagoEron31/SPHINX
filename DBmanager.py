@@ -286,7 +286,7 @@ class dbManager():
         cursor.execute(query, (id_noticia,))
         conexao.commit()
 
-        def verCarrinho(self, id_usuario):
+    def verCarrinho(self, id_usuario):
         conexao, cursor = self.conexao()
         # Fazemos um JOIN para pegar os detalhes do produto baseado no ID que está no carrinho
         query = """
@@ -462,6 +462,7 @@ class dbManager():
             return False, str(e)
         finally:
             conexao.close()
+
 
 
 
