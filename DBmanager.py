@@ -315,4 +315,13 @@ class dbManager():
         conexao.close()
         return "Notícia deletada"
 
+    def removerDoCarrinho(self, id_item_carrinho):
+        conexao, cursor = self.conexao()
+        query = "DELETE FROM itens_carrinho WHERE id = ?;"
+        cursor.execute(query, (id_item_carrinho,))
+        conexao.commit()
+        conexao.close()
+        return "Item removido"
+
+
 
