@@ -378,5 +378,92 @@ class dbManager():
             conexao.close()
 
 
+# --- MÉTODOS DO CARRINHO (Cole dentro da classe dbManager) ---
+
+    def verCarrinho(self, id_usuario):
+        conexao, cursor = self.conexao()
+        # JOIN para pegar nome, preço e imagem do produto linkado ao carrinho
+        query = """
+            SELECT ic.id, p.nome, p.preco, ic.quantidade, (p.preco * ic.quantidade) as total_item, p.imagem, p.id
+            FROM itens_carrinho ic
+            JOIN produtos p ON ic.id_produto = p.id
+            WHERE ic.id_carrinho = ?;
+        """
+        cursor.execute(query, (id_usuario,))
+        itens = cursor.fetchall()
+        conexao.close()
+        
+        lista_carrinho = []
+        for i in itens:
+            lista_carrinho.append({
+                "id_item_carrinho": i[0],
+                "produto": i[1],
+                "preco_unitario": i[2],
+                "quantidade": i[3],
+                "total_item": i[4],
+                "imagem": i[5],
+                "id_produto": i[6]
+            })
+        return lista_carrinho
+
+    def removerDoCarrinho(self, id_item_carrinho):
+        conexao, cursor = self.conexao()
+        query = "DELETE FROM itens_carrinho WHERE id = ?;"
+        cursor.execute(query, (id_item_carrinho,))
+        conexao.commit()
+        conexao.close()
+        return "Item removido"
+
+    def finalizarCompra(self, id_usuario):
+        conexao, cursor = self.conexao()
+        try:
+            # 1. Verifica o que tem no carrinho
+            cursor.execute("SELECT id_produto, quantidade FROM itens_carrinho WHERE id_carrinho = ?", (id_usuario,))
+            itens = cursor.fetchall()
+            
+            if not itens:
+                return False, "Carrinho vazio"
+
+            # 2. Valida estoque e calcula total
+            total = 0
+            lista_venda = []
+            
+            for id_prod, qtd_compra in itens:
+                cursor.execute("SELECT preco, estoque FROM produtos WHERE id = ?", (id_prod,))
+                prod = cursor.fetchone()
+                if not prod: continue # Segurança caso produto tenha sido deletado
+                
+                preco, estoque_atual = prod
+                
+                if estoque_atual < qtd_compra:
+                    raise Exception(f"Estoque insuficiente para o produto ID {id_prod}")
+                
+                total += preco * qtd_compra
+                lista_venda.append((id_prod, qtd_compra, preco))
+
+            # 3. Cria registro da Venda (Crie a tabela 'vendas' se não existir!)
+            cursor.execute("INSERT INTO vendas (id_usuario, valor_total) VALUES (?, ?)", (id_usuario, total))
+            id_venda = cursor.lastrowid
+
+            # 4. Processa itens e baixa estoque
+            for id_prod, qtd, preco in lista_venda:
+                cursor.execute("INSERT INTO itens_venda (id_venda, id_produto, quantidade, preco_unitario) VALUES (?, ?, ?, ?)", 
+                               (id_venda, id_prod, qtd, preco))
+                cursor.execute("UPDATE produtos SET estoque = estoque - ? WHERE id = ?", (qtd, id_prod))
+
+            # 5. Limpa o carrinho
+            cursor.execute("DELETE FROM itens_carrinho WHERE id_carrinho = ?", (id_usuario,))
+
+            conexao.commit()
+            return True, "Compra realizada com sucesso!"
+
+        except Exception as e:
+            conexao.rollback()
+            return False, str(e)
+        finally:
+            conexao.close()
+
+
+
 
 
