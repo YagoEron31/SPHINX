@@ -52,10 +52,13 @@ def adicionar_carrinho():
     id_produto = data.get("id_produto")
     id_carrinho = session.get("id")
     
-    banco_de_dados.adicionarProdutoACarrinho(id_carrinho, id_produto, 1)
-    return jsonify({"success": True, "message": "Produto adicionado ao carrinho"}), 200
-
-
+    # CORREÇÃO: Use banco_de_dados aqui, não db
+    resposta = banco_de_dados.adicionarProdutoACarrinho(id_carrinho, id_produto, 1)
+    
+    if resposta == "Produto adicionado ao carrinho":
+        return jsonify({"success": True, "message": resposta}), 200
+    else:
+        return jsonify({"success": False, "message": resposta}), 400
 
 
 @app.route("/live")
@@ -151,62 +154,45 @@ def logout():
     flash("Você foi desconectado de sua conta!", "success")
     return redirect(url_for("index"))
 
-# --- ROTAS DO CARRINHO (Adicione no main.py) ---
+
+# --- OUTRAS ROTAS DO CARRINHO (Ver, Remover, Finalizar) ---
+# A rota 'adicionar' já estava definida acima, então removi a duplicata daqui.
 
 @app.route('/carrinho')
 def carrinho():
-    if 'email' not in session: # Ou 'id_usuario', dependendo de como você salva o login
+    if not session.get("id"): # Verifica se tem ID na sessão
         return redirect(url_for('login'))
     
-    # Assumindo que você salvou o ID na sessão durante o login
-    # Se não salvou, precisará buscar o ID usando o email da sessão
-    usuario = db.obterUsuarioPorEmail(session['email']) 
-    id_usuario = usuario[0] # Pega o ID da tupla retornada
+    id_usuario = session.get("id")
     
-    itens = db.verCarrinho(id_usuario)
+    # Corrigido: usa banco_de_dados em vez de db
+    itens = banco_de_dados.verCarrinho(id_usuario)
     
     # Calcula o total geral
     total_geral = sum(item['total_item'] for item in itens)
     
     return render_template('carrinho.html', carrinho=itens, total_geral=total_geral)
 
-@app.route('/carrinho/adicionar', methods=['POST'])
-def adicionar_carrinho():
-    if 'email' not in session:
-        return jsonify({"success": False, "message": "Faça login para comprar"}), 401
-    
-    data = request.get_json()
-    id_produto = data.get('id_produto')
-    
-    # Pegando o ID do usuário logado
-    usuario = db.obterUsuarioPorEmail(session['email'])
-    id_usuario = usuario[0]
-
-    # Adiciona 1 unidade (você pode mudar a lógica para aceitar mais depois)
-    resposta = db.adicionarProdutoACarrinho(id_usuario, id_produto, 1)
-    
-    if resposta == "Produto adicionado ao carrinho":
-        return jsonify({"success": True})
-    else:
-        return jsonify({"success": False, "message": resposta})
 
 @app.route('/carrinho/remover/<int:id_item>', methods=['POST'])
 def remover_item(id_item):
-    if 'email' not in session:
+    if not session.get("id"):
         return jsonify({"success": False, "message": "Login necessário"}), 401
         
-    db.removerDoCarrinho(id_item)
+    # Corrigido: usa banco_de_dados em vez de db
+    banco_de_dados.removerDoCarrinho(id_item)
     return jsonify({"success": True})
+
 
 @app.route('/carrinho/finalizar', methods=['POST'])
 def finalizar_compra():
-    if 'email' not in session:
+    if not session.get("id"):
         return jsonify({"success": False, "message": "Login necessário"}), 401
         
-    usuario = db.obterUsuarioPorEmail(session['email'])
-    id_usuario = usuario[0]
+    id_usuario = session.get("id")
     
-    sucesso, mensagem = db.finalizarCompra(id_usuario)
+    # Corrigido: usa banco_de_dados em vez de db
+    sucesso, mensagem = banco_de_dados.finalizarCompra(id_usuario)
     
     return jsonify({"success": sucesso, "message": mensagem})
 
@@ -235,7 +221,7 @@ def admin_adicionar_produto():
     categoria = data.get("categoria")
     preco = data.get("preco")
     estoque = data.get("estoque")
-    imagem = data.get("imagem") # Assuming URL for now, or file upload handling could be added later
+    imagem = data.get("imagem")
 
     banco_de_dados.adicionarProdutoAoBanco(nome, descricao, categoria, preco, estoque, imagem)
     flash("Produto adicionado com sucesso!", "success")
@@ -319,5 +305,3 @@ if __name__ == "__main__":
     debug = os.getenv("DEBUG", True)
 
     app.run(host=host, port=port, debug=debug)
-
-
