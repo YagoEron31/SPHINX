@@ -52,8 +52,7 @@ class dbManager():
                 FOREIGN KEY(id_produto) REFERENCES produtos(id)
             );
         """)
-        conexao.commit()
-        conexao.close()
+        
 
     # Tabela para registrar as compras finalizadas (Histórico)
         cursor.execute("""
@@ -78,7 +77,9 @@ class dbManager():
                 FOREIGN KEY(id_produto) REFERENCES produtos(id)
             );
         """)
-
+        conexao.commit()
+        conexao.close()
+        
     def adicionarUsuario(self, usuario, email, senha, cargo):
         conexao, cursor = self.conexao()
         query = "SELECT * FROM usuarios WHERE email = ?;"

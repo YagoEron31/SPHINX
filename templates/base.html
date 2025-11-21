@@ -138,7 +138,7 @@
             <a href="{{ url_for('loja') }}" class="relative text-white hover:text-amber-300 transition">
                 <i data-feather="shopping-cart"></i>
                 <span id="cart-item-count"
-                    class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center border-black">0</span>
+                    class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center border-black">{{ quantidade_carrinho }}</span>
             </a>
 
             <div class="hidden md:flex items-center space-x-4">
@@ -172,6 +172,12 @@
             </button>
         </div>
     </nav>
+    <a href="/carrinho"
+    class="fixed bottom-8 right-8 bg-amber-300 text-black w-16 h-16 rounded-full flex items-center justify-center shadow-lg z-50 transform hover:scale-110 transition">
+        <i data-feather="shopping-cart"></i>
+        <span id="cart-item-count"
+            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center border-2 border-black">{{ quantidade_carrinho }}</span>
+    </a>
     {% endblock %}
 
     {% block content %}{% endblock %}

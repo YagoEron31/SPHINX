@@ -24,7 +24,13 @@ players_tags = {
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if session.get("id"): # Verifica se tem ID na sessão
+        id_usuario = session.get("id")
+        
+        # Corrigido: usa banco_de_dados em vez de db
+        itens = banco_de_dados.verCarrinho(id_usuario)
+        return render_template("index.html", quantidade_carrinho=len(itens))
+    return render_template("index.html", quantidade_carrinho=0)
 
 
 @app.route("/contato")
@@ -40,7 +46,15 @@ def jogo():
 @app.route("/loja")
 def loja():
     produtos = banco_de_dados.obterProdutos()
-    return render_template("loja.html", produtos=produtos)
+    if session.get("id"): # Verifica se tem ID na sessão
+        id_usuario = session.get("id")
+        
+        # Corrigido: usa banco_de_dados em vez de db
+        itens = banco_de_dados.verCarrinho(id_usuario)
+        
+        return render_template("loja.html", quantidade_carrinho=len(itens), produtos=produtos)
+    
+    return render_template("loja.html", produtos=produtos, quantidade_carrinho=0)
 
 
 @app.route("/carrinho/adicionar", methods=["POST"])
@@ -167,11 +181,11 @@ def carrinho():
     
     # Corrigido: usa banco_de_dados em vez de db
     itens = banco_de_dados.verCarrinho(id_usuario)
-    
+    print(itens)
     # Calcula o total geral
     total_geral = sum(item['total_item'] for item in itens)
     
-    return render_template('carrinho.html', carrinho=itens, total_geral=total_geral)
+    return render_template('carrinho.html', carrinho=itens, quantidade_carrinho=len(itens), total_geral=total_geral)
 
 
 @app.route('/carrinho/remover/<int:id_item>', methods=['POST'])
