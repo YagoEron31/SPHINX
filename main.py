@@ -33,6 +33,7 @@ api_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTF
 api = ApiManager(api_token)
 
 local = os.getenv("LOCAL", True)
+print(local)
 if not local:
     from DBmanager import dbManager
     db_url = "libsql://sphinx-maurilio.aws-us-east-2.turso.io"
