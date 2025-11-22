@@ -38,9 +38,11 @@ if not local:
     db_url = "libsql://sphinx-maurilio.aws-us-east-2.turso.io"
     db_token = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NjM4NDE0MzYsImlkIjoiN2Q1NGE3YjQtOTgwNC00MTg4LTljODItNGRjYmY2NTM3Nzc5IiwicmlkIjoiMjUzMzkwOTAtYTBhZi00OWJiLWE3OGUtZTJhNDk5MjRmNDlhIn0.5VjYqEfMDvQCkP755Mrhz6juRyuv17ayAndnBT7oapP8PKPfnh2M1uyNEQaZZzzaSxV0U-QBgx-WI48ofWuMBA"
     banco_de_dados = dbManager(db_url, db_token)
+    print("remoto")
 else:
     from DBmanager_local import dbManager
-    banco_de_dados = dbManager("dados.db")
+    banco_de_dados = dbManager("banco.db")
+    print("local")
     
 
 players_tags = {
