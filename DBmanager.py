@@ -1,13 +1,12 @@
-import sqlite3
-
+import libsql_experimental as libsql
 
 class dbManager():
-    def __init__(self, caminho_banco):
-        self.banco = caminho_banco
-
+    def __init__(self, url, token):
+        self.url = url
+        self.token = token
 
     def conexao(self):
-        conexao = sqlite3.connect(self.banco)
+        conexao = libsql.connect(database=self.url, auth_token=self.token)
         cursor = conexao.cursor()
         return conexao, cursor
 
