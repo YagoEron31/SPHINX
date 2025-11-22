@@ -13,6 +13,18 @@ cloudinary.config(
   api_secret = "of-lmjvyycIfF0MrBmteoE-RIAY" 
 )
 
+def delete_image_from_cloudinary(image_url):
+    if not image_url:
+        return
+    try:
+        # Extrai o public_id da URL
+        # Exemplo: https://res.cloudinary.com/.../image/upload/v1234/sample.jpg -> sample
+        token = image_url.split("/")[-1]
+        public_id = token.split(".")[0]
+        cloudinary.uploader.destroy(public_id)
+    except Exception as e:
+        print(f"Erro ao deletar imagem do Cloudinary: {e}")
+
 
 app = Flask(__name__)
 app.secret_key = "07c71db4b8d92f93fa33d2a269657d1ebf638f808b4ee2cb640a2e0a88c13319"
@@ -269,10 +281,13 @@ def admin():
     if not session.get("usuario") or session.get("cargo") != 1:
         flash("Acesso negado.", "danger")
         return redirect(url_for("index"))
-    
+
+    id_usuario = session.get("id")
+    itens = banco_de_dados.verCarrinho(id_usuario)
+
     produtos = banco_de_dados.obterProdutos()
     noticias = banco_de_dados.obterNoticias()
-    return render_template("admin.html", produtos=produtos, noticias=noticias)
+    return render_template("admin.html", produtos=produtos, quantidade_carrinho=len(itens), noticias=noticias)
 
 
 @app.route("/admin/produto/adicionar", methods=["POST"])
@@ -315,6 +330,11 @@ def admin_editar_produto(id):
     if 'imagem' in request.files:
         file = request.files['imagem']
         if file and file.filename != '':
+            # Deleta a imagem antiga se existir
+            produto_antigo = banco_de_dados.obterProdutoPorId(id)
+            if produto_antigo and produto_antigo['imagem']:
+                delete_image_from_cloudinary(produto_antigo['imagem'])
+                
             upload_result = cloudinary.uploader.upload(file)
             imagem_url = upload_result["secure_url"]
 
@@ -328,6 +348,11 @@ def admin_deletar_produto(id):
     if not session.get("usuario") or session.get("cargo") != 1:
         flash("Acesso negado.", "danger")
         return redirect(url_for("index"))
+    
+    # Deleta a imagem do Cloudinary antes de remover do banco
+    produto = banco_de_dados.obterProdutoPorId(id)
+    if produto and produto['imagem']:
+        delete_image_from_cloudinary(produto['imagem'])
     
     banco_de_dados.removerProduto(id)
     flash("Produto removido com sucesso!", "success")
@@ -368,6 +393,11 @@ def admin_editar_noticia(id):
     if 'imagem' in request.files:
         file = request.files['imagem']
         if file and file.filename != '':
+            # Deleta a imagem antiga se existir
+            noticia_antiga = banco_de_dados.obterNoticiaPorId(id)
+            if noticia_antiga and noticia_antiga['imagem']:
+                delete_image_from_cloudinary(noticia_antiga['imagem'])
+
             upload_result = cloudinary.uploader.upload(file)
             imagem_url = upload_result["secure_url"]
 
@@ -381,6 +411,11 @@ def admin_deletar_noticia(id):
     if not session.get("usuario") or session.get("cargo") != 1:
         flash("Acesso negado.", "danger")
         return redirect(url_for("index"))
+    
+    # Deleta a imagem do Cloudinary antes de remover do banco
+    noticia = banco_de_dados.obterNoticiaPorId(id)
+    if noticia and noticia['imagem']:
+        delete_image_from_cloudinary(noticia['imagem'])
     
     banco_de_dados.removerNoticia(id)
     flash("Notícia removida com sucesso!", "success")
