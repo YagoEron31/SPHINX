@@ -18,7 +18,7 @@ players_tags = {
     "yago": "#LGCL8RVJU",
     "Moros": "#RLJ9JP808",
     "LuffyX": "#U2CJLVJUY",
-    "gabzz": "#PRCR808YJ"
+    "gabzzpy": "#20P2CRJ808"
 }
 
 

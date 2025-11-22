@@ -140,8 +140,7 @@
             const data = await response.json();
 
             if (data.success) {
-                alert("Sucesso! Itens adicionados ao seu inventário.");
-                window.location.href = "/"; // Redireciona para home ou uma página de "Meus Pedidos"
+                window.location.href = "/carrinho"; // Redireciona para home ou uma página de "Meus Pedidos"
             } else {
                 alert("Erro ao finalizar: " + data.message);
             }
