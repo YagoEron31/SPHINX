@@ -377,7 +377,7 @@ def admin_adicionar_noticia():
 
     banco_de_dados.adicionarNoticia(titulo, conteudo, imagem_url)
     flash("Notícia adicionada com sucesso!", "success")
-    return redirect(url_for("admin"))
+    return redirect(url_for("admin", tab="noticias"))
 
 
 @app.route("/admin/noticia/editar/<int:id>", methods=["POST"])
@@ -403,7 +403,7 @@ def admin_editar_noticia(id):
 
     banco_de_dados.atualizarNoticia(id, titulo, conteudo, imagem_url)
     flash("Notícia atualizada com sucesso!", "success")
-    return redirect(url_for("admin"))
+    return redirect(url_for("admin", tab="noticias"))
 
 
 @app.route("/admin/noticia/deletar/<int:id>")
@@ -419,7 +419,7 @@ def admin_deletar_noticia(id):
     
     banco_de_dados.removerNoticia(id)
     flash("Notícia removida com sucesso!", "success")
-    return redirect(url_for("admin"))
+    return redirect(url_for("admin", tab="noticias"))
 
 
 if __name__ == "__main__":
