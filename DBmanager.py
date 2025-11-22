@@ -97,11 +97,11 @@ class dbManager():
         return resposta
 
 
-    def adicionarProdutoAoBanco(self, nome, descricao, categoria, preco, estoque, imagem=None):
+    def adicionarProdutoAoBanco(self, nome, descricao, preco, estoque, imagem=None):
         conexao, cursor = self.conexao()
-        query = "INSERT INTO produtos (nome, descricao, categoria, preco, estoque, imagem) VALUES (?, ?, ?, ?, ?, ?);"
+        query = "INSERT INTO produtos (nome, descricao, preco, estoque, imagem) VALUES (?, ?, ?, ?, ?, ?);"
         
-        cursor.execute(query, (nome, descricao, categoria, preco, estoque, imagem))
+        cursor.execute(query, (nome, descricao, preco, estoque, imagem))
         conexao.commit()
         conexao.close()
         return
@@ -119,7 +119,6 @@ class dbManager():
                 "id": p[0],
                 "nome": p[1],
                 "descricao": p[2],
-                "categoria": p[3],
                 "preco": p[4],
                 "estoque": p[5],
                 "imagem": p[6] if len(p) > 6 else None
@@ -137,21 +136,20 @@ class dbManager():
                 "id": p[0],
                 "nome": p[1],
                 "descricao": p[2],
-                "categoria": p[3],
                 "preco": p[4],
                 "estoque": p[5],
                 "imagem": p[6] if len(p) > 6 else None
             }
         return None
 
-    def atualizarProduto(self, id_produto, nome, descricao, categoria, preco, estoque, imagem=None):
+    def atualizarProduto(self, id_produto, nome, descricao, preco, estoque, imagem=None):
         conexao, cursor = self.conexao()
         if imagem:
-            query = "UPDATE produtos SET nome=?, descricao=?, categoria=?, preco=?, estoque=?, imagem=? WHERE id=?;"
-            cursor.execute(query, (nome, descricao, categoria, preco, estoque, imagem, id_produto))
+            query = "UPDATE produtos SET nome=?, descricao=?, preco=?, estoque=?, imagem=? WHERE id=?;"
+            cursor.execute(query, (nome, descricao, preco, estoque, imagem, id_produto))
         else:
-            query = "UPDATE produtos SET nome=?, descricao=?, categoria=?, preco=?, estoque=? WHERE id=?;"
-            cursor.execute(query, (nome, descricao, categoria, preco, estoque, id_produto))
+            query = "UPDATE produtos SET nome=?, descricao=?, preco=?, estoque=? WHERE id=?;"
+            cursor.execute(query, (nome, descricao, preco, estoque, id_produto))
         conexao.commit()
         conexao.close()
         return "Produto atualizado"

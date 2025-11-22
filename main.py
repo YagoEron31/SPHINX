@@ -314,7 +314,7 @@ def admin_adicionar_produto():
             upload_result = cloudinary.uploader.upload(file)
             imagem_url = upload_result["secure_url"]
 
-    banco_de_dados.adicionarProdutoAoBanco(nome, descricao, categoria, preco, estoque, imagem_url)
+    banco_de_dados.adicionarProdutoAoBanco(nome, descricao, preco, estoque, imagem_url)
     flash("Produto adicionado com sucesso!", "success")
     return redirect(url_for("admin"))
 
@@ -342,7 +342,7 @@ def admin_editar_produto(id):
             upload_result = cloudinary.uploader.upload(file)
             imagem_url = upload_result["secure_url"]
 
-    banco_de_dados.atualizarProduto(id, nome, descricao, categoria, preco, estoque, imagem_url)
+    banco_de_dados.atualizarProduto(id, nome, descricao, preco, estoque, imagem_url)
     flash("Produto atualizado com sucesso!", "success")
     return redirect(url_for("admin"))
 
