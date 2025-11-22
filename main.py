@@ -24,13 +24,15 @@ players_tags = {
 
 @app.route("/")
 def index():
+    produtos = banco_de_dados.obterProdutos()
+    noticias = banco_de_dados.obterNoticias()
     if session.get("id"): # Verifica se tem ID na sessão
         id_usuario = session.get("id")
         
         # Corrigido: usa banco_de_dados em vez de db
         itens = banco_de_dados.verCarrinho(id_usuario)
-        return render_template("index.html", quantidade_carrinho=len(itens))
-    return render_template("index.html", quantidade_carrinho=0)
+        return render_template("index.html", quantidade_carrinho=len(itens), produtos=produtos, noticias=noticias)
+    return render_template("index.html", quantidade_carrinho=0, produtos=produtos, noticias=noticias)
 
 
 @app.route("/contato")
@@ -42,6 +44,14 @@ def contato():
 def jogo():
     return render_template("jogo.html")
 
+@app.route("/noticias")
+def noticias():
+    return render_template("noticias.html", noticias=banco_de_dados.obterNoticias())
+
+@app.route("/noticia/<int:id_noticia>")
+def ver_noticia(id_noticia):
+    noticia = banco_de_dados.obterNoticiaPorId(id_noticia)
+    return render_template("noticia.html", noticia=noticia)
 
 @app.route("/loja")
 def loja():
@@ -88,8 +98,8 @@ def jogador(nome):
         # Corrigido: usa banco_de_dados em vez de db
         itens = banco_de_dados.verCarrinho(id_usuario)
         
-        return render_template("jogador.html", quantidade_carrinho=len(itens))
-    return render_template("jogador.html", tag=tag)
+        return render_template("jogador.html", tag=tag, quantidade_carrinho=len(itens))
+    return render_template("jogador.html", tag=tag, quantidade_carrinho=0)
 
 
 @app.route("/api/jogador/<tag>/<tipo>")
@@ -173,11 +183,13 @@ def registro():
 def logout():
     session.clear()
     flash("Você foi desconectado de sua conta!", "success")
-    return redirect(url_for("index"))
-
-
-# --- OUTRAS ROTAS DO CARRINHO (Ver, Remover, Finalizar) ---
-# A rota 'adicionar' já estava definida acima, então removi a duplicata daqui.
+    # Corrigido: usa banco_de_dados em vez de db
+    itens = banco_de_dados.verCarrinho(id_usuario)
+    print(itens)
+    # Calcula o total geral
+    total_geral = sum(item['total_item'] for item in itens)
+    
+    return render_template('carrinho.html', carrinho=itens, quantidade_carrinho=len(itens), total_geral=total_geral)
 
 @app.route('/carrinho')
 def carrinho():
@@ -193,8 +205,7 @@ def carrinho():
     total_geral = sum(item['total_item'] for item in itens)
     
     return render_template('carrinho.html', carrinho=itens, quantidade_carrinho=len(itens), total_geral=total_geral)
-
-
+    
 @app.route('/carrinho/remover/<int:id_item>', methods=['POST'])
 def remover_item(id_item):
     if not session.get("id"):
