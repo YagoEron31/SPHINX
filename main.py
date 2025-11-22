@@ -3,6 +3,15 @@ import requests
 from crAPImanager import ApiManager
 from DBmanager import dbManager
 import os
+import cloudinary
+import cloudinary.uploader
+
+# Configuração do Cloudinary
+cloudinary.config( 
+  cloud_name = "dtikoxjcv", 
+  api_key = "116588381845633", 
+  api_secret = "of-lmjvyycIfF0MrBmteoE-RIAY" 
+)
 
 
 app = Flask(__name__)
@@ -277,9 +286,15 @@ def admin_adicionar_produto():
     categoria = data.get("categoria")
     preco = data.get("preco")
     estoque = data.get("estoque")
-    imagem = data.get("imagem")
+    
+    imagem_url = None
+    if 'imagem' in request.files:
+        file = request.files['imagem']
+        if file and file.filename != '':
+            upload_result = cloudinary.uploader.upload(file)
+            imagem_url = upload_result["secure_url"]
 
-    banco_de_dados.adicionarProdutoAoBanco(nome, descricao, categoria, preco, estoque, imagem)
+    banco_de_dados.adicionarProdutoAoBanco(nome, descricao, categoria, preco, estoque, imagem_url)
     flash("Produto adicionado com sucesso!", "success")
     return redirect(url_for("admin"))
 
@@ -295,9 +310,15 @@ def admin_editar_produto(id):
     categoria = data.get("categoria")
     preco = data.get("preco")
     estoque = data.get("estoque")
-    imagem = data.get("imagem")
+    
+    imagem_url = None
+    if 'imagem' in request.files:
+        file = request.files['imagem']
+        if file and file.filename != '':
+            upload_result = cloudinary.uploader.upload(file)
+            imagem_url = upload_result["secure_url"]
 
-    banco_de_dados.atualizarProduto(id, nome, descricao, categoria, preco, estoque, imagem)
+    banco_de_dados.atualizarProduto(id, nome, descricao, categoria, preco, estoque, imagem_url)
     flash("Produto atualizado com sucesso!", "success")
     return redirect(url_for("admin"))
 
@@ -321,9 +342,15 @@ def admin_adicionar_noticia():
     data = request.form
     titulo = data.get("titulo")
     conteudo = data.get("conteudo")
-    imagem = data.get("imagem")
+    
+    imagem_url = None
+    if 'imagem' in request.files:
+        file = request.files['imagem']
+        if file and file.filename != '':
+            upload_result = cloudinary.uploader.upload(file)
+            imagem_url = upload_result["secure_url"]
 
-    banco_de_dados.adicionarNoticia(titulo, conteudo, imagem)
+    banco_de_dados.adicionarNoticia(titulo, conteudo, imagem_url)
     flash("Notícia adicionada com sucesso!", "success")
     return redirect(url_for("admin"))
 
@@ -336,9 +363,15 @@ def admin_editar_noticia(id):
     data = request.form
     titulo = data.get("titulo")
     conteudo = data.get("conteudo")
-    imagem = data.get("imagem")
+    
+    imagem_url = None
+    if 'imagem' in request.files:
+        file = request.files['imagem']
+        if file and file.filename != '':
+            upload_result = cloudinary.uploader.upload(file)
+            imagem_url = upload_result["secure_url"]
 
-    banco_de_dados.atualizarNoticia(id, titulo, conteudo, imagem)
+    banco_de_dados.atualizarNoticia(id, titulo, conteudo, imagem_url)
     flash("Notícia atualizada com sucesso!", "success")
     return redirect(url_for("admin"))
 
