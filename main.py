@@ -32,18 +32,15 @@ app.secret_key = "07c71db4b8d92f93fa33d2a269657d1ebf638f808b4ee2cb640a2e0a88c133
 api_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjllMGY1MmZiLTQzZDUtNGMzZS1hNWNmLTY0OTQ2NzIxMzFmOCIsImlhdCI6MTc1Nzg4MTMzOSwic3ViIjoiZGV2ZWxvcGVyL2E3MzM0Yzc5LTkzYWQtYjZlZi0wNDNlLWU3ZDc5NTEyNDFlYyIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyI0NS43OS4yMTguNzkiXSwidHlwZSI6ImNsaWVudCJ9XX0.2JIVhW5aGUJuq71nqdOm0LV55qPPrvkzlS7TaNfM0OKZAK5UgiB2v_0aG60Il670IfVWxvWZA8tPSl6ORiEPSg"
 api = ApiManager(api_token)
 
-local = os.getenv("LOCAL", True)
-print(local)
-if not local:
+local = os.getenv("LOCAL", True) 
+if local == "False":
     from DBmanager import dbManager
     db_url = "libsql://sphinx-maurilio.aws-us-east-2.turso.io"
     db_token = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NjM4NDE0MzYsImlkIjoiN2Q1NGE3YjQtOTgwNC00MTg4LTljODItNGRjYmY2NTM3Nzc5IiwicmlkIjoiMjUzMzkwOTAtYTBhZi00OWJiLWE3OGUtZTJhNDk5MjRmNDlhIn0.5VjYqEfMDvQCkP755Mrhz6juRyuv17ayAndnBT7oapP8PKPfnh2M1uyNEQaZZzzaSxV0U-QBgx-WI48ofWuMBA"
     banco_de_dados = dbManager(db_url, db_token)
-    print("remoto")
 else:
     from DBmanager_local import dbManager
     banco_de_dados = dbManager("banco.db")
-    print("local")
     
 
 players_tags = {
