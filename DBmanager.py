@@ -48,23 +48,20 @@ class dbManager():
                 id_produto INTEGER,
                 id_carrinho INTEGER,
                 quantidade INTEGER,
-                FOREIGN KEY(id_produto) REFERENCES produtos(id)
+                FOREIGN KEY(id_produto) REFERENCES produtos(id) ON DELETE CASCADE
             );
         """)
         
-
-    # Tabela para registrar as compras finalizadas (Histórico)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS vendas (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 id_usuario INTEGER,
                 data_venda DATETIME DEFAULT CURRENT_TIMESTAMP,
                 valor_total REAL,
-                FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario)
+                FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
             );
         """)
         
-        # Tabela para os itens de uma venda finalizada (Snapshot do momento da compra)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS itens_venda (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,7 +70,7 @@ class dbManager():
                 quantidade INTEGER,
                 preco_unitario REAL,
                 FOREIGN KEY(id_venda) REFERENCES vendas(id),
-                FOREIGN KEY(id_produto) REFERENCES produtos(id)
+                FOREIGN KEY(id_produto) REFERENCES produtos(id) ON DELETE CASCADE
             );
         """)
         conexao.commit()
@@ -112,7 +109,7 @@ class dbManager():
         cursor.execute(query)
         produtos = cursor.fetchall()
         conexao.close()
-        # Convert to list of dicts for easier handling
+        
         lista_produtos = []
         for p in produtos:
             lista_produtos.append({

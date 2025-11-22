@@ -25,7 +25,6 @@ def delete_image_from_cloudinary(image_url):
     except Exception as e:
         print(f"Erro ao deletar imagem do Cloudinary: {e}")
 
-
 app = Flask(__name__)
 app.secret_key = "07c71db4b8d92f93fa33d2a269657d1ebf638f808b4ee2cb640a2e0a88c13319"
 
@@ -142,8 +141,8 @@ def jogador(nome):
         # Corrigido: usa banco_de_dados em vez de db
         itens = banco_de_dados.verCarrinho(id_usuario)
         
-        return render_template("jogador.html", tag=tag, quantidade_carrinho=len(itens))
-    return render_template("jogador.html", tag=tag, quantidade_carrinho=0)
+        return render_template("jogador.html", tag=tag, quantidade_carrinho=len(itens), nome=nome+".png")
+    return render_template("jogador.html", tag=tag, quantidade_carrinho=0, nome=nome+".png")
 
 
 @app.route("/api/jogador/<tag>/<tipo>")
