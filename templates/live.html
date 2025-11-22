@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-20 px-6 md:px-12 bg-black min-h-screen flex flex-col items-center justify-center">
+    <div class="container mx-auto text-center">
+        <h1 class="font-orbitron text-4xl md:text-6xl text-amber-300 mb-8 animate-pulse">
+            TRANSMISSÃO AO VIVO
+        </h1>
+
+        <div id="stream-container"
+            class="relative w-full max-w-5xl mx-auto aspect-video bg-gray-900 rounded-xl overflow-hidden border-2 border-amber-300 shadow-[0_0_30px_rgba(252,211,77,0.3)]">
+            <div id="twitch-embed" class="w-full h-full"></div>
+            <div id="offline-message"
+                class="hidden absolute inset-0 flex flex-col items-center justify-center bg-gray-900 z-10">
+                <i data-feather="video-off" class="w-16 h-16 text-gray-600 mb-4"></i>
+                <h2 class="text-2xl md:text-3xl font-orbitron text-gray-400">A LIVE NÃO ESTÁ ATIVA NO MOMENTO</h2>
+                <p class="text-gray-500 mt-2">Fique ligado em nossas redes sociais para novidades!</p>
+            </div>
+        </div>
+
+        <div class="mt-8 text-gray-400">
+            <p class="text-xl font-orbitron">Assista nossas partidas e eventos ao vivo!</p>
+        </div>
+    </div>
+</section>
+
+<script src="https://embed.twitch.tv/embed/v1.js"></script>
+<script type="text/javascript">
+    const offlineMessage = document.getElementById('offline-message');
+    const twitchEmbed = document.getElementById('twitch-embed');
+
+    var embed = new Twitch.Embed("twitch-embed", {
+        width: "100%",
+        height: "100%",
+        channel: "{{ canal }}",
+        layout: "video",
+        autoplay: true,
+        muted: false,
+        parent: ["sphinx-d576.onrender.com", "localhost", "127.0.0.1"]
+    });
+
+    embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+        var player = embed.getPlayer();
+        player.play();
+    });
+
+    embed.addEventListener(Twitch.Embed.ONLINE, () => {
+        offlineMessage.classList.add('hidden');
+        twitchEmbed.classList.remove('hidden');
+        console.log('Stream is Online');
+    });
+
+    embed.addEventListener(Twitch.Embed.OFFLINE, () => {
+        offlineMessage.classList.remove('hidden');
+        // twitchEmbed.classList.add('hidden'); // Optional: hide the player if offline
+        console.log('Stream is Offline');
+    });
+</script>
+{% endblock %}

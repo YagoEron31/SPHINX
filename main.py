@@ -87,7 +87,15 @@ def adicionar_carrinho():
 
 @app.route("/live")
 def live():
-    return render_template("live.html")
+    canal = os.getenv("CANAL", "gaules")
+    if session.get("id"): # Verifica se tem ID na sessão
+        id_usuario = session.get("id")
+        
+        # Corrigido: usa banco_de_dados em vez de db
+        itens = banco_de_dados.verCarrinho(id_usuario)
+        
+        return render_template("live.html", canal=canal, quantidade_carrinho=len(itens))
+    return render_template("live.html", canal=canal, quantidade_carrinho=0)
 
 @app.route("/jogador/<nome>")
 def jogador(nome):
@@ -183,13 +191,7 @@ def registro():
 def logout():
     session.clear()
     flash("Você foi desconectado de sua conta!", "success")
-    # Corrigido: usa banco_de_dados em vez de db
-    itens = banco_de_dados.verCarrinho(id_usuario)
-    print(itens)
-    # Calcula o total geral
-    total_geral = sum(item['total_item'] for item in itens)
-    
-    return render_template('carrinho.html', carrinho=itens, quantidade_carrinho=len(itens), total_geral=total_geral)
+    return redirect(url_for("index"))
 
 @app.route('/carrinho')
 def carrinho():
@@ -205,7 +207,7 @@ def carrinho():
     total_geral = sum(item['total_item'] for item in itens)
     
     return render_template('carrinho.html', carrinho=itens, quantidade_carrinho=len(itens), total_geral=total_geral)
-    
+
 @app.route('/carrinho/remover/<int:id_item>', methods=['POST'])
 def remover_item(id_item):
     if not session.get("id"):

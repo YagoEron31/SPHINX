@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sphinx E-sports{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imagens/outros/Logo_sem_texto_transparente.png') }}">
+    <link rel="icon" type="image/x-icon"
+        href="{{ url_for('static', filename='imagens/outros/Logo_sem_texto_transparente.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,7 +128,11 @@
             <a href="{{ url_for('index') }}" class="text-white hover:text-amber-300 font-medium transition">HOME</a>
 
             <a href="{{ url_for('loja') }}" class="text-white hover:text-amber-300 font-medium transition">LOJA</a>
-            <a href="{{ url_for('live')}}" class="text-white hover:text-amber-300 font-medium transition">AO VIVO</a>
+            <a href="{{ url_for('live')}}"
+                class="text-white hover:text-amber-300 font-medium transition flex items-center">
+                AO VIVO
+                <span class="ml-2 w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+            </a>
             {% if session['cargo'] == 1 %}
             <a href="{{ url_for('admin') }}" class="text-amber-300 hover:text-amber-400 font-bold">ADMIN</a>
             {% endif %}
@@ -138,7 +143,8 @@
             <a href="{{ url_for('carrinho') }}" class="relative text-white hover:text-amber-300 transition">
                 <i data-feather="shopping-cart"></i>
                 <span id="cart-item-count"
-                    class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center border-black">{{ quantidade_carrinho }}</span>
+                    class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center border-black">{{
+                    quantidade_carrinho }}</span>
             </a>
 
             <div class="hidden md:flex items-center space-x-4">
