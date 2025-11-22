@@ -218,6 +218,26 @@ def remover_item(id_item):
     return jsonify({"success": True})
 
 
+@app.route('/carrinho/atualizar', methods=['POST'])
+def atualizar_quantidade():
+    if not session.get("id"):
+        return jsonify({"success": False, "message": "Login necessário"}), 401
+        
+    data = request.json
+    id_item = data.get("id_item")
+    quantidade = data.get("quantidade")
+    
+    if not id_item or quantidade is None:
+        return jsonify({"success": False, "message": "Dados inválidos"}), 400
+        
+    sucesso, mensagem = banco_de_dados.atualizarQuantidadeItemCarrinho(id_item, int(quantidade))
+    
+    if sucesso:
+        return jsonify({"success": True, "message": mensagem})
+    else:
+        return jsonify({"success": False, "message": mensagem}), 400
+
+
 @app.route('/carrinho/finalizar', methods=['POST'])
 def finalizar_compra():
     if not session.get("id"):

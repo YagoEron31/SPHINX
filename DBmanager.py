@@ -159,11 +159,31 @@ class dbManager():
     
     def adicionarProdutoACarrinho(self, id_carrinho, id_produto, quantidade):
         conexao, cursor = self.conexao()
-        query = "INSERT INTO itens_carrinho (id_produto, id_carrinho, quantidade) VALUES (?, ?, ?)"
+        
+        # Verifica se o produto já está no carrinho
+        query_check = "SELECT id, quantidade FROM itens_carrinho WHERE id_carrinho = ? AND id_produto = ?"
+        cursor.execute(query_check, (id_carrinho, id_produto))
+        item_existente = cursor.fetchone()
+
         if self.quantidadeEmEstoque(id_produto) >= quantidade:
-            cursor.execute(query, (id_produto, id_carrinho, quantidade))
-            resposta = "Produto adicionado ao carrinho"
-        else: resposta = "Não há produtos suficientes em estoque"
+            if item_existente:
+                # Se já existe, atualiza a quantidade
+                novo_total = item_existente[1] + quantidade
+                # Verifica novamente o estoque para o total acumulado
+                if self.quantidadeEmEstoque(id_produto) >= novo_total:
+                    query_update = "UPDATE itens_carrinho SET quantidade = ? WHERE id = ?"
+                    cursor.execute(query_update, (novo_total, item_existente[0]))
+                    resposta = "Produto adicionado ao carrinho" # Mensagem genérica mantida para compatibilidade
+                else:
+                    resposta = "Não há produtos suficientes em estoque para adicionar mais"
+            else:
+                # Se não existe, insere novo
+                query_insert = "INSERT INTO itens_carrinho (id_produto, id_carrinho, quantidade) VALUES (?, ?, ?)"
+                cursor.execute(query_insert, (id_produto, id_carrinho, quantidade))
+                resposta = "Produto adicionado ao carrinho"
+        else: 
+            resposta = "Não há produtos suficientes em estoque"
+            
         conexao.commit()
         conexao.close()
         return resposta
@@ -414,6 +434,35 @@ class dbManager():
         conexao.commit()
         conexao.close()
         return "Item removido"
+
+    def atualizarQuantidadeItemCarrinho(self, id_item_carrinho, nova_quantidade):
+        conexao, cursor = self.conexao()
+        
+        # Primeiro verifica se o item existe e pega o id_produto para checar estoque
+        cursor.execute("SELECT id_produto FROM itens_carrinho WHERE id = ?", (id_item_carrinho,))
+        result = cursor.fetchone()
+        
+        if not result:
+            conexao.close()
+            return False, "Item não encontrado"
+            
+        id_produto = result[0]
+        
+        if nova_quantidade <= 0:
+            # Se quantidade for 0 ou menor, remove o item (opcional, mas seguro)
+            self.removerDoCarrinho(id_item_carrinho)
+            conexao.close()
+            return True, "Item removido"
+
+        # Verifica estoque
+        if self.quantidadeEmEstoque(id_produto) >= nova_quantidade:
+            cursor.execute("UPDATE itens_carrinho SET quantidade = ? WHERE id = ?", (nova_quantidade, id_item_carrinho))
+            conexao.commit()
+            conexao.close()
+            return True, "Quantidade atualizada"
+        else:
+            conexao.close()
+            return False, "Estoque insuficiente"
 
     def finalizarCompra(self, id_usuario):
         conexao, cursor = self.conexao()
