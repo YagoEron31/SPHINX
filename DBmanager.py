@@ -119,9 +119,9 @@ class dbManager():
                 "id": p[0],
                 "nome": p[1],
                 "descricao": p[2],
-                "preco": p[4],
-                "estoque": p[5],
-                "imagem": p[6] if len(p) > 6 else None
+                "preco": p[3],
+                "estoque": p[4],
+                "imagem": p[5] if len(p) > 5 else None
             })
         return lista_produtos
 
@@ -136,9 +136,9 @@ class dbManager():
                 "id": p[0],
                 "nome": p[1],
                 "descricao": p[2],
-                "preco": p[4],
-                "estoque": p[5],
-                "imagem": p[6] if len(p) > 6 else None
+                "preco": p[3],
+                "estoque": p[4],
+                "imagem": p[5] if len(p) > 5 else None
             }
         return None
 
