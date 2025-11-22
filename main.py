@@ -79,15 +79,21 @@ def ver_noticia(id_noticia):
 @app.route("/loja")
 def loja():
     produtos = banco_de_dados.obterProdutos()
+    
+    # Sorting logic
+    sort_order = request.args.get('sort')
+    if sort_order == 'price_asc':
+        produtos.sort(key=lambda x: x['preco'])
+    elif sort_order == 'price_desc':
+        produtos.sort(key=lambda x: x['preco'], reverse=True)
+
+    quantidade_carrinho = 0
     if session.get("id"): # Verifica se tem ID na sessão
         id_usuario = session.get("id")
-        
-        # Corrigido: usa banco_de_dados em vez de db
         itens = banco_de_dados.verCarrinho(id_usuario)
+        quantidade_carrinho = len(itens)
         
-        return render_template("loja.html", quantidade_carrinho=len(itens), produtos=produtos)
-    
-    return render_template("loja.html", produtos=produtos, quantidade_carrinho=0)
+    return render_template("loja.html", quantidade_carrinho=quantidade_carrinho, produtos=produtos, current_sort=sort_order)
 
 
 @app.route("/carrinho/adicionar", methods=["POST"])
@@ -298,7 +304,6 @@ def admin_adicionar_produto():
     data = request.form
     nome = data.get("nome")
     descricao = data.get("descricao")
-    categoria = data.get("categoria")
     preco = data.get("preco")
     estoque = data.get("estoque")
     
@@ -322,7 +327,6 @@ def admin_editar_produto(id):
     data = request.form
     nome = data.get("nome")
     descricao = data.get("descricao")
-    categoria = data.get("categoria")
     preco = data.get("preco")
     estoque = data.get("estoque")
     
