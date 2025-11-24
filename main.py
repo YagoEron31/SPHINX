@@ -75,7 +75,13 @@ def jogo():
 
 @app.route("/noticias")
 def noticias():
-    return render_template("noticias.html", noticias=banco_de_dados.obterNoticias())
+    if session.get("id"): # Verifica se tem ID na sessão
+        id_usuario = session.get("id")
+        
+        # Corrigido: usa banco_de_dados em vez de db
+        itens = banco_de_dados.verCarrinho(id_usuario)
+        return render_template("noticias.html", quantidade_carrinho=len(itens), noticias=banco_de_dados.obterNoticias())
+    return render_template("noticias.html", quantidade_carrinho=0, noticias=banco_de_dados.obterNoticias())
 
 @app.route("/noticia/<int:id_noticia>")
 def ver_noticia(id_noticia):
