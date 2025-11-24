@@ -1,19 +1,75 @@
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ id_produto: idProduto })
-});
-const data = await response.json();
-if (data.success) {
-alert("Produto adicionado ao carrinho!");
-location.reload();
-} else {
-alert(data.message);
-if (response.status === 401) window.location.href = "/login";
-}
-} catch (error) {
-console.error("Error:", error);
-alert("Erro ao adicionar ao carrinho.");
-}
-}
+{% extends "base.html" %}
+
+{% block title %}SPHINX | {{ produto.nome }}{% endblock %}
+
+{% block content %}
+<section class="py-20 px-6 md:px-12 bg-black min-h-screen flex items-center">
+    <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row gap-12 items-center">
+            <!-- Product Image -->
+            <div class="w-full md:w-1/2">
+                <div
+                    class="aspect-square bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex items-center justify-center">
+                    {% if produto.imagem %}
+                    <img src="{{ produto.imagem }}" alt="{{ produto.nome }}" class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="flex flex-col items-center justify-center text-gray-600">
+                        <i data-feather="image" class="w-24 h-24 mb-4"></i>
+                        <span class="text-xl">Sem Imagem</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="w-full md:w-1/2 space-y-6">
+                <h1 class="font-orbitron text-4xl md:text-5xl font-bold text-white">{{ produto.nome }}</h1>
+                <p class="text-gray-400 text-lg">{{ produto.descricao }}</p>
+
+                <div class="flex items-center gap-4">
+                    <span class="text-3xl font-bold text-amber-300">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                    {% if produto.estoque > 0 %}
+                    <span class="px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full">Em Estoque ({{
+                        produto.estoque }})</span>
+                    {% else %}
+                    <span class="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-full">Esgotado</span>
+                    {% endif %}
+                </div>
+
+                <div class="pt-6">
+                    <button onclick="adicionarAoCarrinho({{ produto.id }})"
+                        class="w-full md:w-auto px-8 py-4 golden-gradient text-black font-orbitron font-bold rounded hover:opacity-90 transition flex items-center justify-center gap-2">
+                        <i data-feather="shopping-cart" class="w-5 h-5"></i>
+                        ADICIONAR AO CARRINHO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function adicionarAoCarrinho(idProduto) {
+        try {
+            const response = await fetch("/carrinho/adicionar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id_produto: idProduto })
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert("Produto adicionado ao carrinho!");
+                location.reload();
+            } else {
+                alert(data.message);
+                if (response.status === 401) window.location.href = "/login";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Erro ao adicionar ao carrinho.");
+        }
+    }
 </script>
 {% endblock %}
