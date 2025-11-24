@@ -309,22 +309,46 @@
         <h2 class="font-orbitron text-4xl md:text-5xl text-center mb-16 text-amber-300">
             NOSSOS PRODUTOS
         </h2>
-        <button onclick="adicionarAoCarrinho({{ produto.id }})"
-            class="px-4 py-2 golden-gradient text-black font-medium text-sm">
-            Adicionar ao Carrinho
-        </button>
-    </div>
-    </div>
-    </div>
-    {% endfor %}
-    </div>
 
-    <div class="text-center mt-12">
-        <a href="{{ url_for('loja') }}"
-            class="px-8 py-3 golden-gradient text-black font-orbitron font-bold hover:opacity-90 transition">
-            ACESSE A LOJA
-        </a>
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for produto in produtos[:3] %}
+            <div
+                class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition">
+                <div class="aspect-square bg-gray-900 flex items-center justify-center cursor-pointer"
+                    onclick="window.location.href='{{ url_for('ver_produto', id_produto=produto.id) }}'">
+                    {% if produto.imagem %}
+                    <img src="{{ produto.imagem }}" alt="{{ produto.nome }}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition">
+                    {% else %}
+                    <div class="flex flex-col items-center justify-center text-gray-600">
+                        <i data-feather="image" class="w-12 h-12 mb-2"></i>
+                        <span>Sem Imagem</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="p-4">
+                    <h3 class="font-orbitron text-xl text-white cursor-pointer hover:text-amber-300 transition"
+                        onclick="window.location.href='{{ url_for('ver_produto', id_produto=produto.id) }}'">{{
+                        produto.nome }}</h3>
+                    <p class="text-gray-400 mb-2">{{ produto.categoria }}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-amber-300 font-bold text-lg">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                        <button onclick="adicionarAoCarrinho({{ produto.id }})"
+                            class="px-4 py-2 golden-gradient text-black font-medium text-sm">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{{ url_for('loja') }}"
+                class="px-8 py-3 golden-gradient text-black font-orbitron font-bold hover:opacity-90 transition">
+                ACESSE A LOJA
+            </a>
+        </div>
     </div>
 </section>
 
@@ -339,7 +363,7 @@
             <div
                 class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-amber-300 transition">
                 {% if noticia.imagem %}
-                <img src="{{ noticia.imagem }}" alt="{{ noticia.titulo }}" class="w-full h-48 object-cover">
+                <img src="{{ noticia.imagem }}" alt="{{ noticia.titulo }}" class="w-full h-48 object-contain bg-black">
                 {% else %}
                 <div class="w-full h-48 bg-gray-800 flex items-center justify-center">
                     <i data-feather="image" class="text-gray-600 w-12 h-12"></i>
