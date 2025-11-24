@@ -40,8 +40,8 @@
     <div class="hidden lg:flex w-1/2 bg-image relative items-center justify-center">
         <div class="absolute inset-0 bg-black bg-opacity-60"></div>
         <div class="z-10 text-center p-12">
-            <h1 class="font-orbitron text-6xl font-bold mb-4 text-white">JOIN THE ELITE</h1>
-            <p class="text-2xl text-amber-300 tracking-widest">BECOME A LEGEND</p>
+            <!--<h1 class="font-orbitron text-6xl font-bold mb-4 text-white">JOIN THE ELITE</h1>
+            <p class="text-2xl text-amber-300 tracking-widest">BECOME A LEGEND</p>-->
         </div>
     </div>
 
@@ -66,24 +66,23 @@
                 <a href="{{ url_for('index') }}" class="inline-block mb-6">
                     <img src="../static/imagens/outros/Logo_sem_texto_transparente.png" alt="Logo" class="h-16 mx-auto">
                 </a>
-                <h2 class="font-orbitron text-3xl font-bold text-white mb-2">CREATE ACCOUNT</h2>
-                <p class="text-gray-400">Start your journey with Sphinx</p>
+                <h2 class="font-orbitron text-3xl font-bold text-white mb-2">Criar conta</h2>
             </div>
 
             <div class="space-y-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Username</label>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Nome</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i data-feather="user" class="h-5 w-5 text-gray-500"></i>
                         </div>
                         <input id="usuario" type="text" class="input-field w-full pl-10 pr-4 py-3 rounded-lg"
-                            placeholder="GamerTag">
+                            placeholder="Nome">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Email Address</label>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i data-feather="mail" class="h-5 w-5 text-gray-500"></i>
@@ -94,7 +93,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Senha</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i data-feather="lock" class="h-5 w-5 text-gray-500"></i>
@@ -106,12 +105,12 @@
 
                 <button onclick="registro()"
                     class="w-full py-3 golden-gradient text-black font-orbitron font-bold rounded-lg hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg shadow-amber-500/20">
-                    CREATE ACCOUNT
+                    Criar conta
                 </button>
 
                 <div class="text-center mt-6">
-                    <p class="text-gray-400">Already have an account? <a href="{{ url_for('login') }}"
-                            class="text-amber-300 hover:text-amber-200 font-bold transition">Sign in</a></p>
+                    <p class="text-gray-400">Já tem uma conta? <a href="{{ url_for('login') }}"
+                            class="text-amber-300 hover:text-amber-200 font-bold transition">Entrar</a></p>
                 </div>
             </div>
         </div>
@@ -136,7 +135,7 @@
         let senha = document.getElementById("senha").value;
 
         if (!usuario || !email || !senha) {
-            alert("Please fill in all fields");
+            alert("Por favor, preencha todos os campos");
             return;
         }
 
@@ -161,7 +160,7 @@
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("An error occurred. Please try again.");
+            alert("Ocorreu um erro. Por favor, tente novamente.");
         }
     }
 
