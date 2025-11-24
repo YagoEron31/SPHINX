@@ -57,7 +57,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {% for produto in produtos %}
         <div
-            class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-1">
+            class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
             <div class="aspect-square bg-gray-900 flex items-center justify-center cursor-pointer"
                 onclick="window.location.href='{{ url_for('ver_produto', id_produto=produto.id) }}'">
                 {% if produto.imagem %}
@@ -70,16 +70,23 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="p-4 bg-gray-900">
-                <h3 class="font-orbitron text-lg text-white cursor-pointer hover:text-amber-300 transition"
+            <div class="p-4 bg-gray-900 flex flex-col flex-grow">
+                <h3 class="font-orbitron text-lg text-white cursor-pointer hover:text-amber-300 transition mb-2"
                     onclick="window.location.href='{{ url_for('ver_produto', id_produto=produto.id) }}'">{{ produto.nome
                     }}</h3>
-                <div class="flex justify-between items-center">
+                <div class="mt-auto flex justify-between items-center gap-2">
                     <span class="text-amber-300 font-bold text-xl">R$ {{ "%.2f"|format(produto.preco) }}</span>
-                    <button onclick="adicionarAoCarrinho({{ produto.id }})"
-                        class="px-4 py-2 golden-gradient text-black font-medium text-sm hover:opacity-90 transition">
-                        ADD TO CART
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="window.location.href='{{ url_for('ver_produto', id_produto=produto.id) }}'"
+                            class="px-3 py-2 border border-amber-300/30 text-amber-300 hover:bg-amber-300 hover:text-black font-medium text-sm rounded transition"
+                            title="Ver Detalhes">
+                            <i data-feather="eye" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="adicionarAoCarrinho({{ produto.id }})"
+                            class="px-3 py-2 golden-gradient text-black font-medium text-sm hover:opacity-90 transition rounded flex items-center">
+                            <i data-feather="shopping-cart" class="w-4 h-4"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,5 +118,4 @@
         }
     }
 </script>
-
 {% endblock %}

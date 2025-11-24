@@ -23,7 +23,8 @@
 
         <div class="bg-gray-900 rounded-xl overflow-hidden border border-gray-800 mb-8">
             {% if noticia.imagem %}
-            <img src="{{ noticia.imagem }}" alt="{{ noticia.titulo }}" class="w-full h-auto max-h-[500px] object-cover">
+            <img src="{{ noticia.imagem }}" alt="{{ noticia.titulo }}"
+                class="w-full h-auto max-h-[600px] object-contain mx-auto">
             {% else %}
             <div class="w-full h-64 bg-gray-800 flex items-center justify-center">
                 <i data-feather="image" class="text-gray-600 w-16 h-16"></i>
