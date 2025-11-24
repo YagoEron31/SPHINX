@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-20 px-6 md:px-12 bg-gradient-to-b from-gray-900 to-black min-h-screen flex items-center">
+    <div class="container mx-auto pt-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <!-- Product Image -->
+            <div
+                class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 p-4 flex items-center justify-center">
+                {% if produto.imagem %}
+                <img src="{{ produto.imagem }}" alt="{{ produto.nome }}" class="w-full max-h-[500px] object-contain">
+                {% else %}
+                <div class="w-full h-96 bg-gray-800 flex flex-col items-center justify-center text-gray-600">
+                    <i data-feather="image" class="w-24 h-24 mb-4"></i>
+                    <span class="text-xl">Sem Imagem</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Product Details -->
+            <div class="text-white">
+                <div class="mb-6">
+                    <span
+                        class="inline-block px-3 py-1 bg-amber-500 bg-opacity-20 text-amber-300 text-sm font-medium rounded-full mb-4">
+                        {{ produto.categoria }}
+                    </span>
+                    <h1 class="font-orbitron text-4xl md:text-5xl font-bold mb-4 text-white">{{ produto.nome }}</h1>
+                    <p class="text-2xl text-amber-300 font-bold mb-6">R$ {{ "%.2f"|format(produto.preco) }}</p>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="font-orbitron text-xl text-gray-300 mb-3">Descrição</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        {{ produto.descricao }}
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="adicionarAoCarrinho({{ produto.id }})"
+                        class="px-8 py-4 golden-gradient text-black font-orbitron font-bold text-lg rounded hover:opacity-90 transition flex items-center justify-center">
+                        <i data-feather="shopping-cart" class="mr-2 w-5 h-5"></i>
+                        Adicionar ao Carrinho
+                    </button>
+                    <a href="{{ url_for('loja') }}"
+                        class="px-8 py-4 border border-gray-600 text-gray-300 font-orbitron font-bold text-lg rounded hover:border-amber-300 hover:text-amber-300 transition flex items-center justify-center">
+                        Voltar para a Loja
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    async function adicionarAoCarrinho(idProduto) {
+        try {
+            const response = await fetch("/carrinho/adicionar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id_produto: idProduto })
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert("Produto adicionado ao carrinho!");
+                location.reload();
+            } else {
+                alert(data.message);
+                if (response.status === 401) window.location.href = "/login";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Erro ao adicionar ao carrinho.");
+        }
+    }
+</script>
+{% endblock %}

@@ -58,7 +58,8 @@
         {% for produto in produtos %}
         <div
             class="group relative overflow-hidden rounded-lg border border-gray-800 hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-1">
-            <div class="aspect-square bg-gray-900 flex items-center justify-center">
+            <div class="aspect-square bg-gray-900 flex items-center justify-center cursor-pointer"
+                onclick="window.location.href='{{ url_for('ver_produto', id_produto=produto.id) }}'">
                 {% if produto.imagem %}
                 <img src="{{ produto.imagem }}" alt="{{ produto.nome }}"
                     class="product-image w-full h-full object-cover">
@@ -70,7 +71,9 @@
                 {% endif %}
             </div>
             <div class="p-4 bg-gray-900">
-                <h3 class="font-orbitron text-lg text-white">{{ produto.nome }}</h3>
+                <h3 class="font-orbitron text-lg text-white cursor-pointer hover:text-amber-300 transition"
+                    onclick="window.location.href='{{ url_for('ver_produto', id_produto=produto.id) }}'">{{ produto.nome
+                    }}</h3>
                 <div class="flex justify-between items-center">
                     <span class="text-amber-300 font-bold text-xl">R$ {{ "%.2f"|format(produto.preco) }}</span>
                     <button onclick="adicionarAoCarrinho({{ produto.id }})"

@@ -102,6 +102,22 @@ def loja():
     return render_template("loja.html", quantidade_carrinho=quantidade_carrinho, produtos=produtos, current_sort=sort_order)
 
 
+@app.route("/produto/<int:id_produto>")
+def ver_produto(id_produto):
+    produto = banco_de_dados.obterProdutoPorId(id_produto)
+    if not produto:
+        flash("Produto não encontrado!", "danger")
+        return redirect(url_for("loja"))
+    
+    quantidade_carrinho = 0
+    if session.get("id"):
+        id_usuario = session.get("id")
+        itens = banco_de_dados.verCarrinho(id_usuario)
+        quantidade_carrinho = len(itens)
+        
+    return render_template("produto.html", produto=produto, quantidade_carrinho=quantidade_carrinho)
+
+
 @app.route("/carrinho/adicionar", methods=["POST"])
 def adicionar_carrinho():
     if not session.get("usuario"):
