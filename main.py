@@ -133,7 +133,6 @@ def adicionar_carrinho():
     id_produto = data.get("id_produto")
     id_carrinho = session.get("id")
     
-    # CORREÇÃO: Use banco_de_dados aqui, não db
     resposta = banco_de_dados.adicionarProdutoACarrinho(id_carrinho, id_produto, 1)
     
     if resposta == "Produto adicionado ao carrinho":
@@ -155,8 +154,20 @@ def live():
     return render_template("live.html", canal=canal, quantidade_carrinho=0)
 
 @app.route("/jogador/<nome>")
+@app.route("/jogador/<nome>")
 def jogador(nome):
-    tag = players_tags[nome]
+    # Se o nome estiver no dicionário (ex: "Maurilio"), pega a tag.
+    # Caso contrário, assume que o usuário passou a tag diretamente (ex: "%23TAG" ou "TAG").
+    if nome in players_tags:
+        tag = players_tags[nome]
+    else:
+        # Se vier codificado como %23, o Flask já deve decodificar ou o navegador enviar.
+        # Se o usuário digitar na URL 'jogador/#123', o navegador trata # como fragmento e não envia.
+        # O usuário deve acessar 'jogador/%23123'. 
+        # Aqui garantimos que se vier sem #, adicionamos.
+        nome = nome.replace("%23", "#")
+        tag = nome if nome.startswith("#") else f"#{nome}"
+        
     if session.get("id"): # Verifica se tem ID na sessão
         id_usuario = session.get("id")
         
@@ -170,7 +181,8 @@ def jogador(nome):
 @app.route("/api/jogador/<tag>/<tipo>")
 def api_jogador(tag, tipo):
     tag = tag.replace("%23", "#")
-    if tag not in players_tags.values(): return {"response": "tag invalida"}, 404
+    # Remover validação estrita para permitir qualquer jogador
+    # if tag not in players_tags.values(): return {"response": "tag invalida"}, 404
     if tipo == "basic":
         jogador = api.getPlayerBasic(tag)
     elif tipo == "full":
@@ -181,7 +193,8 @@ def api_jogador(tag, tipo):
 @app.route("/api/batalhas/<tag>/<quantidade>")
 def api_batalhas(tag, quantidade):
     tag = tag.replace("%23", "#")
-    if tag not in players_tags.values(): return {"response": "tag invalida"}, 404
+    # Remover validação estrita para permitir qualquer jogador
+    # if tag not in players_tags.values(): return {"response": "tag invalida"}, 404
     batalhas = api.getBattleLog(tag, quantidade)
     return jsonify(batalhas), 200
 

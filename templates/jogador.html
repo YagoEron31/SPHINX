@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Perfil do Guardião | Sphinx E-sports{% endblock %}
+{% block title %}Perfil | Sphinx E-sports{% endblock %}
 
 {% block styles %}
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -271,8 +271,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div class="lg:col-span-1 space-y-8">
                 <div class="bg-sphinx-dark rounded-xl p-6 border border-sphinx-gold/10" data-aos="fade-right">
-                    <img src="../static/imagens/jogadores/{{ nome }}" alt="Foto do Jogador"
-                        class="w-full h-80 object-cover rounded-lg mb-4">
+                    <img src="../static/imagens/jogadores/{{ nome }}"
+                        onerror="this.onerror=null; this.src='../static/imagens/jogadores/king.png';"
+                        alt="Foto do Jogador" class="w-full h-80 object-cover rounded-lg mb-4">
                     <h3 id="cardName" class="text-2xl font-bold font-orbitron"></h3>
                     <div class="flex space-x-2 mt-2">
                         <a href="#"
@@ -288,7 +289,7 @@
 
                 <div class="bg-sphinx-dark rounded-xl p-6 border border-sphinx-gold/10" data-aos="fade-right"
                     data-aos-delay="100">
-                    <h3 class="text-xl font-bold font-orbitron mb-4">Deck do Guardião</h3>
+                    <h3 class="text-xl font-bold font-orbitron mb-4">Deck</h3>
                     <div id="currentDeck" class="gold-accent-bg py-3 grid grid-cols-4 gap-3">
                         <div class="card-slot">
                             <div class="spinner-border spinner-border-sm text-sphinx-gold" role="status"><span
@@ -341,7 +342,7 @@
 
                 <div class="bg-sphinx-dark rounded-xl p-6 border border-sphinx-gold/10" data-aos="fade-left"
                     data-aos-delay="100">
-                    <h3 class="text-xl font-bold font-orbitron mb-4">Papiros de Batalha Recentes</h3>
+                    <h3 class="text-xl font-bold font-orbitron mb-4">Batalha Recentes</h3>
 
                     <div class="battle-log-scroll-container">
                         <div id="battleLogContainer">
@@ -403,37 +404,69 @@
             else throw new Error('Erro ao buscar dados do jogador. Status: ' + response.status);
         }).then(data => {
             // ALTERAÇÃO AQUI:
-            document.title = data.name + " | Sphinx E-sports";
-            document.getElementById("titleName").innerHTML = data.name;
-            document.getElementById("clanName").innerHTML = data.clan.name;
-            document.getElementById("clanBadge").src = "https://cdn.statsroyale.com/images/badges/" + data.clan.badgeId + ".png";
-            document.getElementById("arenaName").innerHTML = data.arena.name;
-            document.getElementById("arenaImg").src = "../static/imagens/arenas/" + data.arena.name + ".png";
+            document.title = (data.name || "Jogador") + " | Sphinx E-sports";
+            document.getElementById("titleName").innerHTML = data.name || "???";
+
+            if (data.clan) {
+                document.getElementById("clanName").innerHTML = data.clan.name;
+                document.getElementById("clanBadge").src = "https://cdn.statsroyale.com/images/badges/" + data.clan.badgeId + ".png";
+                document.getElementById("clanBadge").style.display = "inline";
+            } else {
+                document.getElementById("clanName").innerHTML = "Sem Clã";
+                document.getElementById("clanBadge").style.display = "none";
+            }
+
+            if (data.arena) {
+                document.getElementById("arenaName").innerHTML = data.arena.name;
+                document.getElementById("arenaImg").src = "../static/imagens/arenas/" + data.arena.name + ".png";
+            } else {
+                document.getElementById("arenaName").innerHTML = "Arena Desconhecida";
+            }
+
             favouriteCardImg = document.getElementById("favouriteCardImg");
             favouriteCardImgDl = document.getElementById("favouriteCardImgDl");
-            favouriteCardImg.onerror = function () { this.style.display = "None"; }
-            favouriteCardImgDl.onerror = function () { this.style.display = "None"; }
-            favouriteCardImg.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").replaceAll(".", "").toLowerCase() + ".png";
-            favouriteCardImgDl.src = "https://cdn.statsroyale.com/v5/image/chr/" + data.currentFavouriteCard.name.replace(" ", "_").replaceAll(".", "").toLowerCase() + "_dl.png";
-            favouriteCardImg.className += " glow-" + data.currentFavouriteCard.rarity;
-            favouriteCardImgDl.className += " glow-" + data.currentFavouriteCard.rarity;
-            document.getElementById("cardName").innerHTML = data.name;
-            document.getElementById("expLevel").innerHTML = data.expLevel;
-            document.getElementById("trophies").innerHTML = data.trophies;
-            document.getElementById("bestTrophies").innerHTML = data.bestTrophies;
-            document.getElementById("wins").innerHTML = data.wins;
-            document.getElementById("threeCrownWins").innerHTML = data.threeCrownWins;
-            document.getElementById("losses").innerHTML = data.losses;
-            document.getElementById("totalDonations").innerHTML = data.totalDonations;
-            document.getElementById("supportCardDiv").innerHTML = "<img style='width: 70px; height: 98.22px;' class='card-image' src=" + data.currentDeckSupportCards[0].iconUrls.medium + ">";
+
+            if (data.currentFavouriteCard) {
+                const cardNameSnake = data.currentFavouriteCard.name.replace(" ", "_").replaceAll(".", "").toLowerCase();
+                favouriteCardImg.src = "https://cdn.statsroyale.com/v5/image/chr/" + cardNameSnake + ".png";
+                favouriteCardImgDl.src = "https://cdn.statsroyale.com/v5/image/chr/" + cardNameSnake + "_dl.png";
+                favouriteCardImg.className += " glow-" + data.currentFavouriteCard.rarity;
+                favouriteCardImgDl.className += " glow-" + data.currentFavouriteCard.rarity;
+
+                favouriteCardImg.onerror = function () { this.style.display = "None"; }
+                favouriteCardImgDl.onerror = function () { this.style.display = "None"; }
+                favouriteCardImg.style.display = "block";
+                favouriteCardImgDl.style.display = "block";
+            } else {
+                favouriteCardImg.style.display = "none";
+                favouriteCardImgDl.style.display = "none";
+            }
+
+            document.getElementById("cardName").innerHTML = data.name || "";
+            document.getElementById("expLevel").innerHTML = data.expLevel || 0;
+            document.getElementById("trophies").innerHTML = data.trophies || 0;
+            document.getElementById("bestTrophies").innerHTML = data.bestTrophies || 0;
+            document.getElementById("wins").innerHTML = data.wins || 0;
+            document.getElementById("threeCrownWins").innerHTML = data.threeCrownWins || 0;
+            document.getElementById("losses").innerHTML = data.losses || 0;
+            document.getElementById("totalDonations").innerHTML = data.totalDonations || 0;
+
+            if (data.currentDeckSupportCards && data.currentDeckSupportCards.length > 0) {
+                document.getElementById("supportCardDiv").innerHTML = "<img style='width: 70px; height: 98.22px;' class='card-image' src=" + data.currentDeckSupportCards[0].iconUrls.medium + ">";
+            } else {
+                document.getElementById("supportCardDiv").innerHTML = "";
+            }
+
             const deckContainer = document.getElementById("currentDeck");
             deckContainer.innerHTML = "";
-            data.currentDeck.forEach(card => {
-                const cardElement = document.createElement('div');
-                cardElement.classList.add('card-image');
-                cardElement.innerHTML = `<img src="${card.iconUrls.medium}" alt="${card.name}" title="${card.name}">`;
-                deckContainer.appendChild(cardElement);
-            });
+            if (data.currentDeck) {
+                data.currentDeck.forEach(card => {
+                    const cardElement = document.createElement('div');
+                    cardElement.classList.add('card-image');
+                    cardElement.innerHTML = `<img src="${card.iconUrls.medium}" alt="${card.name}" title="${card.name}">`;
+                    deckContainer.appendChild(cardElement);
+                });
+            }
         }).catch(error => console.error("Falha na função updatePlayer:", error));
     }
 
@@ -446,6 +479,12 @@
         }).then(data => {
             const battleLogContainer = document.getElementById("battleLogContainer");
             battleLogContainer.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                battleLogContainer.innerHTML = '<div class="text-center text-gray-400 p-4 font-orbitron">Nenhuma batalha recente encontrada.</div>';
+                return;
+            }
+
             data.forEach(battle => {
                 const me = battle.team.find(p => p.tag === mainPlayerTag);
                 const opponent = battle.opponent[0];
@@ -475,16 +514,25 @@
                 const battleCard = document.createElement('div');
                 battleCard.className = 'battle-card';
                 // ALTERAÇÃO AQUI: troque 'light-purple-bg' por 'gold-accent-bg'
+
+                const myClanBadge = me.clan && me.clan.badgeId
+                    ? `<img src="https://cdn.statsroyale.com/images/badges/${me.clan.badgeId}.png" class="h-6 w-auto">`
+                    : '';
+
+                const opponentClanBadge = opponent.clan && opponent.clan.badgeId
+                    ? `<img src="https://cdn.statsroyale.com/images/badges/${opponent.clan.badgeId}.png" class="h-6 w-auto">`
+                    : '';
+
                 battleCard.innerHTML = `
                     <div class="battle-result ${resultClass}">${resultText}</div>
                     <div class="battle-players">
                         <div class="player-side">
                             <div class="gold-accent-bg player-info">
                                 <div class="flex justify-center items-center gap-2">
-                                    <img src="https://cdn.statsroyale.com/images/badges/${me.clan.badgeId}.png" class="h-6 w-auto">
+                                    ${myClanBadge}
                                     <div class="text-lg name">${me.name}</div>
                                 </div>
-                                <div class="font-bold">${me.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
+                                <div class="font-bold">${me.startingTrophies || 0} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
                             </div>
                             <div class="gold-accent-bg player-deck">${generateDeckHtml(me.cards)}</div>
                         </div>
@@ -496,9 +544,9 @@
                             <div class="gold-accent-bg player-info">
                                 <div class="flex justify-center items-center gap-2">
                                     <div class="name">${opponent.name}</div>
-                                    <img src="https://cdn.statsroyale.com/images/badges/${opponent.clan.badgeId}.png" class="h-6 w-auto">
+                                    ${opponentClanBadge}
                                 </div>
-                                <div class="font-bold">${opponent.startingTrophies || ''} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
+                                <div class="font-bold">${opponent.startingTrophies || 0} <img src="/static/imagens/outros/trophy.png" class="inline-block w-4 h-4 ml-1"></div>
                             </div>
                             <div class="gold-accent-bg player-deck">${generateDeckHtml(opponent.cards)}</div>
                         </div>
